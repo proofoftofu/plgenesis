@@ -37,6 +37,59 @@ uv run train.py
 
 If the above commands all work ok, your setup is working and you can go into autonomous research mode.
 
+## Integration artifacts
+
+The training runtime now emits machine-readable artifacts directly:
+
+- `run-events.jsonl` — NDJSON event stream from the real training process
+- `run-final.json` — canonical final run record written by the runtime
+
+Minimum emitted events:
+
+- `run_start`
+- `run_progress`
+- `run_eval`
+- `run_finish`
+- `run_failure`
+
+## Orchestration metadata
+
+The runtime accepts these passthrough env vars and includes them in emitted JSON:
+
+- `AUTORESEARCH_RUN_ID`
+- `AUTORESEARCH_DIRECTION_ID`
+- `AUTORESEARCH_DIRECTION_SLUG`
+- `AUTORESEARCH_SCHEDULED_RUN_ID`
+- `AUTORESEARCH_MODE`
+- `AUTORESEARCH_BRANCH_TARGET`
+
+## Supported steerable env vars
+
+The integration should treat the following env vars as the current code-truth control surface:
+
+- `AUTORESEARCH_TIME_BUDGET`
+- `AUTORESEARCH_WARMUP_STEPS`
+- `AUTORESEARCH_EVAL_TOKENS`
+- `AUTORESEARCH_TOTAL_BATCH_SIZE`
+- `AUTORESEARCH_DEVICE_BATCH_SIZE`
+- `AUTORESEARCH_DEPTH`
+- `AUTORESEARCH_ASPECT_RATIO`
+- `AUTORESEARCH_HEAD_DIM`
+- `AUTORESEARCH_WINDOW_PATTERN`
+- `AUTORESEARCH_EMBEDDING_LR`
+- `AUTORESEARCH_UNEMBEDDING_LR`
+- `AUTORESEARCH_MATRIX_LR`
+- `AUTORESEARCH_SCALAR_LR`
+- `AUTORESEARCH_WEIGHT_DECAY`
+- `AUTORESEARCH_ADAM_BETA1`
+- `AUTORESEARCH_ADAM_BETA2`
+- `AUTORESEARCH_WARMUP_RATIO`
+- `AUTORESEARCH_WARMDOWN_RATIO`
+- `AUTORESEARCH_FINAL_LR_FRAC`
+- `AUTORESEARCH_PROGRESS_INTERVAL_SECONDS`
+- `AUTORESEARCH_EVENT_LOG`
+- `AUTORESEARCH_FINAL_RECORD`
+
 **Platforms support**. This fork officially supports **macOS (Apple Silicon / MPS)** and CPU environments, while preserving the original NVIDIA GPU support. It removes the hardcoded dependency on FlashAttention-3, falling back to PyTorch's native Scaled Dot Product Attention (SDPA) with manual sliding window causal masking when needed. It also features MPS-specific optimizations (disabling unsupported `torch.compile` paths, lowering memory batch sizes for Metal bounds, and precisely casting optimizer states) allowing you to run autonomous research agents directly on your Mac!
 
 ## Running the agent

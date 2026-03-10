@@ -27,6 +27,9 @@ The following was tested in this experiment:
 5. Baseline execution of the fork's default `uv run train.py`
 6. Reduced local verification execution using bounded env-var overrides
 7. Machine-readable extraction of final run metrics via `parse_run_log.py`
+8. Real NDJSON event emission from the training process itself
+9. Real canonical final JSON record emission from the training process itself
+10. Orchestration metadata passthrough via env vars
 
 ## Available data and artifacts
 
@@ -52,6 +55,9 @@ After running this experiment, the following data and artifacts are available:
 
 - Aborted baseline log: `workspace/experiments/autoresearch/run.log`
 - Completed reduced verification log: `workspace/experiments/autoresearch/run.quick.log`
+- Real event stream example: `workspace/experiments/autoresearch/example-run-events.jsonl`
+- Real final record example: `workspace/experiments/autoresearch/example-run-final.json`
+- Real metadata-driven example log: `workspace/experiments/autoresearch/example-run.log`
 
 ## What functionality exists now
 
@@ -98,9 +104,44 @@ Currently steerable through env vars in `train.py`:
 
 This is the right initial control model for community steering.
 
-### 4. Machine-readable final record extraction
+### 4. Machine-readable live run event stream
 
-`parse_run_log.py` converts the final textual summary into JSON. That is enough for:
+The training process now writes `run-events.jsonl` directly.
+
+Implemented event types:
+
+- `run_start`
+- `run_progress`
+- `run_eval`
+- `run_finish`
+- `run_failure`
+
+Each event includes:
+
+- `run_id`
+- `timestamp`
+- `event`
+- `status`
+- `direction_id`
+- `step`
+- event-specific metrics
+
+This is now suitable for packaging as Filecoin run updates.
+
+### 5. Canonical final run record emitted by runtime
+
+The training process now writes `run-final.json` directly with:
+
+- orchestration metadata
+- selected controls
+- final metrics
+- artifact paths
+- timestamps
+- final status
+
+### 6. Machine-readable final record extraction
+
+`parse_run_log.py` is still useful, but no longer the only path. It can still convert the final textual summary into JSON. That is enough for:
 
 - run-final records
 - dashboard summaries
@@ -157,6 +198,29 @@ Conclusion:
 - autoresearch can run end to end locally in a reduced mode
 - final metrics can be extracted in a structured way
 - the experiment is good enough to support integration design work
+
+### Completed metadata-driven artifact run
+
+A real metadata-driven example run was executed and produced:
+
+- `example-run-events.jsonl`
+- `example-run-final.json`
+
+Metadata passed through successfully:
+
+- `AUTORESEARCH_RUN_ID=run_demo_001`
+- `AUTORESEARCH_DIRECTION_ID=dir_demo_001`
+- `AUTORESEARCH_DIRECTION_SLUG=smaller-batch-baseline`
+- `AUTORESEARCH_SCHEDULED_RUN_ID=sched_demo_001`
+- `AUTORESEARCH_MODE=explore`
+- `AUTORESEARCH_BRANCH_TARGET=main`
+
+The generated event stream included:
+
+- `run_start`
+- multiple `run_progress` snapshots
+- `run_eval`
+- `run_finish`
 
 ## MVP community-steerable surface
 
@@ -256,55 +320,33 @@ This experiment proved the final-summary path, but several capabilities are stil
 
 ### Missing for live dashboard behavior
 
-- no machine-readable progress stream during training
-- no periodic JSON snapshot output
-- no stable run lifecycle event schema
-- no explicit run id emitted by the training process
-- no structured failure payload
+- no proposal schema emitted by runtime
+- no direction lineage graph emitted by runtime
+- no comment/rationale channel
 
 ### Missing for governance integration
 
-- no canonical schema for proposal input selection
-- no canonical schema for active direction
-- no explicit support for branch lineage metadata in emitted artifacts
-- no built-in "explore vs exploit" execution mode semantics
+- no canonical schema file shared with the integration layer yet
+- no active-direction document emitted by runtime
+- no proposal validation layer
 
 ### Missing for storage integration
 
-- no automatic packaging of final run record into a JSON document
-- no periodic snapshot bundle suitable for Filecoin pinning
-- no canonical artifact manifest linking logs, summaries, and config
+- no automatic upload/pinning step
+- no snapshot bundling policy for Filecoin yet
+- no canonical artifact manifest that includes proposal document references
 
 ## Recommended autoresearch adjustments
 
 The next autoresearch-side work should focus on these two capabilities first:
 
-### 1. Add a machine-readable run event stream or periodic JSON snapshots
+### 1. Freeze the runtime event and final-record schemas
 
-This is the most important missing capability.
+The runtime now emits useful JSON artifacts. The next step is to freeze those shapes as integration contracts.
 
-Target output should support at least:
+### 2. Add proposal and active-direction documents around the runtime outputs
 
-- `run_start`
-- `run_progress`
-- `run_eval`
-- `run_finish`
-- `run_failure`
-
-Even newline-delimited JSON written to a file would be enough for the MVP.
-
-### 2. Emit a canonical final run record
-
-At the end of each run, autoresearch should write one JSON file that includes:
-
-- run metadata
-- selected steering inputs
-- final metrics
-- artifact paths
-- lineage references
-- timestamps
-
-That would let Filecoin store the whole run cleanly and FEVM anchor only the pointer/state that matters.
+The runtime now emits run-level artifacts. The next step is to define the pre-run governance artifacts that select those runs.
 
 ## Suggested canonical schemas
 
@@ -393,6 +435,30 @@ uv run train.py > run.quick.log 2>&1
 python3 parse_run_log.py run.quick.log
 ```
 
+### Metadata-driven artifact example
+
+```bash
+cd workspace/experiments/autoresearch
+AUTORESEARCH_RUN_ID=run_demo_001 \
+AUTORESEARCH_DIRECTION_ID=dir_demo_001 \
+AUTORESEARCH_DIRECTION_SLUG=smaller-batch-baseline \
+AUTORESEARCH_SCHEDULED_RUN_ID=sched_demo_001 \
+AUTORESEARCH_MODE=explore \
+AUTORESEARCH_BRANCH_TARGET=main \
+AUTORESEARCH_EVENT_LOG=example-run-events.jsonl \
+AUTORESEARCH_FINAL_RECORD=example-run-final.json \
+AUTORESEARCH_PROGRESS_INTERVAL_SECONDS=5 \
+AUTORESEARCH_TIME_BUDGET=12 \
+AUTORESEARCH_WARMUP_STEPS=0 \
+AUTORESEARCH_EVAL_TOKENS=4096 \
+AUTORESEARCH_TOTAL_BATCH_SIZE=2048 \
+AUTORESEARCH_DEVICE_BATCH_SIZE=1 \
+AUTORESEARCH_DEPTH=2 \
+AUTORESEARCH_ASPECT_RATIO=32 \
+AUTORESEARCH_HEAD_DIM=64 \
+uv run train.py > example-run.log 2>&1
+```
+
 ### Full research mode
 
 ```bash
@@ -409,14 +475,16 @@ It is already sufficient for:
 
 - reproducible local execution
 - bounded runtime steering
+- runtime-emitted live JSONL events
+- runtime-emitted canonical final JSON
 - final metric production
 - final record extraction
 
 It is not yet sufficient for:
 
-- live community-steered dashboard behavior
-- Filecoin-ready live snapshots
-- FEVM-ready run lifecycle anchoring
+- proposal/governance document standardization
+- Filecoin upload policy and bundling
+- FEVM anchoring policy and contract-side state schema
 
 So the correct conclusion is:
 
