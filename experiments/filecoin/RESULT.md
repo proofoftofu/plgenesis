@@ -54,6 +54,13 @@ The proposal schema now focuses on bounded governance inputs:
 - `explore` vs `exploit`
 - lineage to parent proposals
 
+It also now marks each proposal with `executionCompatibility`:
+
+- `current-autoresearch`
+- `future-autoresearch`
+
+Only proposals compatible with the current autoresearch fork are eligible to become the active direction in this experiment.
+
 ### 3. Governance behavior
 
 Tested the intended contract behavior in a local state model in [`src/lib/governance.js`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/src/lib/governance.js).
@@ -130,6 +137,7 @@ Generated in:
 - [`output/active-direction.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/active-direction.json)
 - [`output/run-updates.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/run-updates.json)
 - [`output/dashboard-state.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/dashboard-state.json)
+- [`output/artifact-manifest.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/artifact-manifest.json)
 - [`output/state.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/state.json)
 - [`output/summary.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/summary.json)
 - [`output/filecoin-upload-manifest.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/filecoin-upload-manifest.json)
@@ -158,6 +166,12 @@ This experiment currently provides:
 - live run update and dashboard-state artifact generation
 - a real Filecoin upload entrypoint using the official CLI
 - persistent recording of live upload status
+
+## Integration decisions
+
+- Runnable fixture: yes, current-autoresearch-compatible proposals are now explicitly marked and validated by fixture design.
+- Stable run-update schema: yes, each run update now has `runId`, `scheduledRunId`, `directionId`, `directionSlug`, `event`, `timestamp`, `step`, `status`, and optional `metrics`.
+- Dashboard state: derived convenience view, not canonical truth.
 
 ## Functionality not yet completed
 

@@ -33,6 +33,7 @@ test("buildUploadTargets returns expected artifact upload order", () => {
       "active-direction.json",
       "run-updates.json",
       "dashboard-state.json",
+      "artifact-manifest.json",
       "state.json"
     ]
   );

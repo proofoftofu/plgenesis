@@ -1,21 +1,22 @@
 {
   "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
   "artifactPanel": {
-    "activeDirectionCid": "urn:sha256:c75738cc1b3867386a03c9f9bdfe1c8312e7ff9b6f464304e129dd08f0a00d6b",
-    "latestStateCid": "urn:sha256:486032ddef4be119df01b74cdb147e6db12cd57ab4e24937161ba099d335aaed",
-    "metadataCid": "urn:sha256:b13e7ee29795c40f28db8b4cce7f4d05fe2fd08c1eb86535516dc3cb42b4e7f3",
+    "activeDirectionCid": "urn:sha256:15657369ef587f7e092550533ac98842e67bb4c9b80f4a7832374e99df884e55",
+    "latestStateCid": "urn:sha256:38cd61276156ae3ac09f36f6272ca62ff291f1916a37783818ab7f66ba8cce3f",
+    "metadataCid": "urn:sha256:3db72c84a61bdfe53838e3b892ff19b60fdbebfc4d239c9aa1e3a8b5adcfbbdb",
     "runUpdateCids": [
-      "urn:sha256:e1983fba8d1096d18c70d186caae591daca6dfa083286339b344223bd3e0e717",
-      "urn:sha256:a99715a0becde76c5f85e01caf7bc0a8802ee7f4a94d2820b2299501977e9e61",
-      "urn:sha256:21ebb977a6b07287e6f312b437c96a8a08847a437361f5a48b5d0381d08247da",
-      "urn:sha256:578c84a4700c92c068f63158c41b2a1401b675d6d37efe14259fbe6be377c467"
+      "urn:sha256:1a0f4b9f571e33e6d9b4d9ae74d6b767fbe0530a6045eeb6d19dd7800537230b",
+      "urn:sha256:904a2bff8ff76454d52ced3c20c67e1d0e02f83565b8bb399a1150aaa966baa9",
+      "urn:sha256:db10075ac5cab1314800a741fa6302c66042096be5d20cd08e5afb78e1957a08",
+      "urn:sha256:8fe5d6e466e276c284950d49784d578badffff20ddad20b41f38d7c7236e2eac"
     ]
   },
   "directionFeed": {
     "proposals": [
       {
-        "cid": "urn:sha256:1fafe508d5c651934eadf125b5974d3a1717af5309dd19b5a50e140aa557a8da",
+        "cid": "urn:sha256:7c1385a12ecb6ea958b59bc09415c3d9a04c89634ac9be838b0bd88d159933bd",
         "directionKind": "baseline",
+        "executionCompatibility": "current-autoresearch",
         "id": 1,
         "mode": "exploit",
         "parentDirectionId": 0,
@@ -23,8 +24,9 @@
         "stage": "bootstrap"
       },
       {
-        "cid": "urn:sha256:b1a83d2e0dfcffd46f379f2a3b8a415faeb60d7b9b06b896ac3a845ac5c9796b",
+        "cid": "urn:sha256:1cc0b2859543f3203105418f7283d542ee939b16e00d7f0ca97b557faa019c87",
         "directionKind": "baseline",
+        "executionCompatibility": "current-autoresearch",
         "id": 2,
         "mode": "explore",
         "parentDirectionId": 0,
@@ -32,8 +34,9 @@
         "stage": "bootstrap"
       },
       {
-        "cid": "urn:sha256:77a51bc4fc7101d1121684ab0c27ff11e5f08d2b3431dd3897d92c0c41cf6108",
+        "cid": "urn:sha256:48fd5441da47b7f28c0c7b01f74f49b3bdfa59266b9b262908f3133f5bbe9587",
         "directionKind": "challenger",
+        "executionCompatibility": "current-autoresearch",
         "id": 3,
         "mode": "explore",
         "parentDirectionId": 1,
@@ -41,8 +44,9 @@
         "stage": "tuning"
       },
       {
-        "cid": "urn:sha256:533d069fb6ed9b07381a0e91b65a00204baec3c63b4379cfe2301f60d86c2080",
+        "cid": "urn:sha256:fa2d00dd1c968af2d096bb410184512fb2a28bd2134ebf2a651b6c178942e7df",
         "directionKind": "continuation",
+        "executionCompatibility": "future-autoresearch",
         "id": 4,
         "mode": "exploit",
         "parentDirectionId": 1,
@@ -52,6 +56,7 @@
     ],
     "winners": {
       "active": {
+        "executionCompatibility": "current-autoresearch",
         "parentId": 1,
         "proposalId": 3,
         "slug": "tune-extend-short-window",
@@ -59,6 +64,7 @@
         "voteWeight": 8
       },
       "bootstrap": {
+        "executionCompatibility": "current-autoresearch",
         "parentId": 0,
         "proposalId": 1,
         "slug": "bootstrap-compact-gpt",
@@ -66,6 +72,7 @@
         "voteWeight": 7
       },
       "tuning": {
+        "executionCompatibility": "current-autoresearch",
         "parentId": 1,
         "proposalId": 3,
         "slug": "tune-extend-short-window",
@@ -87,27 +94,40 @@
     "modeSelected": "explore",
     "runStatus": "completed"
   },
+  "mode": "derived-convenience-view",
   "runId": "run-2026-03-11-filecoin",
   "runTimeline": [
     {
-      "cid": "urn:sha256:e1983fba8d1096d18c70d186caae591daca6dfa083286339b344223bd3e0e717",
+      "cid": "urn:sha256:1a0f4b9f571e33e6d9b4d9ae74d6b767fbe0530a6045eeb6d19dd7800537230b",
       "event": "run-start",
-      "index": 0
+      "index": 0,
+      "status": "started",
+      "step": 0,
+      "timestamp": "2026-03-11T08:01:00Z"
     },
     {
-      "cid": "urn:sha256:a99715a0becde76c5f85e01caf7bc0a8802ee7f4a94d2820b2299501977e9e61",
+      "cid": "urn:sha256:904a2bff8ff76454d52ced3c20c67e1d0e02f83565b8bb399a1150aaa966baa9",
       "event": "progress",
-      "index": 1
+      "index": 1,
+      "status": "running",
+      "step": 95,
+      "timestamp": "2026-03-11T08:01:30Z"
     },
     {
-      "cid": "urn:sha256:21ebb977a6b07287e6f312b437c96a8a08847a437361f5a48b5d0381d08247da",
+      "cid": "urn:sha256:db10075ac5cab1314800a741fa6302c66042096be5d20cd08e5afb78e1957a08",
       "event": "progress",
-      "index": 2
+      "index": 2,
+      "status": "running",
+      "step": 191,
+      "timestamp": "2026-03-11T08:02:00Z"
     },
     {
-      "cid": "urn:sha256:578c84a4700c92c068f63158c41b2a1401b675d6d37efe14259fbe6be377c467",
+      "cid": "urn:sha256:8fe5d6e466e276c284950d49784d578badffff20ddad20b41f38d7c7236e2eac",
       "event": "final",
-      "index": 3
+      "index": 3,
+      "status": "completed",
+      "step": 948,
+      "timestamp": "2026-03-11T08:06:05Z"
     }
   ],
   "schema": "plgenesis/dashboard-state@v1"

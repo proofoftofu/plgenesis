@@ -4,7 +4,7 @@
   "schema": "plgenesis/governance-tally@v1",
   "tallies": [
     {
-      "proposalCid": "urn:sha256:1fafe508d5c651934eadf125b5974d3a1717af5309dd19b5a50e140aa557a8da",
+      "proposalCid": "urn:sha256:7c1385a12ecb6ea958b59bc09415c3d9a04c89634ac9be838b0bd88d159933bd",
       "proposalId": 1,
       "reasons": [
         "Best baseline for reproducible public runs.",
@@ -20,7 +20,7 @@
       "weight": 7
     },
     {
-      "proposalCid": "urn:sha256:b1a83d2e0dfcffd46f379f2a3b8a415faeb60d7b9b06b896ac3a845ac5c9796b",
+      "proposalCid": "urn:sha256:1cc0b2859543f3203105418f7283d542ee939b16e00d7f0ca97b557faa019c87",
       "proposalId": 2,
       "reasons": [
         "Worth spending one exploration slot on a larger baseline."
@@ -34,7 +34,7 @@
       "weight": 3
     },
     {
-      "proposalCid": "urn:sha256:77a51bc4fc7101d1121684ab0c27ff11e5f08d2b3431dd3897d92c0c41cf6108",
+      "proposalCid": "urn:sha256:48fd5441da47b7f28c0c7b01f74f49b3bdfa59266b9b262908f3133f5bbe9587",
       "proposalId": 3,
       "reasons": [
         "Strong challenger for the next explore run.",
@@ -50,7 +50,7 @@
       "weight": 8
     },
     {
-      "proposalCid": "urn:sha256:533d069fb6ed9b07381a0e91b65a00204baec3c63b4379cfe2301f60d86c2080",
+      "proposalCid": "urn:sha256:fa2d00dd1c968af2d096bb410184512fb2a28bd2134ebf2a651b6c178942e7df",
       "proposalId": 4,
       "reasons": [
         "Good exploit candidate for the mainline branch."
@@ -66,6 +66,7 @@
   ],
   "winners": {
     "active": {
+      "executionCompatibility": "current-autoresearch",
       "parentId": 1,
       "proposalId": 3,
       "slug": "tune-extend-short-window",
@@ -73,6 +74,7 @@
       "voteWeight": 8
     },
     "bootstrap": {
+      "executionCompatibility": "current-autoresearch",
       "parentId": 0,
       "proposalId": 1,
       "slug": "bootstrap-compact-gpt",
@@ -80,6 +82,7 @@
       "voteWeight": 7
     },
     "tuning": {
+      "executionCompatibility": "current-autoresearch",
       "parentId": 1,
       "proposalId": 3,
       "slug": "tune-extend-short-window",

@@ -2,8 +2,9 @@
   "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
   "proposals": [
     {
-      "cid": "urn:sha256:1fafe508d5c651934eadf125b5974d3a1717af5309dd19b5a50e140aa557a8da",
-      "digest": "0x1fafe508d5c651934eadf125b5974d3a1717af5309dd19b5a50e140aa557a8da",
+      "cid": "urn:sha256:7c1385a12ecb6ea958b59bc09415c3d9a04c89634ac9be838b0bd88d159933bd",
+      "digest": "0x7c1385a12ecb6ea958b59bc09415c3d9a04c89634ac9be838b0bd88d159933bd",
+      "executionCompatibility": "current-autoresearch",
       "id": 1,
       "parentDirectionId": 0,
       "slug": "bootstrap-compact-gpt",
@@ -11,8 +12,9 @@
       "title": "Compact GPT baseline for first public run"
     },
     {
-      "cid": "urn:sha256:b1a83d2e0dfcffd46f379f2a3b8a415faeb60d7b9b06b896ac3a845ac5c9796b",
-      "digest": "0xb1a83d2e0dfcffd46f379f2a3b8a415faeb60d7b9b06b896ac3a845ac5c9796b",
+      "cid": "urn:sha256:1cc0b2859543f3203105418f7283d542ee939b16e00d7f0ca97b557faa019c87",
+      "digest": "0x1cc0b2859543f3203105418f7283d542ee939b16e00d7f0ca97b557faa019c87",
+      "executionCompatibility": "current-autoresearch",
       "id": 2,
       "parentDirectionId": 0,
       "slug": "bootstrap-wider-context",
@@ -20,8 +22,9 @@
       "title": "Wider baseline with more capacity"
     },
     {
-      "cid": "urn:sha256:77a51bc4fc7101d1121684ab0c27ff11e5f08d2b3431dd3897d92c0c41cf6108",
-      "digest": "0x77a51bc4fc7101d1121684ab0c27ff11e5f08d2b3431dd3897d92c0c41cf6108",
+      "cid": "urn:sha256:48fd5441da47b7f28c0c7b01f74f49b3bdfa59266b9b262908f3133f5bbe9587",
+      "digest": "0x48fd5441da47b7f28c0c7b01f74f49b3bdfa59266b9b262908f3133f5bbe9587",
+      "executionCompatibility": "current-autoresearch",
       "id": 3,
       "parentDirectionId": 1,
       "slug": "tune-extend-short-window",
@@ -29,8 +32,9 @@
       "title": "Extend the short-window pattern after the baseline lands"
     },
     {
-      "cid": "urn:sha256:533d069fb6ed9b07381a0e91b65a00204baec3c63b4379cfe2301f60d86c2080",
-      "digest": "0x533d069fb6ed9b07381a0e91b65a00204baec3c63b4379cfe2301f60d86c2080",
+      "cid": "urn:sha256:fa2d00dd1c968af2d096bb410184512fb2a28bd2134ebf2a651b6c178942e7df",
+      "digest": "0xfa2d00dd1c968af2d096bb410184512fb2a28bd2134ebf2a651b6c178942e7df",
+      "executionCompatibility": "future-autoresearch",
       "id": 4,
       "parentDirectionId": 1,
       "slug": "tune-lower-matrix-lr",

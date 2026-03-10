@@ -1,0 +1,15 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "artifacts": {
+    "activeDirectionCid": "urn:sha256:15657369ef587f7e092550533ac98842e67bb4c9b80f4a7832374e99df884e55",
+    "dashboardStateCid": "urn:sha256:60a76daebf7b253dd4b56dafcd0df30097e7b23aa15679b85a5bc1dd49e86bb5",
+    "finalStateCid": "urn:sha256:38cd61276156ae3ac09f36f6272ca62ff291f1916a37783818ab7f66ba8cce3f",
+    "governanceTallyCid": "urn:sha256:037d6af7c53e172ef05f92fcb5f558635818108dd06186ea9c2b66a6c89d973a",
+    "metadataCid": "urn:sha256:3db72c84a61bdfe53838e3b892ff19b60fdbebfc4d239c9aa1e3a8b5adcfbbdb",
+    "proposalSetCid": "urn:sha256:437e7cb1fad0844aefeb1430d7247c14c8cce63fa288f04316cbea7cd25c83bd",
+    "runUpdateSetCid": "urn:sha256:1208a54ae6bd315954d6037ff531a7232c3d4d6ecc3f2b59f35c88f6ae9e9ca6"
+  },
+  "dashboardStateMode": "derived-convenience-view",
+  "runId": "run-2026-03-11-filecoin",
+  "schema": "plgenesis/artifact-manifest@v1"
+}

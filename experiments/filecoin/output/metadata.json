@@ -1,14 +1,14 @@
 {
-  "activeDirectionCid": "urn:sha256:c75738cc1b3867386a03c9f9bdfe1c8312e7ff9b6f464304e129dd08f0a00d6b",
-  "activeDirectionDigest": "0xc75738cc1b3867386a03c9f9bdfe1c8312e7ff9b6f464304e129dd08f0a00d6b",
+  "activeDirectionCid": "urn:sha256:15657369ef587f7e092550533ac98842e67bb4c9b80f4a7832374e99df884e55",
+  "activeDirectionDigest": "0x15657369ef587f7e092550533ac98842e67bb4c9b80f4a7832374e99df884e55",
   "activeDirectionId": 3,
   "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
   "agentName": "Genesis Research Agent",
   "agentSlug": "genesis-research-agent",
   "latestRunId": "run-2026-03-11-filecoin",
   "latestScheduledRunId": "sched-2026-03-11-01",
-  "latestStateCid": "urn:sha256:486032ddef4be119df01b74cdb147e6db12cd57ab4e24937161ba099d335aaed",
-  "latestStateDigest": "0x486032ddef4be119df01b74cdb147e6db12cd57ab4e24937161ba099d335aaed",
+  "latestStateCid": "urn:sha256:38cd61276156ae3ac09f36f6272ca62ff291f1916a37783818ab7f66ba8cce3f",
+  "latestStateDigest": "0x38cd61276156ae3ac09f36f6272ca62ff291f1916a37783818ab7f66ba8cce3f",
   "network": {
     "chainId": 314159,
     "contractPurpose": "community-driven-autoresearch-registry",

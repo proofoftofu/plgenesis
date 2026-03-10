@@ -53,6 +53,7 @@ The experiment writes generated artifacts to `output/`:
 - `output/active-direction.json`
 - `output/run-updates.json`
 - `output/dashboard-state.json`
+- `output/artifact-manifest.json`
 - `output/state.json`
 - `output/summary.json`
 - `output/filecoin-upload-manifest.json`
@@ -76,6 +77,26 @@ This is the intended flow between community governance, autoresearch, Filecoin, 
 6. Run-start, progress, dashboard, and final artifacts are stored to Filecoin-backed storage.
 7. After a run completes, the final run record is anchored with `submitResearchRun`.
 
+## Compatibility Rules
+
+Every proposal marked `executionCompatibility: "current-autoresearch"` is intended to be runnable against the current autoresearch fork.
+
+For those proposals, the fixture now enforces:
+
+- `n_embd % n_head === 0`
+- `n_kv_head === n_head`
+- `window_pattern` uses only `S` and `L`
+- `n_embd % n_layer === 0` when the proposal is meant to map cleanly to the current aspect-ratio style configuration
+
+Proposals marked `executionCompatibility: "future-autoresearch"` are stored and visible, but they are excluded from active-direction selection in this experiment.
+
+## Dashboard State
+
+`dashboard-state.json` is treated as a derived convenience view, not the canonical source of truth.
+
+- Canonical artifacts: proposals, active direction, run updates, final run state
+- Derived artifact: dashboard state assembled from those canonical artifacts for easier UI consumption
+
 ## Why this satisfies community-driven research direction
 
 The key difference from the earlier version is that the selected research direction is no longer implicit or offchain-only.
@@ -85,6 +106,7 @@ The key difference from the earlier version is that the selected research direct
 - The live run can be represented as a research stream through periodic snapshots and dashboard state, not only a final result.
 - Every autoresearch run is tied to a specific winning direction ID.
 - The Filecoin objects keep proposal content, rationale, live updates, dashboard state, and final run artifacts, while the contract keeps the authoritative active direction pointer.
+- The experiment also emits an artifact manifest so the integration app can resolve the main Filecoin objects from one place.
 
 ## Limits
 

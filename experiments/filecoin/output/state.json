@@ -136,28 +136,53 @@
   "runId": "run-2026-03-11-filecoin",
   "runUpdates": [
     {
-      "cid": "urn:sha256:e1983fba8d1096d18c70d186caae591daca6dfa083286339b344223bd3e0e717",
-      "digest": "0xe1983fba8d1096d18c70d186caae591daca6dfa083286339b344223bd3e0e717",
+      "cid": "urn:sha256:1a0f4b9f571e33e6d9b4d9ae74d6b767fbe0530a6045eeb6d19dd7800537230b",
+      "digest": "0x1a0f4b9f571e33e6d9b4d9ae74d6b767fbe0530a6045eeb6d19dd7800537230b",
       "event": "run-start",
-      "index": 0
+      "index": 0,
+      "metrics": null,
+      "status": "started",
+      "step": 0,
+      "timestamp": "2026-03-11T08:01:00Z"
     },
     {
-      "cid": "urn:sha256:a99715a0becde76c5f85e01caf7bc0a8802ee7f4a94d2820b2299501977e9e61",
-      "digest": "0xa99715a0becde76c5f85e01caf7bc0a8802ee7f4a94d2820b2299501977e9e61",
+      "cid": "urn:sha256:904a2bff8ff76454d52ced3c20c67e1d0e02f83565b8bb399a1150aaa966baa9",
+      "digest": "0x904a2bff8ff76454d52ced3c20c67e1d0e02f83565b8bb399a1150aaa966baa9",
       "event": "progress",
-      "index": 1
+      "index": 1,
+      "metrics": {
+        "tokens_M": 49.7,
+        "train_loss": 2.91
+      },
+      "status": "running",
+      "step": 95,
+      "timestamp": "2026-03-11T08:01:30Z"
     },
     {
-      "cid": "urn:sha256:21ebb977a6b07287e6f312b437c96a8a08847a437361f5a48b5d0381d08247da",
-      "digest": "0x21ebb977a6b07287e6f312b437c96a8a08847a437361f5a48b5d0381d08247da",
+      "cid": "urn:sha256:db10075ac5cab1314800a741fa6302c66042096be5d20cd08e5afb78e1957a08",
+      "digest": "0xdb10075ac5cab1314800a741fa6302c66042096be5d20cd08e5afb78e1957a08",
       "event": "progress",
-      "index": 2
+      "index": 2,
+      "metrics": {
+        "tokens_M": 99.9,
+        "train_loss": 2.73
+      },
+      "status": "running",
+      "step": 191,
+      "timestamp": "2026-03-11T08:02:00Z"
     },
     {
-      "cid": "urn:sha256:578c84a4700c92c068f63158c41b2a1401b675d6d37efe14259fbe6be377c467",
-      "digest": "0x578c84a4700c92c068f63158c41b2a1401b675d6d37efe14259fbe6be377c467",
+      "cid": "urn:sha256:8fe5d6e466e276c284950d49784d578badffff20ddad20b41f38d7c7236e2eac",
+      "digest": "0x8fe5d6e466e276c284950d49784d578badffff20ddad20b41f38d7c7236e2eac",
       "event": "final",
-      "index": 3
+      "index": 3,
+      "metrics": {
+        "peak_vram_mb": 21580,
+        "val_bpb": 0.9924
+      },
+      "status": "completed",
+      "step": 948,
+      "timestamp": "2026-03-11T08:06:05Z"
     }
   ],
   "schema": "plgenesis/run-final@v1",
@@ -196,6 +221,7 @@
     ],
     "winners": {
       "active": {
+        "executionCompatibility": "current-autoresearch",
         "parentId": 1,
         "proposalId": 3,
         "slug": "tune-extend-short-window",
@@ -203,6 +229,7 @@
         "voteWeight": 8
       },
       "bootstrap": {
+        "executionCompatibility": "current-autoresearch",
         "parentId": 0,
         "proposalId": 1,
         "slug": "bootstrap-compact-gpt",
@@ -210,6 +237,7 @@
         "voteWeight": 7
       },
       "tuning": {
+        "executionCompatibility": "current-autoresearch",
         "parentId": 1,
         "proposalId": 3,
         "slug": "tune-extend-short-window",

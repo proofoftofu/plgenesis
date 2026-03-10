@@ -1,5 +1,6 @@
 {
   "activeWinner": {
+    "executionCompatibility": "current-autoresearch",
     "parentId": 1,
     "proposalId": 3,
     "slug": "tune-extend-short-window",
@@ -8,6 +9,7 @@
   },
   "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
   "bootstrapWinner": {
+    "executionCompatibility": "current-autoresearch",
     "parentId": 0,
     "proposalId": 1,
     "slug": "bootstrap-compact-gpt",
@@ -26,9 +28,10 @@
   "proposal": {
     "branchStrategy": "diverge-from-parent",
     "branchTarget": "autoresearch/bootstrap-compact-gpt/challenger-short-window",
-    "cid": "urn:sha256:77a51bc4fc7101d1121684ab0c27ff11e5f08d2b3431dd3897d92c0c41cf6108",
-    "digest": "0x77a51bc4fc7101d1121684ab0c27ff11e5f08d2b3431dd3897d92c0c41cf6108",
+    "cid": "urn:sha256:48fd5441da47b7f28c0c7b01f74f49b3bdfa59266b9b262908f3133f5bbe9587",
+    "digest": "0x48fd5441da47b7f28c0c7b01f74f49b3bdfa59266b9b262908f3133f5bbe9587",
     "directionKind": "challenger",
+    "executionCompatibility": "current-autoresearch",
     "id": 3,
     "mode": "explore",
     "parentDirectionId": 1,
@@ -37,7 +40,12 @@
   },
   "runId": "run-2026-03-11-filecoin",
   "schema": "plgenesis/active-direction@v1",
+  "selectionPolicy": {
+    "activeDirectionSource": "runnable-proposals-only",
+    "excludedCompatibility": "future-autoresearch"
+  },
   "tuningWinner": {
+    "executionCompatibility": "current-autoresearch",
     "parentId": 1,
     "proposalId": 3,
     "slug": "tune-extend-short-window",

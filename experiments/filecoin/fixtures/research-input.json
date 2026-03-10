@@ -116,6 +116,7 @@
       {
         "slug": "bootstrap-compact-gpt",
         "stage": "bootstrap",
+        "executionCompatibility": "current-autoresearch",
         "directionKind": "baseline",
         "mode": "exploit",
         "branchStrategy": "start-new-branch",
@@ -134,8 +135,8 @@
         "architecture": {
           "family": "compact-gpt",
           "n_layer": 10,
-          "n_head": 6,
-          "n_kv_head": 6,
+          "n_head": 5,
+          "n_kv_head": 5,
           "n_embd": 640,
           "window_pattern": "SSSL"
         },
@@ -153,6 +154,7 @@
       {
         "slug": "bootstrap-wider-context",
         "stage": "bootstrap",
+        "executionCompatibility": "current-autoresearch",
         "directionKind": "baseline",
         "mode": "explore",
         "branchStrategy": "start-new-branch",
@@ -190,6 +192,7 @@
       {
         "slug": "tune-extend-short-window",
         "stage": "tuning",
+        "executionCompatibility": "current-autoresearch",
         "directionKind": "challenger",
         "parentSlug": "bootstrap-compact-gpt",
         "mode": "explore",
@@ -218,6 +221,7 @@
       {
         "slug": "tune-lower-matrix-lr",
         "stage": "tuning",
+        "executionCompatibility": "future-autoresearch",
         "directionKind": "continuation",
         "parentSlug": "bootstrap-compact-gpt",
         "mode": "exploit",
@@ -232,7 +236,9 @@
         "runtimeKnobsDelta": {
           "batchSize": 8
         },
-        "architectureDelta": {},
+        "architectureDelta": {
+          "n_head": 7
+        },
         "hyperparameterDelta": {
           "matrix_lr": 0.015
         },
