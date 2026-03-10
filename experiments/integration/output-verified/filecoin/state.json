@@ -1,0 +1,282 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "agentName": "Genesis Research Agent",
+  "autoresearch": {
+    "baselineConstraints": {
+      "evaluationSource": "prepare.py:evaluate_bpb",
+      "maxSequenceLength": 2048,
+      "platform": "macOS + MPS"
+    },
+    "controlledFiles": [
+      "program.md",
+      "train.py"
+    ],
+    "objective": {
+      "direction": "minimize",
+      "metric": "val_bpb",
+      "timeBudgetSeconds": 12
+    },
+    "role": "execution-engine",
+    "runLifecycle": [
+      "scheduled",
+      "started",
+      "progress",
+      "eval",
+      "completed",
+      "failed"
+    ],
+    "snapshotPolicy": {
+      "emitJsonSnapshots": true,
+      "eventsPerRun": [
+        "run_start",
+        "run_progress",
+        "run_eval",
+        "run_finish"
+      ],
+      "snapshotIntervalSeconds": 5
+    },
+    "steerableSurface": {
+      "arbitraryTrainPyMutation": false,
+      "architectureFamily": [
+        "compact-gpt"
+      ],
+      "branchChoice": true,
+      "hyperparameters": [
+        "embedding_lr",
+        "matrix_lr",
+        "unembedding_lr",
+        "scalar_lr",
+        "window_pattern"
+      ],
+      "mode": [
+        "explore",
+        "exploit"
+      ],
+      "objectiveMetadata": true,
+      "programDirectiveEdits": true,
+      "runtimeKnobs": [
+        "timeBudgetSeconds",
+        "batchSize"
+      ]
+    }
+  },
+  "execution": {
+    "activeDirectionId": 2,
+    "activeDirectionSlug": "tune-demo-window",
+    "branchSelected": "autoresearch/demo-baseline/challenger-window",
+    "controlledFiles": [
+      "program.md",
+      "train.py"
+    ],
+    "expectedNextEditTargets": [
+      "program.md",
+      "train.py"
+    ],
+    "modeSelected": "explore",
+    "scheduledRunId": "run-local-integration-demo-scheduled",
+    "steerableSurface": {
+      "arbitraryTrainPyMutation": false,
+      "architectureFamily": [
+        "compact-gpt"
+      ],
+      "branchChoice": true,
+      "hyperparameters": [
+        "embedding_lr",
+        "matrix_lr",
+        "unembedding_lr",
+        "scalar_lr",
+        "window_pattern"
+      ],
+      "mode": [
+        "explore",
+        "exploit"
+      ],
+      "objectiveMetadata": true,
+      "programDirectiveEdits": true,
+      "runtimeKnobs": [
+        "timeBudgetSeconds",
+        "batchSize"
+      ]
+    }
+  },
+  "findings": [
+    {
+      "detail": "The workflow only needs a compatible direction, real runtime artifacts, and Filecoin payload generation to prove the integration.",
+      "title": "Short local runs are enough to verify the integration loop"
+    }
+  ],
+  "generatedAt": "2026-03-11T10:00:00Z",
+  "goal": "Run a short end-to-end community-selected autoresearch execution and package the emitted runtime artifacts into the Filecoin workflow model.",
+  "latestMetrics": {
+    "num_steps": 169,
+    "peak_vram_mb": 0,
+    "training_seconds": 12,
+    "val_bpb": 2.245221
+  },
+  "lifecycle": [
+    "scheduled",
+    "started",
+    "progress",
+    "eval",
+    "completed",
+    "failed"
+  ],
+  "runId": "run-local-integration-demo",
+  "runUpdates": [
+    {
+      "cid": "urn:sha256:7f57ea3d7fbfbde9e660b43df5f722129ceb6eb25fd91d86944cc389ff635819",
+      "digest": "0x7f57ea3d7fbfbde9e660b43df5f722129ceb6eb25fd91d86944cc389ff635819",
+      "event": "run_start",
+      "index": 0,
+      "metrics": {
+        "device_type": "mps",
+        "grad_accum_steps": 1,
+        "num_params_M": 1.671204,
+        "time_budget": 12
+      },
+      "status": "running",
+      "step": 0,
+      "timestamp": "2026-03-10T21:21:11.748925+00:00"
+    },
+    {
+      "cid": "urn:sha256:5cdae8fac8960a2007fe04d091fc7ce1468004d4c5fdb039c4943bce9727f57c",
+      "digest": "0x5cdae8fac8960a2007fe04d091fc7ce1468004d4c5fdb039c4943bce9727f57c",
+      "event": "run_progress",
+      "index": 1,
+      "metrics": {
+        "epoch": 1,
+        "loss": 9.011003,
+        "mfu_percent": 0.0016,
+        "progress_percent": 0,
+        "tok_per_sec": 2592,
+        "training_seconds": 0.79
+      },
+      "status": "running",
+      "step": 0,
+      "timestamp": "2026-03-10T21:21:12.539188+00:00"
+    },
+    {
+      "cid": "urn:sha256:3baefa11d4abdef73942658266068ae3514e4764043267b5f188505895d19175",
+      "digest": "0x3baefa11d4abdef73942658266068ae3514e4764043267b5f188505895d19175",
+      "event": "run_progress",
+      "index": 2,
+      "metrics": {
+        "epoch": 1,
+        "loss": 6.689876,
+        "mfu_percent": 0.0192,
+        "progress_percent": 47.505,
+        "tok_per_sec": 31234,
+        "training_seconds": 5.766
+      },
+      "status": "running",
+      "step": 74,
+      "timestamp": "2026-03-10T21:21:17.567827+00:00"
+    },
+    {
+      "cid": "urn:sha256:0724b8153ffd9f79c1d4e13a8b28ad3ff336fecd10944e4bff75893f2c58e76c",
+      "digest": "0x0724b8153ffd9f79c1d4e13a8b28ad3ff336fecd10944e4bff75893f2c58e76c",
+      "event": "run_progress",
+      "index": 3,
+      "metrics": {
+        "epoch": 1,
+        "loss": 6.169134,
+        "mfu_percent": 0.019,
+        "progress_percent": 89.628,
+        "tok_per_sec": 30895,
+        "training_seconds": 10.822
+      },
+      "status": "running",
+      "step": 150,
+      "timestamp": "2026-03-10T21:21:22.628149+00:00"
+    },
+    {
+      "cid": "urn:sha256:417ea2fcaa531211c5cc57f0681f782e2ceb079f00b57d6094d7611d7b5c59c8",
+      "digest": "0x417ea2fcaa531211c5cc57f0681f782e2ceb079f00b57d6094d7611d7b5c59c8",
+      "event": "run_eval",
+      "index": 4,
+      "metrics": {
+        "total_tokens_M": 0.346112,
+        "training_seconds": 12.04,
+        "val_bpb": 2.245221
+      },
+      "status": "running",
+      "step": 169,
+      "timestamp": "2026-03-10T21:21:23.990981+00:00"
+    },
+    {
+      "cid": "urn:sha256:91186fedfc0e9487ef451982122d45a38960b365e4efe45e0ab00a3ce70526eb",
+      "digest": "0x91186fedfc0e9487ef451982122d45a38960b365e4efe45e0ab00a3ce70526eb",
+      "event": "run_finish",
+      "index": 5,
+      "metrics": {
+        "depth": 2,
+        "mfu_percent": 0.02,
+        "num_params_M": 1.7,
+        "num_steps": 169,
+        "peak_vram_mb": 0,
+        "total_seconds": 12.9,
+        "total_tokens_M": 0.3,
+        "training_seconds": 12,
+        "val_bpb": 2.245221
+      },
+      "status": "finished",
+      "step": 169,
+      "timestamp": "2026-03-10T21:21:23.991244+00:00"
+    }
+  ],
+  "schema": "plgenesis/run-final@v1",
+  "sources": [
+    "workspace/experiments/autoresearch/train.py",
+    "workspace/experiments/filecoin/src/lib/payload.js"
+  ],
+  "steering": {
+    "explorationBudget": {
+      "challengerRunsPerCycle": 1,
+      "exploitRunsPerCycle": 1
+    },
+    "governance": {
+      "description": "Registered contributors steer a short local demo run.",
+      "mode": "weighted-approval",
+      "quorum": 3
+    },
+    "voterWeights": [
+      {
+        "role": "core researcher",
+        "voter": "0x1000000000000000000000000000000000000001",
+        "weight": 2
+      },
+      {
+        "role": "community reviewer",
+        "voter": "0x2000000000000000000000000000000000000002",
+        "weight": 1
+      }
+    ],
+    "winners": {
+      "active": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 1,
+        "proposalId": 2,
+        "slug": "tune-demo-window",
+        "stage": "tuning",
+        "voteWeight": 3
+      },
+      "bootstrap": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 0,
+        "proposalId": 1,
+        "slug": "bootstrap-demo-baseline",
+        "stage": "bootstrap",
+        "voteWeight": 3
+      },
+      "tuning": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 1,
+        "proposalId": 2,
+        "slug": "tune-demo-window",
+        "stage": "tuning",
+        "voteWeight": 3
+      }
+    }
+  },
+  "summary": "A short local demo run is scheduled from a compatible baseline and a lightweight tuning proposal."
+}

@@ -1,0 +1,421 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "community": {
+    "activeDirection": {
+      "id": 2,
+      "slug": "tune-demo-window",
+      "stage": "tuning"
+    },
+    "explorationBudget": {
+      "challengerRunsPerCycle": 1,
+      "exploitRunsPerCycle": 1
+    },
+    "governance": {
+      "description": "Registered contributors steer a short local demo run.",
+      "mode": "weighted-approval",
+      "quorum": 3
+    }
+  },
+  "executionPlan": {
+    "activeDirection": {
+      "branchStrategy": "diverge-from-parent",
+      "branchTarget": "autoresearch/demo-baseline/challenger-window",
+      "directionKind": "challenger",
+      "id": 2,
+      "lineage": [
+        {
+          "id": 1,
+          "slug": "bootstrap-demo-baseline",
+          "stage": "bootstrap"
+        },
+        {
+          "id": 2,
+          "slug": "tune-demo-window",
+          "stage": "tuning"
+        }
+      ],
+      "mode": "explore",
+      "slug": "tune-demo-window",
+      "stage": "tuning"
+    },
+    "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+    "autoresearch": {
+      "command": "cd workspace/experiments/autoresearch \\\nAUTORESEARCH_TIME_BUDGET=12 \\\nAUTORESEARCH_DEPTH=2 \\\nAUTORESEARCH_ASPECT_RATIO=32 \\\nAUTORESEARCH_HEAD_DIM=64 \\\nAUTORESEARCH_WINDOW_PATTERN=S \\\nAUTORESEARCH_DEVICE_BATCH_SIZE=1 \\\nAUTORESEARCH_EMBEDDING_LR=0.6 \\\nAUTORESEARCH_MATRIX_LR=0.03 \\\nAUTORESEARCH_UNEMBEDDING_LR=0.004 \\\nAUTORESEARCH_SCALAR_LR=0.5 \\\nuv run train.py > run.log 2>&1 \\\nuv run python parse_run_log.py run.log",
+      "controlledFiles": [
+        "program.md",
+        "train.py"
+      ],
+      "env": {
+        "AUTORESEARCH_ASPECT_RATIO": 32,
+        "AUTORESEARCH_DEPTH": 2,
+        "AUTORESEARCH_DEVICE_BATCH_SIZE": 1,
+        "AUTORESEARCH_EMBEDDING_LR": 0.6,
+        "AUTORESEARCH_HEAD_DIM": 64,
+        "AUTORESEARCH_MATRIX_LR": 0.03,
+        "AUTORESEARCH_SCALAR_LR": 0.5,
+        "AUTORESEARCH_TIME_BUDGET": 12,
+        "AUTORESEARCH_UNEMBEDDING_LR": 0.004,
+        "AUTORESEARCH_WINDOW_PATTERN": "S"
+      },
+      "eventLogPath": "workspace/experiments/autoresearch/run-events.jsonl",
+      "finalRecordPath": "workspace/experiments/autoresearch/run-final.json",
+      "logPath": "workspace/experiments/autoresearch/run.log",
+      "objective": {
+        "direction": "minimize",
+        "metric": "val_bpb",
+        "timeBudgetSeconds": 12
+      },
+      "objectiveMetadata": {
+        "goalLabel": "integration-demo-window",
+        "targetMetric": "val_bpb"
+      },
+      "parserPath": "workspace/experiments/autoresearch/parse_run_log.py",
+      "programDirectives": [
+        "Keep the run short and stable.",
+        "Prioritize emitting complete runtime artifacts.",
+        "Keep the model small and use the challenger branch."
+      ],
+      "repoPath": "workspace/experiments/autoresearch",
+      "runtimeKnobs": {
+        "batchSize": 1,
+        "timeBudgetSeconds": 12
+      }
+    },
+    "compatibility": {
+      "issues": [],
+      "status": "ready",
+      "supportedControls": [
+        "AUTORESEARCH_DEPTH",
+        "AUTORESEARCH_ASPECT_RATIO",
+        "AUTORESEARCH_HEAD_DIM",
+        "AUTORESEARCH_WINDOW_PATTERN",
+        "AUTORESEARCH_EMBEDDING_LR",
+        "AUTORESEARCH_MATRIX_LR",
+        "AUTORESEARCH_UNEMBEDDING_LR",
+        "AUTORESEARCH_SCALAR_LR",
+        "AUTORESEARCH_TIME_BUDGET"
+      ],
+      "unsupportedControls": [
+        "arbitrary train.py code patches",
+        "n_kv_head different from n_head",
+        "architectures that cannot be represented by integer aspect ratio and head dimension"
+      ]
+    },
+    "runId": "run-local-integration-demo",
+    "schema": "plgenesis/integration-execution-plan@v1",
+    "status": "ready"
+  },
+  "filecoin": {
+    "activeDirectionCid": "urn:sha256:240e90461844026e5255feaced6075fa260f0c0746c8a97564bd381fae12d4eb",
+    "dashboardStateCid": "urn:sha256:271c853f96380596f299013ef264ffbb719582fe8e951ac0bcc2d06427fa8f33",
+    "latestStateCid": "urn:sha256:5394398b0d532e94fe98deb7a818fde030bf6ac27c6cd011a68dd873acefd978",
+    "metadataCid": "urn:sha256:9dc5309f168aa58b75ec7b3cdd351e7775a06194a96c35b38107c0f679346ffd",
+    "runUpdateSetCid": "urn:sha256:4cb6f3f0f537df950f9985994997664fae1f78c9ed3ea6dabe38089aed1711f8"
+  },
+  "resolvedDirection": {
+    "architecture": {
+      "family": "compact-gpt",
+      "n_embd": 64,
+      "n_head": 1,
+      "n_kv_head": 1,
+      "n_layer": 2,
+      "window_pattern": "S"
+    },
+    "branchStrategy": "diverge-from-parent",
+    "branchTarget": "autoresearch/demo-baseline/challenger-window",
+    "directionKind": "challenger",
+    "hyperparameters": {
+      "embedding_lr": 0.6,
+      "matrix_lr": 0.03,
+      "scalar_lr": 0.5,
+      "unembedding_lr": 0.004
+    },
+    "mode": "explore",
+    "objectiveMetadata": {
+      "goalLabel": "integration-demo-window",
+      "targetMetric": "val_bpb"
+    },
+    "programDirectives": [
+      "Keep the run short and stable.",
+      "Prioritize emitting complete runtime artifacts.",
+      "Keep the model small and use the challenger branch."
+    ],
+    "runtimeKnobs": {
+      "batchSize": 1,
+      "timeBudgetSeconds": 12
+    }
+  },
+  "runArtifacts": {
+    "events": [
+      {
+        "artifact_paths": {
+          "run_events_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/integration/output-verified/runtime/run-events.jsonl",
+          "run_final_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/integration/output-verified/runtime/run-final.json"
+        },
+        "branch_target": "autoresearch/demo-baseline/challenger-window",
+        "controls": {
+          "adam_betas": [
+            0.8,
+            0.95
+          ],
+          "aspect_ratio": 32,
+          "depth": 2,
+          "device_batch_size": 1,
+          "embedding_lr": 0.6,
+          "eval_tokens": 4096,
+          "final_lr_frac": 0,
+          "head_dim": 64,
+          "matrix_lr": 0.03,
+          "progress_interval_seconds": 5,
+          "scalar_lr": 0.5,
+          "time_budget": 12,
+          "total_batch_size": 2048,
+          "unembedding_lr": 0.004,
+          "warmdown_ratio": 0.5,
+          "warmup_ratio": 0,
+          "warmup_steps": 0,
+          "weight_decay": 0.2,
+          "window_pattern": "S"
+        },
+        "direction_id": "2",
+        "direction_slug": "tune-demo-window",
+        "event": "run_start",
+        "metrics": {
+          "device_type": "mps",
+          "grad_accum_steps": 1,
+          "num_params_M": 1.671204,
+          "time_budget": 12
+        },
+        "mode": "explore",
+        "run_id": "run-local-integration-demo",
+        "scheduled_run_id": "run-local-integration-demo-scheduled",
+        "status": "running",
+        "step": 0,
+        "timestamp": "2026-03-10T21:21:11.748925+00:00"
+      },
+      {
+        "branch_target": "autoresearch/demo-baseline/challenger-window",
+        "direction_id": "2",
+        "direction_slug": "tune-demo-window",
+        "event": "run_progress",
+        "metrics": {
+          "epoch": 1,
+          "loss": 9.011003,
+          "mfu_percent": 0.0016,
+          "progress_percent": 0,
+          "tok_per_sec": 2592,
+          "training_seconds": 0.79
+        },
+        "mode": "explore",
+        "run_id": "run-local-integration-demo",
+        "scheduled_run_id": "run-local-integration-demo-scheduled",
+        "status": "running",
+        "step": 0,
+        "timestamp": "2026-03-10T21:21:12.539188+00:00"
+      },
+      {
+        "branch_target": "autoresearch/demo-baseline/challenger-window",
+        "direction_id": "2",
+        "direction_slug": "tune-demo-window",
+        "event": "run_progress",
+        "metrics": {
+          "epoch": 1,
+          "loss": 6.689876,
+          "mfu_percent": 0.0192,
+          "progress_percent": 47.505,
+          "tok_per_sec": 31234,
+          "training_seconds": 5.766
+        },
+        "mode": "explore",
+        "run_id": "run-local-integration-demo",
+        "scheduled_run_id": "run-local-integration-demo-scheduled",
+        "status": "running",
+        "step": 74,
+        "timestamp": "2026-03-10T21:21:17.567827+00:00"
+      },
+      {
+        "branch_target": "autoresearch/demo-baseline/challenger-window",
+        "direction_id": "2",
+        "direction_slug": "tune-demo-window",
+        "event": "run_progress",
+        "metrics": {
+          "epoch": 1,
+          "loss": 6.169134,
+          "mfu_percent": 0.019,
+          "progress_percent": 89.628,
+          "tok_per_sec": 30895,
+          "training_seconds": 10.822
+        },
+        "mode": "explore",
+        "run_id": "run-local-integration-demo",
+        "scheduled_run_id": "run-local-integration-demo-scheduled",
+        "status": "running",
+        "step": 150,
+        "timestamp": "2026-03-10T21:21:22.628149+00:00"
+      },
+      {
+        "branch_target": "autoresearch/demo-baseline/challenger-window",
+        "direction_id": "2",
+        "direction_slug": "tune-demo-window",
+        "event": "run_eval",
+        "metrics": {
+          "total_tokens_M": 0.346112,
+          "training_seconds": 12.04,
+          "val_bpb": 2.245221
+        },
+        "mode": "explore",
+        "run_id": "run-local-integration-demo",
+        "scheduled_run_id": "run-local-integration-demo-scheduled",
+        "status": "running",
+        "step": 169,
+        "timestamp": "2026-03-10T21:21:23.990981+00:00"
+      },
+      {
+        "branch_target": "autoresearch/demo-baseline/challenger-window",
+        "direction_id": "2",
+        "direction_slug": "tune-demo-window",
+        "event": "run_finish",
+        "metrics": {
+          "depth": 2,
+          "mfu_percent": 0.02,
+          "num_params_M": 1.7,
+          "num_steps": 169,
+          "peak_vram_mb": 0,
+          "total_seconds": 12.9,
+          "total_tokens_M": 0.3,
+          "training_seconds": 12,
+          "val_bpb": 2.245221
+        },
+        "mode": "explore",
+        "run_id": "run-local-integration-demo",
+        "scheduled_run_id": "run-local-integration-demo-scheduled",
+        "status": "finished",
+        "step": 169,
+        "timestamp": "2026-03-10T21:21:23.991244+00:00"
+      }
+    ],
+    "eventsPath": "output-verified/runtime/run-events.jsonl",
+    "finalPath": "output-verified/runtime/run-final.json",
+    "finalRecord": {
+      "artifact_paths": {
+        "run_events_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/integration/output-verified/runtime/run-events.jsonl",
+        "run_final_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/integration/output-verified/runtime/run-final.json"
+      },
+      "branch_target": "autoresearch/demo-baseline/challenger-window",
+      "controls": {
+        "adam_betas": [
+          0.8,
+          0.95
+        ],
+        "aspect_ratio": 32,
+        "depth": 2,
+        "device_batch_size": 1,
+        "embedding_lr": 0.6,
+        "eval_tokens": 4096,
+        "final_lr_frac": 0,
+        "head_dim": 64,
+        "matrix_lr": 0.03,
+        "progress_interval_seconds": 5,
+        "scalar_lr": 0.5,
+        "time_budget": 12,
+        "total_batch_size": 2048,
+        "unembedding_lr": 0.004,
+        "warmdown_ratio": 0.5,
+        "warmup_ratio": 0,
+        "warmup_steps": 0,
+        "weight_decay": 0.2,
+        "window_pattern": "S"
+      },
+      "direction_id": "2",
+      "direction_slug": "tune-demo-window",
+      "last_step": 169,
+      "metrics": {
+        "depth": 2,
+        "mfu_percent": 0.02,
+        "num_params_M": 1.7,
+        "num_steps": 169,
+        "peak_vram_mb": 0,
+        "total_seconds": 12.9,
+        "total_tokens_M": 0.3,
+        "training_seconds": 12,
+        "val_bpb": 2.245221
+      },
+      "mode": "explore",
+      "run_id": "run-local-integration-demo",
+      "scheduled_run_id": "run-local-integration-demo-scheduled",
+      "status": "finished",
+      "timestamps": {
+        "finished_at": "2026-03-10T21:21:23.991244+00:00",
+        "started_at": "2026-03-10T21:21:11.748925+00:00"
+      }
+    }
+  },
+  "runId": "run-local-integration-demo",
+  "runRecord": {
+    "artifacts": {
+      "runEventsPath": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/integration/output-verified/runtime/run-events.jsonl",
+      "runFinalPath": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/integration/output-verified/runtime/run-final.json"
+    },
+    "branchSelected": "autoresearch/demo-baseline/challenger-window",
+    "controls": {
+      "adam_betas": [
+        0.8,
+        0.95
+      ],
+      "aspect_ratio": 32,
+      "depth": 2,
+      "device_batch_size": 1,
+      "embedding_lr": 0.6,
+      "eval_tokens": 4096,
+      "final_lr_frac": 0,
+      "head_dim": 64,
+      "matrix_lr": 0.03,
+      "progress_interval_seconds": 5,
+      "scalar_lr": 0.5,
+      "time_budget": 12,
+      "total_batch_size": 2048,
+      "unembedding_lr": 0.004,
+      "warmdown_ratio": 0.5,
+      "warmup_ratio": 0,
+      "warmup_steps": 0,
+      "weight_decay": 0.2,
+      "window_pattern": "S"
+    },
+    "directionId": 2,
+    "directionSlug": "tune-demo-window",
+    "metrics": {
+      "depth": 2,
+      "mfu_percent": 0.02,
+      "num_params_M": 1.7,
+      "num_steps": 169,
+      "peak_vram_mb": 0,
+      "total_seconds": 12.9,
+      "total_tokens_M": 0.3,
+      "training_seconds": 12,
+      "val_bpb": 2.245221
+    },
+    "modeSelected": "explore",
+    "objective": {
+      "direction": "minimize",
+      "metric": "val_bpb",
+      "timeBudgetSeconds": 12
+    },
+    "objectiveMetadata": {
+      "goalLabel": "integration-demo-window",
+      "targetMetric": "val_bpb"
+    },
+    "runId": "run-local-integration-demo",
+    "runtimeKnobs": {
+      "batchSize": 1,
+      "timeBudgetSeconds": 12
+    },
+    "scheduledRunId": "run-local-integration-demo-scheduled",
+    "schema": "plgenesis/autoresearch-run@v2",
+    "status": "finished",
+    "timestamps": {
+      "finished_at": "2026-03-10T21:21:23.991244+00:00",
+      "started_at": "2026-03-10T21:21:11.748925+00:00"
+    }
+  },
+  "schema": "plgenesis/integration-workflow-state@v1"
+}

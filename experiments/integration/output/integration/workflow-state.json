@@ -1,0 +1,423 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "community": {
+    "activeDirection": {
+      "id": 3,
+      "slug": "tune-extend-short-window",
+      "stage": "tuning"
+    },
+    "explorationBudget": {
+      "challengerRunsPerCycle": 1,
+      "exploitRunsPerCycle": 3
+    },
+    "governance": {
+      "description": "Registered contributors steer autoresearch through bounded direction proposals, voting, and branch lineage.",
+      "mode": "weighted-approval",
+      "quorum": 5
+    }
+  },
+  "executionPlan": {
+    "activeDirection": {
+      "branchStrategy": "diverge-from-parent",
+      "branchTarget": "autoresearch/bootstrap-compact-gpt/challenger-short-window",
+      "directionKind": "challenger",
+      "id": 3,
+      "lineage": [
+        {
+          "id": 1,
+          "slug": "bootstrap-compact-gpt",
+          "stage": "bootstrap"
+        },
+        {
+          "id": 3,
+          "slug": "tune-extend-short-window",
+          "stage": "tuning"
+        }
+      ],
+      "mode": "explore",
+      "slug": "tune-extend-short-window",
+      "stage": "tuning"
+    },
+    "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+    "autoresearch": {
+      "command": "cd workspace/experiments/autoresearch \\\nAUTORESEARCH_TIME_BUDGET=300 \\\nAUTORESEARCH_DEPTH=10 \\\nAUTORESEARCH_ASPECT_RATIO=64 \\\nAUTORESEARCH_HEAD_DIM=128 \\\nAUTORESEARCH_WINDOW_PATTERN=SSLL \\\nAUTORESEARCH_DEVICE_BATCH_SIZE=8 \\\nAUTORESEARCH_EMBEDDING_LR=0.2 \\\nAUTORESEARCH_MATRIX_LR=0.018 \\\nAUTORESEARCH_UNEMBEDDING_LR=0.004 \\\nAUTORESEARCH_SCALAR_LR=0.5 \\\nuv run train.py > run.log 2>&1 \\\nuv run python parse_run_log.py run.log",
+      "controlledFiles": [
+        "program.md",
+        "train.py"
+      ],
+      "env": {
+        "AUTORESEARCH_ASPECT_RATIO": 64,
+        "AUTORESEARCH_DEPTH": 10,
+        "AUTORESEARCH_DEVICE_BATCH_SIZE": 8,
+        "AUTORESEARCH_EMBEDDING_LR": 0.2,
+        "AUTORESEARCH_HEAD_DIM": 128,
+        "AUTORESEARCH_MATRIX_LR": 0.018,
+        "AUTORESEARCH_SCALAR_LR": 0.5,
+        "AUTORESEARCH_TIME_BUDGET": 300,
+        "AUTORESEARCH_UNEMBEDDING_LR": 0.004,
+        "AUTORESEARCH_WINDOW_PATTERN": "SSLL"
+      },
+      "eventLogPath": "workspace/experiments/autoresearch/run-events.jsonl",
+      "finalRecordPath": "workspace/experiments/autoresearch/run-final.json",
+      "logPath": "workspace/experiments/autoresearch/run.log",
+      "objective": {
+        "direction": "minimize",
+        "metric": "val_bpb",
+        "timeBudgetSeconds": 300
+      },
+      "objectiveMetadata": {
+        "goalLabel": "context-pattern-challenger",
+        "targetMetric": "val_bpb"
+      },
+      "parserPath": "workspace/experiments/autoresearch/parse_run_log.py",
+      "programDirectives": [
+        "Preserve the five-minute training budget.",
+        "Optimize for lower val_bpb without increasing complexity unless the gain is clear.",
+        "Keep the compact model shape from the winning baseline.",
+        "Test a divergent attention schedule before widening the model."
+      ],
+      "repoPath": "workspace/experiments/autoresearch",
+      "runtimeKnobs": {
+        "batchSize": 8,
+        "timeBudgetSeconds": 300
+      }
+    },
+    "compatibility": {
+      "issues": [],
+      "status": "ready",
+      "supportedControls": [
+        "AUTORESEARCH_DEPTH",
+        "AUTORESEARCH_ASPECT_RATIO",
+        "AUTORESEARCH_HEAD_DIM",
+        "AUTORESEARCH_WINDOW_PATTERN",
+        "AUTORESEARCH_EMBEDDING_LR",
+        "AUTORESEARCH_MATRIX_LR",
+        "AUTORESEARCH_UNEMBEDDING_LR",
+        "AUTORESEARCH_SCALAR_LR",
+        "AUTORESEARCH_TIME_BUDGET"
+      ],
+      "unsupportedControls": [
+        "arbitrary train.py code patches",
+        "n_kv_head different from n_head",
+        "architectures that cannot be represented by integer aspect ratio and head dimension"
+      ]
+    },
+    "runId": "run_demo_001",
+    "schema": "plgenesis/integration-execution-plan@v1",
+    "status": "ready"
+  },
+  "filecoin": {
+    "activeDirectionCid": "urn:sha256:5f0ce37c44a76b7f27fb00f59028c2e6ef1250110436a78ac96769259fdd1e12",
+    "dashboardStateCid": "urn:sha256:49382fefac44d803409d463bc7a829d9667817f8973eb7b1927daf45b11cb30a",
+    "latestStateCid": "urn:sha256:07aebd3968c3481892fd9047d018c3b5c6e54248e15db1c34c404001667b9df3",
+    "metadataCid": "urn:sha256:fdf9fac71b90276c41059d435bc68572371191be99fa6710a10d21c9fb6dbbe5",
+    "runUpdateSetCid": "urn:sha256:704de9474348b3f4b4bb245dc75023c5087a445f2ef837da8c302de504c7d2dd"
+  },
+  "resolvedDirection": {
+    "architecture": {
+      "family": "compact-gpt",
+      "n_embd": 640,
+      "n_head": 5,
+      "n_kv_head": 5,
+      "n_layer": 10,
+      "window_pattern": "SSLL"
+    },
+    "branchStrategy": "diverge-from-parent",
+    "branchTarget": "autoresearch/bootstrap-compact-gpt/challenger-short-window",
+    "directionKind": "challenger",
+    "hyperparameters": {
+      "embedding_lr": 0.2,
+      "matrix_lr": 0.018,
+      "scalar_lr": 0.5,
+      "unembedding_lr": 0.004
+    },
+    "mode": "explore",
+    "objectiveMetadata": {
+      "goalLabel": "context-pattern-challenger",
+      "targetMetric": "val_bpb"
+    },
+    "programDirectives": [
+      "Preserve the five-minute training budget.",
+      "Optimize for lower val_bpb without increasing complexity unless the gain is clear.",
+      "Keep the compact model shape from the winning baseline.",
+      "Test a divergent attention schedule before widening the model."
+    ],
+    "runtimeKnobs": {
+      "batchSize": 8,
+      "timeBudgetSeconds": 300
+    }
+  },
+  "runArtifacts": {
+    "events": [
+      {
+        "artifact_paths": {
+          "run_events_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/autoresearch/example-run-events.jsonl",
+          "run_final_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/autoresearch/example-run-final.json"
+        },
+        "branch_target": "main",
+        "controls": {
+          "adam_betas": [
+            0.8,
+            0.95
+          ],
+          "aspect_ratio": 32,
+          "depth": 2,
+          "device_batch_size": 1,
+          "embedding_lr": 0.6,
+          "eval_tokens": 4096,
+          "final_lr_frac": 0,
+          "head_dim": 64,
+          "matrix_lr": 0.04,
+          "progress_interval_seconds": 5,
+          "scalar_lr": 0.5,
+          "time_budget": 12,
+          "total_batch_size": 2048,
+          "unembedding_lr": 0.004,
+          "warmdown_ratio": 0.5,
+          "warmup_ratio": 0,
+          "warmup_steps": 0,
+          "weight_decay": 0.2,
+          "window_pattern": "L"
+        },
+        "direction_id": "dir_demo_001",
+        "direction_slug": "smaller-batch-baseline",
+        "event": "run_start",
+        "metrics": {
+          "device_type": "mps",
+          "grad_accum_steps": 1,
+          "num_params_M": 1.671204,
+          "time_budget": 12
+        },
+        "mode": "explore",
+        "run_id": "run_demo_001",
+        "scheduled_run_id": "sched_demo_001",
+        "status": "running",
+        "step": 0,
+        "timestamp": "2026-03-10T21:06:10.804463+00:00"
+      },
+      {
+        "branch_target": "main",
+        "direction_id": "dir_demo_001",
+        "direction_slug": "smaller-batch-baseline",
+        "event": "run_progress",
+        "metrics": {
+          "epoch": 1,
+          "loss": 9.011003,
+          "mfu_percent": 0.0018,
+          "progress_percent": 0,
+          "tok_per_sec": 2565,
+          "training_seconds": 0.798
+        },
+        "mode": "explore",
+        "run_id": "run_demo_001",
+        "scheduled_run_id": "sched_demo_001",
+        "status": "running",
+        "step": 0,
+        "timestamp": "2026-03-10T21:06:11.603215+00:00"
+      },
+      {
+        "branch_target": "main",
+        "direction_id": "dir_demo_001",
+        "direction_slug": "smaller-batch-baseline",
+        "event": "run_progress",
+        "metrics": {
+          "epoch": 1,
+          "loss": 6.767976,
+          "mfu_percent": 0.0218,
+          "progress_percent": 47.821,
+          "tok_per_sec": 31350,
+          "training_seconds": 5.804
+        },
+        "mode": "explore",
+        "run_id": "run_demo_001",
+        "scheduled_run_id": "sched_demo_001",
+        "status": "running",
+        "step": 73,
+        "timestamp": "2026-03-10T21:06:16.654496+00:00"
+      },
+      {
+        "branch_target": "main",
+        "direction_id": "dir_demo_001",
+        "direction_slug": "smaller-batch-baseline",
+        "event": "run_progress",
+        "metrics": {
+          "epoch": 1,
+          "loss": 6.274552,
+          "mfu_percent": 0.022,
+          "progress_percent": 89.557,
+          "tok_per_sec": 31634,
+          "training_seconds": 10.812
+        },
+        "mode": "explore",
+        "run_id": "run_demo_001",
+        "scheduled_run_id": "sched_demo_001",
+        "status": "running",
+        "step": 146,
+        "timestamp": "2026-03-10T21:06:21.665714+00:00"
+      },
+      {
+        "branch_target": "main",
+        "direction_id": "dir_demo_001",
+        "direction_slug": "smaller-batch-baseline",
+        "event": "run_eval",
+        "metrics": {
+          "total_tokens_M": 0.333824,
+          "training_seconds": 12.053,
+          "val_bpb": 2.275344
+        },
+        "mode": "explore",
+        "run_id": "run_demo_001",
+        "scheduled_run_id": "sched_demo_001",
+        "status": "running",
+        "step": 163,
+        "timestamp": "2026-03-10T21:06:23.051399+00:00"
+      },
+      {
+        "branch_target": "main",
+        "direction_id": "dir_demo_001",
+        "direction_slug": "smaller-batch-baseline",
+        "event": "run_finish",
+        "metrics": {
+          "depth": 2,
+          "mfu_percent": 0.02,
+          "num_params_M": 1.7,
+          "num_steps": 163,
+          "peak_vram_mb": 0,
+          "total_seconds": 13.1,
+          "total_tokens_M": 0.3,
+          "training_seconds": 12.1,
+          "val_bpb": 2.275344
+        },
+        "mode": "explore",
+        "run_id": "run_demo_001",
+        "scheduled_run_id": "sched_demo_001",
+        "status": "finished",
+        "step": 163,
+        "timestamp": "2026-03-10T21:06:23.051740+00:00"
+      }
+    ],
+    "eventsPath": "../autoresearch/example-run-events.jsonl",
+    "finalPath": "../autoresearch/example-run-final.json",
+    "finalRecord": {
+      "artifact_paths": {
+        "run_events_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/autoresearch/example-run-events.jsonl",
+        "run_final_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/autoresearch/example-run-final.json"
+      },
+      "branch_target": "main",
+      "controls": {
+        "adam_betas": [
+          0.8,
+          0.95
+        ],
+        "aspect_ratio": 32,
+        "depth": 2,
+        "device_batch_size": 1,
+        "embedding_lr": 0.6,
+        "eval_tokens": 4096,
+        "final_lr_frac": 0,
+        "head_dim": 64,
+        "matrix_lr": 0.04,
+        "progress_interval_seconds": 5,
+        "scalar_lr": 0.5,
+        "time_budget": 12,
+        "total_batch_size": 2048,
+        "unembedding_lr": 0.004,
+        "warmdown_ratio": 0.5,
+        "warmup_ratio": 0,
+        "warmup_steps": 0,
+        "weight_decay": 0.2,
+        "window_pattern": "L"
+      },
+      "direction_id": "dir_demo_001",
+      "direction_slug": "smaller-batch-baseline",
+      "last_step": 163,
+      "metrics": {
+        "depth": 2,
+        "mfu_percent": 0.02,
+        "num_params_M": 1.7,
+        "num_steps": 163,
+        "peak_vram_mb": 0,
+        "total_seconds": 13.1,
+        "total_tokens_M": 0.3,
+        "training_seconds": 12.1,
+        "val_bpb": 2.275344
+      },
+      "mode": "explore",
+      "run_id": "run_demo_001",
+      "scheduled_run_id": "sched_demo_001",
+      "status": "finished",
+      "timestamps": {
+        "finished_at": "2026-03-10T21:06:23.051740+00:00",
+        "started_at": "2026-03-10T21:06:10.804463+00:00"
+      }
+    }
+  },
+  "runId": "run_demo_001",
+  "runRecord": {
+    "artifacts": {
+      "runEventsPath": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/autoresearch/example-run-events.jsonl",
+      "runFinalPath": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/autoresearch/example-run-final.json"
+    },
+    "branchSelected": "main",
+    "controls": {
+      "adam_betas": [
+        0.8,
+        0.95
+      ],
+      "aspect_ratio": 32,
+      "depth": 2,
+      "device_batch_size": 1,
+      "embedding_lr": 0.6,
+      "eval_tokens": 4096,
+      "final_lr_frac": 0,
+      "head_dim": 64,
+      "matrix_lr": 0.04,
+      "progress_interval_seconds": 5,
+      "scalar_lr": 0.5,
+      "time_budget": 12,
+      "total_batch_size": 2048,
+      "unembedding_lr": 0.004,
+      "warmdown_ratio": 0.5,
+      "warmup_ratio": 0,
+      "warmup_steps": 0,
+      "weight_decay": 0.2,
+      "window_pattern": "L"
+    },
+    "directionId": 3,
+    "directionSlug": "tune-extend-short-window",
+    "metrics": {
+      "depth": 2,
+      "mfu_percent": 0.02,
+      "num_params_M": 1.7,
+      "num_steps": 163,
+      "peak_vram_mb": 0,
+      "total_seconds": 13.1,
+      "total_tokens_M": 0.3,
+      "training_seconds": 12.1,
+      "val_bpb": 2.275344
+    },
+    "modeSelected": "explore",
+    "objective": {
+      "direction": "minimize",
+      "metric": "val_bpb",
+      "timeBudgetSeconds": 300
+    },
+    "objectiveMetadata": {
+      "goalLabel": "context-pattern-challenger",
+      "targetMetric": "val_bpb"
+    },
+    "runId": "run_demo_001",
+    "runtimeKnobs": {
+      "batchSize": 8,
+      "timeBudgetSeconds": 300
+    },
+    "scheduledRunId": "sched_demo_001",
+    "schema": "plgenesis/autoresearch-run@v2",
+    "status": "finished",
+    "timestamps": {
+      "finished_at": "2026-03-10T21:06:23.051740+00:00",
+      "started_at": "2026-03-10T21:06:10.804463+00:00"
+    }
+  },
+  "schema": "plgenesis/integration-workflow-state@v1"
+}

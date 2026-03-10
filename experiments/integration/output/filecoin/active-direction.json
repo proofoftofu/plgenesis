@@ -1,0 +1,55 @@
+{
+  "activeWinner": {
+    "executionCompatibility": "current-autoresearch",
+    "parentId": 1,
+    "proposalId": 3,
+    "slug": "tune-extend-short-window",
+    "stage": "tuning",
+    "voteWeight": 8
+  },
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "bootstrapWinner": {
+    "executionCompatibility": "current-autoresearch",
+    "parentId": 0,
+    "proposalId": 1,
+    "slug": "bootstrap-compact-gpt",
+    "stage": "bootstrap",
+    "voteWeight": 7
+  },
+  "explorationBudget": {
+    "challengerRunsPerCycle": 1,
+    "exploitRunsPerCycle": 3
+  },
+  "governance": {
+    "description": "Registered contributors steer autoresearch through bounded direction proposals, voting, and branch lineage.",
+    "mode": "weighted-approval",
+    "quorum": 5
+  },
+  "proposal": {
+    "branchStrategy": "diverge-from-parent",
+    "branchTarget": "autoresearch/bootstrap-compact-gpt/challenger-short-window",
+    "cid": "urn:sha256:cc6800bb9dada60be1d0cb094351f14bbaf62c995237353a9e085c7e1e88cc3b",
+    "digest": "0xcc6800bb9dada60be1d0cb094351f14bbaf62c995237353a9e085c7e1e88cc3b",
+    "directionKind": "challenger",
+    "executionCompatibility": "current-autoresearch",
+    "id": 3,
+    "mode": "explore",
+    "parentDirectionId": 1,
+    "slug": "tune-extend-short-window",
+    "stage": "tuning"
+  },
+  "runId": "run_demo_001",
+  "schema": "plgenesis/active-direction@v1",
+  "selectionPolicy": {
+    "activeDirectionSource": "runnable-proposals-only",
+    "excludedCompatibility": "future-autoresearch"
+  },
+  "tuningWinner": {
+    "executionCompatibility": "current-autoresearch",
+    "parentId": 1,
+    "proposalId": 3,
+    "slug": "tune-extend-short-window",
+    "stage": "tuning",
+    "voteWeight": 8
+  }
+}

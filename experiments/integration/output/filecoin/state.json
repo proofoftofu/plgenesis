@@ -1,0 +1,301 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "agentName": "Genesis Research Agent",
+  "autoresearch": {
+    "baselineConstraints": {
+      "evaluationSource": "prepare.py:evaluate_bpb",
+      "maxSequenceLength": 2048,
+      "platform": "macOS + MPS"
+    },
+    "controlledFiles": [
+      "program.md",
+      "train.py"
+    ],
+    "objective": {
+      "direction": "minimize",
+      "metric": "val_bpb",
+      "timeBudgetSeconds": 300
+    },
+    "role": "execution-engine",
+    "runLifecycle": [
+      "scheduled",
+      "started",
+      "progress",
+      "eval",
+      "completed",
+      "failed"
+    ],
+    "snapshotPolicy": {
+      "emitJsonSnapshots": true,
+      "eventsPerRun": [
+        "run-start",
+        "progress",
+        "progress",
+        "final"
+      ],
+      "snapshotIntervalSeconds": 30
+    },
+    "steerableSurface": {
+      "arbitraryTrainPyMutation": false,
+      "architectureFamily": [
+        "compact-gpt",
+        "wider-gpt"
+      ],
+      "branchChoice": true,
+      "hyperparameters": [
+        "embedding_lr",
+        "matrix_lr",
+        "unembedding_lr",
+        "scalar_lr",
+        "window_pattern"
+      ],
+      "mode": [
+        "explore",
+        "exploit"
+      ],
+      "objectiveMetadata": true,
+      "programDirectiveEdits": true,
+      "runtimeKnobs": [
+        "timeBudgetSeconds",
+        "batchSize",
+        "maxLearningRate"
+      ]
+    }
+  },
+  "execution": {
+    "activeDirectionId": 3,
+    "activeDirectionSlug": "tune-extend-short-window",
+    "branchSelected": "main",
+    "controlledFiles": [
+      "program.md",
+      "train.py"
+    ],
+    "expectedNextEditTargets": [
+      "program.md",
+      "train.py"
+    ],
+    "modeSelected": "explore",
+    "scheduledRunId": "sched_demo_001",
+    "steerableSurface": {
+      "arbitraryTrainPyMutation": false,
+      "architectureFamily": [
+        "compact-gpt",
+        "wider-gpt"
+      ],
+      "branchChoice": true,
+      "hyperparameters": [
+        "embedding_lr",
+        "matrix_lr",
+        "unembedding_lr",
+        "scalar_lr",
+        "window_pattern"
+      ],
+      "mode": [
+        "explore",
+        "exploit"
+      ],
+      "objectiveMetadata": true,
+      "programDirectiveEdits": true,
+      "runtimeKnobs": [
+        "timeBudgetSeconds",
+        "batchSize",
+        "maxLearningRate"
+      ]
+    }
+  },
+  "findings": [
+    {
+      "detail": "The MVP should steer objective metadata, runtime knobs, architecture family within the fork limits, hyperparameters, branch priority, and explore-vs-exploit mode instead of arbitrary code mutation.",
+      "title": "Governance should steer bounded inputs first"
+    },
+    {
+      "detail": "The orchestrator should emit run-start, periodic progress, and final records so the dashboard can feel like a live research stream rather than a static archive.",
+      "title": "A live research room needs periodic snapshots"
+    },
+    {
+      "detail": "Community proposals need parent references and branch strategy so the system can distinguish exploitation of the current winner from exploration of challenger directions.",
+      "title": "Proposal lineage must encode branch continuation versus divergence"
+    }
+  ],
+  "generatedAt": "2026-03-11T08:00:00Z",
+  "goal": "Use FEVM and Filecoin as the steering, provenance, and storage layer for autoresearch while keeping autoresearch as the experiment execution engine.",
+  "latestMetrics": {
+    "num_steps": 163,
+    "peak_vram_mb": 0,
+    "training_seconds": 12.1,
+    "val_bpb": 2.275344
+  },
+  "lifecycle": [
+    "scheduled",
+    "started",
+    "progress",
+    "eval",
+    "completed",
+    "failed"
+  ],
+  "runId": "run_demo_001",
+  "runUpdates": [
+    {
+      "cid": "urn:sha256:7bf254d830beeb91144a112f57d0644154e826d95ceb14f656ed7de6d81ce555",
+      "digest": "0x7bf254d830beeb91144a112f57d0644154e826d95ceb14f656ed7de6d81ce555",
+      "event": "run_start",
+      "index": 0,
+      "metrics": {
+        "device_type": "mps",
+        "grad_accum_steps": 1,
+        "num_params_M": 1.671204,
+        "time_budget": 12
+      },
+      "status": "running",
+      "step": 0,
+      "timestamp": "2026-03-10T21:06:10.804463+00:00"
+    },
+    {
+      "cid": "urn:sha256:c1aabfa8195e757c89b0617fe81f7a20330a6c1f17de098a2300503abd518239",
+      "digest": "0xc1aabfa8195e757c89b0617fe81f7a20330a6c1f17de098a2300503abd518239",
+      "event": "run_progress",
+      "index": 1,
+      "metrics": {
+        "epoch": 1,
+        "loss": 9.011003,
+        "mfu_percent": 0.0018,
+        "progress_percent": 0,
+        "tok_per_sec": 2565,
+        "training_seconds": 0.798
+      },
+      "status": "running",
+      "step": 0,
+      "timestamp": "2026-03-10T21:06:11.603215+00:00"
+    },
+    {
+      "cid": "urn:sha256:ee06843d4d6e0ffb6e6e34edff980366bc9cb3019ca3dfec064ac9fd72f96c0e",
+      "digest": "0xee06843d4d6e0ffb6e6e34edff980366bc9cb3019ca3dfec064ac9fd72f96c0e",
+      "event": "run_progress",
+      "index": 2,
+      "metrics": {
+        "epoch": 1,
+        "loss": 6.767976,
+        "mfu_percent": 0.0218,
+        "progress_percent": 47.821,
+        "tok_per_sec": 31350,
+        "training_seconds": 5.804
+      },
+      "status": "running",
+      "step": 73,
+      "timestamp": "2026-03-10T21:06:16.654496+00:00"
+    },
+    {
+      "cid": "urn:sha256:bcf667d8d20aff403ae1f3e57872fe383121b3895867a509bd42ace8ce7455d0",
+      "digest": "0xbcf667d8d20aff403ae1f3e57872fe383121b3895867a509bd42ace8ce7455d0",
+      "event": "run_progress",
+      "index": 3,
+      "metrics": {
+        "epoch": 1,
+        "loss": 6.274552,
+        "mfu_percent": 0.022,
+        "progress_percent": 89.557,
+        "tok_per_sec": 31634,
+        "training_seconds": 10.812
+      },
+      "status": "running",
+      "step": 146,
+      "timestamp": "2026-03-10T21:06:21.665714+00:00"
+    },
+    {
+      "cid": "urn:sha256:09979000f0bc3c0358038db08bc047459a89249d9e1d2f135ec58563850aea98",
+      "digest": "0x09979000f0bc3c0358038db08bc047459a89249d9e1d2f135ec58563850aea98",
+      "event": "run_eval",
+      "index": 4,
+      "metrics": {
+        "total_tokens_M": 0.333824,
+        "training_seconds": 12.053,
+        "val_bpb": 2.275344
+      },
+      "status": "running",
+      "step": 163,
+      "timestamp": "2026-03-10T21:06:23.051399+00:00"
+    },
+    {
+      "cid": "urn:sha256:d1223576ff5cfce5cd15d3d8612d1df2357b854ebb3544e0ff899e91dceac313",
+      "digest": "0xd1223576ff5cfce5cd15d3d8612d1df2357b854ebb3544e0ff899e91dceac313",
+      "event": "run_finish",
+      "index": 5,
+      "metrics": {
+        "depth": 2,
+        "mfu_percent": 0.02,
+        "num_params_M": 1.7,
+        "num_steps": 163,
+        "peak_vram_mb": 0,
+        "total_seconds": 13.1,
+        "total_tokens_M": 0.3,
+        "training_seconds": 12.1,
+        "val_bpb": 2.275344
+      },
+      "status": "finished",
+      "step": 163,
+      "timestamp": "2026-03-10T21:06:23.051740+00:00"
+    }
+  ],
+  "schema": "plgenesis/run-final@v1",
+  "sources": [
+    "docs/plan.md",
+    "docs/experiment.md",
+    "forks/autoresearch-macos/program.md",
+    "forks/autoresearch-macos/train.py"
+  ],
+  "steering": {
+    "explorationBudget": {
+      "challengerRunsPerCycle": 1,
+      "exploitRunsPerCycle": 3
+    },
+    "governance": {
+      "description": "Registered contributors steer autoresearch through bounded direction proposals, voting, and branch lineage.",
+      "mode": "weighted-approval",
+      "quorum": 5
+    },
+    "voterWeights": [
+      {
+        "role": "core researcher",
+        "voter": "0x1000000000000000000000000000000000000001",
+        "weight": 5
+      },
+      {
+        "role": "community reviewer",
+        "voter": "0x2000000000000000000000000000000000000002",
+        "weight": 3
+      },
+      {
+        "role": "benchmark reviewer",
+        "voter": "0x3000000000000000000000000000000000000003",
+        "weight": 2
+      }
+    ],
+    "winners": {
+      "active": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 1,
+        "proposalId": 3,
+        "slug": "tune-extend-short-window",
+        "stage": "tuning",
+        "voteWeight": 8
+      },
+      "bootstrap": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 0,
+        "proposalId": 1,
+        "slug": "bootstrap-compact-gpt",
+        "stage": "bootstrap",
+        "voteWeight": 7
+      },
+      "tuning": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 1,
+        "proposalId": 3,
+        "slug": "tune-extend-short-window",
+        "stage": "tuning",
+        "voteWeight": 8
+      }
+    }
+  },
+  "summary": "The community selected a compact baseline, approved a short-window tuning challenger, and the orchestrator produced live run snapshots plus final artifacts for dashboard consumption."
+}

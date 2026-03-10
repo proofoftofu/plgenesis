@@ -1,0 +1,14 @@
+{
+  "runId": "run_demo_001",
+  "activeDirectionSlug": "tune-extend-short-window",
+  "compatibilityStatus": "ready",
+  "blockingIssues": [],
+  "readyToRun": true,
+  "logIngested": true,
+  "objectiveMetric": "val_bpb",
+  "measuredMetric": 2.275344,
+  "filecoinAnchorReady": true,
+  "dashboardStateCid": "urn:sha256:49382fefac44d803409d463bc7a829d9667817f8973eb7b1927daf45b11cb30a",
+  "runtimeArtifactsIngested": true,
+  "uploadStatus": "pending_filecoin_upload"
+}

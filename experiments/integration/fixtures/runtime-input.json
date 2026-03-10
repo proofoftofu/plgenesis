@@ -1,0 +1,213 @@
+{
+  "agentName": "Genesis Research Agent",
+  "runId": "run-local-integration-demo",
+  "generatedAt": "2026-03-11T10:00:00Z",
+  "goal": "Run a short end-to-end community-selected autoresearch execution and package the emitted runtime artifacts into the Filecoin workflow model.",
+  "summary": "A short local demo run is scheduled from a compatible baseline and a lightweight tuning proposal.",
+  "findings": [
+    {
+      "title": "Short local runs are enough to verify the integration loop",
+      "detail": "The workflow only needs a compatible direction, real runtime artifacts, and Filecoin payload generation to prove the integration."
+    }
+  ],
+  "sources": [
+    "workspace/experiments/autoresearch/train.py",
+    "workspace/experiments/filecoin/src/lib/payload.js"
+  ],
+  "autoresearch": {
+    "role": "execution-engine",
+    "controlledFiles": [
+      "program.md",
+      "train.py"
+    ],
+    "objective": {
+      "metric": "val_bpb",
+      "direction": "minimize",
+      "timeBudgetSeconds": 12
+    },
+    "steerableSurface": {
+      "objectiveMetadata": true,
+      "runtimeKnobs": [
+        "timeBudgetSeconds",
+        "batchSize"
+      ],
+      "architectureFamily": [
+        "compact-gpt"
+      ],
+      "hyperparameters": [
+        "embedding_lr",
+        "matrix_lr",
+        "unembedding_lr",
+        "scalar_lr",
+        "window_pattern"
+      ],
+      "branchChoice": true,
+      "mode": [
+        "explore",
+        "exploit"
+      ],
+      "programDirectiveEdits": true,
+      "arbitraryTrainPyMutation": false
+    },
+    "runLifecycle": [
+      "scheduled",
+      "started",
+      "progress",
+      "eval",
+      "completed",
+      "failed"
+    ],
+    "snapshotPolicy": {
+      "emitJsonSnapshots": true,
+      "snapshotIntervalSeconds": 5,
+      "eventsPerRun": [
+        "run_start",
+        "run_progress",
+        "run_eval",
+        "run_finish"
+      ]
+    },
+    "baselineConstraints": {
+      "platform": "macOS + MPS",
+      "maxSequenceLength": 2048,
+      "evaluationSource": "prepare.py:evaluate_bpb"
+    }
+  },
+  "steering": {
+    "governance": {
+      "mode": "weighted-approval",
+      "quorum": 3,
+      "description": "Registered contributors steer a short local demo run."
+    },
+    "explorationBudget": {
+      "exploitRunsPerCycle": 1,
+      "challengerRunsPerCycle": 1
+    },
+    "voterWeights": [
+      {
+        "voter": "0x1000000000000000000000000000000000000001",
+        "weight": 2,
+        "role": "core researcher"
+      },
+      {
+        "voter": "0x2000000000000000000000000000000000000002",
+        "weight": 1,
+        "role": "community reviewer"
+      }
+    ],
+    "proposals": [
+      {
+        "slug": "bootstrap-demo-baseline",
+        "stage": "bootstrap",
+        "executionCompatibility": "current-autoresearch",
+        "directionKind": "baseline",
+        "mode": "exploit",
+        "branchStrategy": "start-new-branch",
+        "branchTarget": "autoresearch/demo-baseline",
+        "title": "Small baseline for integration demo",
+        "author": "community:alice",
+        "rationale": "Use a very small baseline that can finish quickly on the local machine.",
+        "objectiveMetadata": {
+          "goalLabel": "integration-demo",
+          "targetMetric": "val_bpb"
+        },
+        "runtimeKnobs": {
+          "timeBudgetSeconds": 12,
+          "batchSize": 1
+        },
+        "architecture": {
+          "family": "compact-gpt",
+          "n_layer": 2,
+          "n_head": 1,
+          "n_kv_head": 1,
+          "n_embd": 64,
+          "window_pattern": "L"
+        },
+        "hyperparameters": {
+          "embedding_lr": 0.6,
+          "matrix_lr": 0.04,
+          "unembedding_lr": 0.004,
+          "scalar_lr": 0.5
+        },
+        "programDirectives": [
+          "Keep the run short and stable.",
+          "Prioritize emitting complete runtime artifacts."
+        ]
+      },
+      {
+        "slug": "tune-demo-window",
+        "stage": "tuning",
+        "executionCompatibility": "current-autoresearch",
+        "directionKind": "challenger",
+        "parentSlug": "bootstrap-demo-baseline",
+        "mode": "explore",
+        "branchStrategy": "diverge-from-parent",
+        "branchTarget": "autoresearch/demo-baseline/challenger-window",
+        "title": "Short-window tuning demo",
+        "author": "community:bob",
+        "rationale": "Exercise the tuning lineage path while keeping the model runnable.",
+        "objectiveMetadataDelta": {
+          "goalLabel": "integration-demo-window"
+        },
+        "runtimeKnobsDelta": {
+          "batchSize": 1
+        },
+        "architectureDelta": {
+          "window_pattern": "S"
+        },
+        "hyperparameterDelta": {
+          "matrix_lr": 0.03
+        },
+        "programDirectives": [
+          "Keep the model small and use the challenger branch."
+        ]
+      }
+    ],
+    "votes": [
+      {
+        "proposalSlug": "bootstrap-demo-baseline",
+        "voter": "0x1000000000000000000000000000000000000001",
+        "reason": "Best baseline for a fast local demo."
+      },
+      {
+        "proposalSlug": "bootstrap-demo-baseline",
+        "voter": "0x2000000000000000000000000000000000000002",
+        "reason": "Reliable starting point."
+      },
+      {
+        "proposalSlug": "tune-demo-window",
+        "voter": "0x1000000000000000000000000000000000000001",
+        "reason": "Useful challenger to prove lineage and runtime metadata."
+      },
+      {
+        "proposalSlug": "tune-demo-window",
+        "voter": "0x2000000000000000000000000000000000000002",
+        "reason": "Should still be runnable in the local demo."
+      }
+    ],
+    "execution": {
+      "targetStage": "tuning"
+    }
+  },
+  "runSimulation": {
+    "branchSelected": "autoresearch/demo-baseline/challenger-window",
+    "modeSelected": "explore",
+    "scheduledRunId": "sched-local-integration-demo",
+    "status": "scheduled",
+    "latestMetrics": {
+      "val_bpb": null,
+      "training_seconds": null,
+      "peak_vram_mb": null,
+      "num_steps": null
+    },
+    "snapshots": [
+      {
+        "event": "scheduled",
+        "timestamp": "2026-03-11T10:00:00Z",
+        "step": 0,
+        "status": "scheduled",
+        "message": "Waiting for integration runner to execute."
+      }
+    ]
+  }
+}

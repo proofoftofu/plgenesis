@@ -1,0 +1,308 @@
+{
+  "agentName": "Genesis Research Agent",
+  "runId": "run-2026-03-11-integration",
+  "generatedAt": "2026-03-11T09:00:00Z",
+  "goal": "Let the community steer the next autoresearch run, execute it with reproducible inputs, and package the result for Filecoin-backed storage.",
+  "summary": "The community picked a compact baseline and then approved a short-window tuning pass for the next run.",
+  "findings": [
+    {
+      "title": "The active direction must be machine-runnable",
+      "detail": "Community governance is only useful if the winning direction can be transformed into the exact parameters the research worker consumes."
+    }
+  ],
+  "sources": [
+    "docs/plan.md",
+    "workspace/experiments/autoresearch/train.py",
+    "workspace/experiments/filecoin/src/lib/payload.js"
+  ],
+  "autoresearch": {
+    "role": "execution-engine",
+    "controlledFiles": [
+      "program.md",
+      "train.py"
+    ],
+    "objective": {
+      "metric": "val_bpb",
+      "direction": "minimize",
+      "timeBudgetSeconds": 300
+    },
+    "baselineConstraints": {
+      "platform": "macOS + MPS",
+      "maxSequenceLength": 2048,
+      "evaluationSource": "prepare.py:evaluate_bpb"
+    },
+    "steerableSurface": {
+      "objectiveMetadata": true,
+      "runtimeKnobs": [
+        "timeBudgetSeconds",
+        "batchSize"
+      ],
+      "architectureFamily": [
+        "compact-gpt",
+        "wider-gpt"
+      ],
+      "hyperparameters": [
+        "embedding_lr",
+        "matrix_lr",
+        "unembedding_lr",
+        "scalar_lr",
+        "window_pattern"
+      ],
+      "branchChoice": true,
+      "mode": [
+        "explore",
+        "exploit"
+      ],
+      "programDirectiveEdits": true,
+      "arbitraryTrainPyMutation": false
+    },
+    "runLifecycle": [
+      "scheduled",
+      "started",
+      "progress",
+      "eval",
+      "completed",
+      "failed"
+    ]
+  },
+  "steering": {
+    "governance": {
+      "mode": "weighted-approval",
+      "quorum": 5,
+      "description": "Registered contributors propose research directions and vote on what autoresearch should run next."
+    },
+    "explorationBudget": {
+      "exploitRunsPerCycle": 3,
+      "challengerRunsPerCycle": 1
+    },
+    "voterWeights": [
+      {
+        "voter": "0x1000000000000000000000000000000000000001",
+        "weight": 5,
+        "role": "core researcher"
+      },
+      {
+        "voter": "0x2000000000000000000000000000000000000002",
+        "weight": 3,
+        "role": "community reviewer"
+      },
+      {
+        "voter": "0x3000000000000000000000000000000000000003",
+        "weight": 2,
+        "role": "benchmark reviewer"
+      }
+    ],
+    "proposals": [
+      {
+        "slug": "bootstrap-compact-gpt",
+        "stage": "bootstrap",
+        "executionCompatibility": "current-autoresearch",
+        "directionKind": "baseline",
+        "mode": "exploit",
+        "branchStrategy": "start-new-branch",
+        "branchTarget": "autoresearch/bootstrap-compact-gpt",
+        "title": "Compact GPT baseline for first public run",
+        "author": "community:alice",
+        "rationale": "Start from a smaller baseline that can complete reliable five-minute runs on macOS.",
+        "objectiveMetadata": {
+          "goalLabel": "baseline-stability",
+          "targetMetric": "val_bpb"
+        },
+        "runtimeKnobs": {
+          "timeBudgetSeconds": 300,
+          "batchSize": 4
+        },
+        "architecture": {
+          "family": "compact-gpt",
+          "n_layer": 10,
+          "n_head": 5,
+          "n_kv_head": 5,
+          "n_embd": 640,
+          "window_pattern": "SSSL"
+        },
+        "hyperparameters": {
+          "embedding_lr": 0.2,
+          "matrix_lr": 0.02,
+          "unembedding_lr": 0.004,
+          "scalar_lr": 0.5
+        },
+        "programDirectives": [
+          "Preserve the five-minute training budget.",
+          "Prefer the simplest change that improves val_bpb."
+        ]
+      },
+      {
+        "slug": "bootstrap-wider-context",
+        "stage": "bootstrap",
+        "executionCompatibility": "current-autoresearch",
+        "directionKind": "baseline",
+        "mode": "explore",
+        "branchStrategy": "start-new-branch",
+        "branchTarget": "autoresearch/bootstrap-wider-context",
+        "title": "Wider baseline with more capacity",
+        "author": "community:bob",
+        "rationale": "Increase width early and accept higher memory usage if quality improves.",
+        "objectiveMetadata": {
+          "goalLabel": "capacity-first",
+          "targetMetric": "val_bpb"
+        },
+        "runtimeKnobs": {
+          "timeBudgetSeconds": 300,
+          "batchSize": 3
+        },
+        "architecture": {
+          "family": "wider-gpt",
+          "n_layer": 12,
+          "n_head": 6,
+          "n_kv_head": 6,
+          "n_embd": 768,
+          "window_pattern": "SLSL"
+        },
+        "hyperparameters": {
+          "embedding_lr": 0.2,
+          "matrix_lr": 0.025,
+          "unembedding_lr": 0.004,
+          "scalar_lr": 0.5
+        },
+        "programDirectives": [
+          "Accept moderate VRAM growth if the gain is measurable."
+        ]
+      },
+      {
+        "slug": "tune-extend-short-window",
+        "stage": "tuning",
+        "executionCompatibility": "current-autoresearch",
+        "directionKind": "challenger",
+        "parentSlug": "bootstrap-compact-gpt",
+        "mode": "explore",
+        "branchStrategy": "diverge-from-parent",
+        "branchTarget": "autoresearch/bootstrap-compact-gpt/challenger-short-window",
+        "title": "Extend the short-window pattern after the baseline lands",
+        "author": "community:carol",
+        "rationale": "Keep the compact architecture and adjust the attention pattern before changing model size.",
+        "objectiveMetadataDelta": {
+          "goalLabel": "context-pattern-challenger"
+        },
+        "runtimeKnobsDelta": {
+          "batchSize": 4
+        },
+        "architectureDelta": {
+          "window_pattern": "SSLL"
+        },
+        "hyperparameterDelta": {
+          "matrix_lr": 0.018
+        },
+        "programDirectives": [
+          "Keep the compact model shape from the selected bootstrap architecture.",
+          "Change the attention window pattern first."
+        ]
+      },
+      {
+        "slug": "tune-lower-matrix-lr",
+        "stage": "tuning",
+        "executionCompatibility": "future-autoresearch",
+        "directionKind": "continuation",
+        "parentSlug": "bootstrap-compact-gpt",
+        "mode": "exploit",
+        "branchStrategy": "continue-winning-branch",
+        "branchTarget": "autoresearch/bootstrap-compact-gpt/mainline",
+        "title": "Lower the matrix learning rate only",
+        "author": "community:dave",
+        "rationale": "Reduce optimizer aggressiveness while preserving the baseline attention schedule.",
+        "objectiveMetadataDelta": {
+          "goalLabel": "optimizer-refinement"
+        },
+        "runtimeKnobsDelta": {
+          "batchSize": 4
+        },
+        "architectureDelta": {},
+        "hyperparameterDelta": {
+          "matrix_lr": 0.015
+        },
+        "programDirectives": [
+          "Avoid structural changes and isolate the optimizer effect."
+        ]
+      }
+    ],
+    "votes": [
+      {
+        "proposalSlug": "bootstrap-compact-gpt",
+        "voter": "0x1000000000000000000000000000000000000001",
+        "reason": "Most reliable starting point for reproducible five-minute experiments."
+      },
+      {
+        "proposalSlug": "bootstrap-wider-context",
+        "voter": "0x2000000000000000000000000000000000000002",
+        "reason": "Potentially stronger model quality is worth testing."
+      },
+      {
+        "proposalSlug": "bootstrap-compact-gpt",
+        "voter": "0x3000000000000000000000000000000000000003",
+        "reason": "Safer for the first public benchmark."
+      },
+      {
+        "proposalSlug": "tune-extend-short-window",
+        "voter": "0x1000000000000000000000000000000000000001",
+        "reason": "Best next step after the compact baseline."
+      },
+      {
+        "proposalSlug": "tune-extend-short-window",
+        "voter": "0x2000000000000000000000000000000000000002",
+        "reason": "Improves context pattern without widening the model."
+      },
+      {
+        "proposalSlug": "tune-lower-matrix-lr",
+        "voter": "0x3000000000000000000000000000000000000003",
+        "reason": "Optimizer-only changes are easier to attribute."
+      }
+    ],
+    "execution": {
+      "targetStage": "tuning"
+    }
+  },
+  "runSimulation": {
+    "branchSelected": "autoresearch/bootstrap-compact-gpt/challenger-short-window",
+    "modeSelected": "explore",
+    "scheduledRunId": "sched-2026-03-11-02",
+    "status": "completed",
+    "latestMetrics": {
+      "val_bpb": 2.184321,
+      "training_seconds": 300.0,
+      "peak_vram_mb": 0.0,
+      "num_steps": 904
+    },
+    "snapshots": [
+      {
+        "event": "run-start",
+        "timestamp": "2026-03-11T09:01:00Z",
+        "step": 0,
+        "status": "started",
+        "message": "Run started on challenger branch."
+      },
+      {
+        "event": "progress",
+        "timestamp": "2026-03-11T09:01:30Z",
+        "step": 90,
+        "status": "running",
+        "train_loss": 3.05,
+        "tokens_M": 12.5
+      },
+      {
+        "event": "progress",
+        "timestamp": "2026-03-11T09:02:00Z",
+        "step": 180,
+        "status": "running",
+        "train_loss": 2.81,
+        "tokens_M": 25.0
+      },
+      {
+        "event": "final",
+        "timestamp": "2026-03-11T09:06:05Z",
+        "step": 904,
+        "status": "completed",
+        "val_bpb": 2.184321,
+        "peak_vram_mb": 0.0
+      }
+    ]
+  }
+}

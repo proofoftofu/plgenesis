@@ -1,0 +1,152 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "artifactPanel": {
+    "activeDirectionCid": "urn:sha256:5f0ce37c44a76b7f27fb00f59028c2e6ef1250110436a78ac96769259fdd1e12",
+    "latestStateCid": "urn:sha256:07aebd3968c3481892fd9047d018c3b5c6e54248e15db1c34c404001667b9df3",
+    "metadataCid": "urn:sha256:fdf9fac71b90276c41059d435bc68572371191be99fa6710a10d21c9fb6dbbe5",
+    "runUpdateCids": [
+      "urn:sha256:7bf254d830beeb91144a112f57d0644154e826d95ceb14f656ed7de6d81ce555",
+      "urn:sha256:c1aabfa8195e757c89b0617fe81f7a20330a6c1f17de098a2300503abd518239",
+      "urn:sha256:ee06843d4d6e0ffb6e6e34edff980366bc9cb3019ca3dfec064ac9fd72f96c0e",
+      "urn:sha256:bcf667d8d20aff403ae1f3e57872fe383121b3895867a509bd42ace8ce7455d0",
+      "urn:sha256:09979000f0bc3c0358038db08bc047459a89249d9e1d2f135ec58563850aea98",
+      "urn:sha256:d1223576ff5cfce5cd15d3d8612d1df2357b854ebb3544e0ff899e91dceac313"
+    ]
+  },
+  "directionFeed": {
+    "proposals": [
+      {
+        "cid": "urn:sha256:9316b7fbaccb817607e751739e00aa2109b5b2957301dae24c23b671deec67e7",
+        "directionKind": "baseline",
+        "executionCompatibility": "current-autoresearch",
+        "id": 1,
+        "mode": "exploit",
+        "parentDirectionId": 0,
+        "slug": "bootstrap-compact-gpt",
+        "stage": "bootstrap"
+      },
+      {
+        "cid": "urn:sha256:4df4cf44b15383d334db0ae0a4ba20be56f5f261c4475c5360134822f663b320",
+        "directionKind": "baseline",
+        "executionCompatibility": "current-autoresearch",
+        "id": 2,
+        "mode": "explore",
+        "parentDirectionId": 0,
+        "slug": "bootstrap-wider-context",
+        "stage": "bootstrap"
+      },
+      {
+        "cid": "urn:sha256:cc6800bb9dada60be1d0cb094351f14bbaf62c995237353a9e085c7e1e88cc3b",
+        "directionKind": "challenger",
+        "executionCompatibility": "current-autoresearch",
+        "id": 3,
+        "mode": "explore",
+        "parentDirectionId": 1,
+        "slug": "tune-extend-short-window",
+        "stage": "tuning"
+      },
+      {
+        "cid": "urn:sha256:af89ecb85adc9807fb27df8a023fdb0b554436502f9f66fd252a3ea66d59daad",
+        "directionKind": "continuation",
+        "executionCompatibility": "future-autoresearch",
+        "id": 4,
+        "mode": "exploit",
+        "parentDirectionId": 1,
+        "slug": "tune-lower-matrix-lr",
+        "stage": "tuning"
+      }
+    ],
+    "winners": {
+      "active": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 1,
+        "proposalId": 3,
+        "slug": "tune-extend-short-window",
+        "stage": "tuning",
+        "voteWeight": 8
+      },
+      "bootstrap": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 0,
+        "proposalId": 1,
+        "slug": "bootstrap-compact-gpt",
+        "stage": "bootstrap",
+        "voteWeight": 7
+      },
+      "tuning": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 1,
+        "proposalId": 3,
+        "slug": "tune-extend-short-window",
+        "stage": "tuning",
+        "voteWeight": 8
+      }
+    }
+  },
+  "liveRunPanel": {
+    "activeDirectionId": 3,
+    "activeDirectionSlug": "tune-extend-short-window",
+    "branchSelected": "main",
+    "latestMetrics": {
+      "num_steps": 163,
+      "peak_vram_mb": 0,
+      "training_seconds": 12.1,
+      "val_bpb": 2.275344
+    },
+    "modeSelected": "explore",
+    "runStatus": "finished"
+  },
+  "mode": "derived-convenience-view",
+  "runId": "run_demo_001",
+  "runTimeline": [
+    {
+      "cid": "urn:sha256:7bf254d830beeb91144a112f57d0644154e826d95ceb14f656ed7de6d81ce555",
+      "event": "run_start",
+      "index": 0,
+      "status": "running",
+      "step": 0,
+      "timestamp": "2026-03-10T21:06:10.804463+00:00"
+    },
+    {
+      "cid": "urn:sha256:c1aabfa8195e757c89b0617fe81f7a20330a6c1f17de098a2300503abd518239",
+      "event": "run_progress",
+      "index": 1,
+      "status": "running",
+      "step": 0,
+      "timestamp": "2026-03-10T21:06:11.603215+00:00"
+    },
+    {
+      "cid": "urn:sha256:ee06843d4d6e0ffb6e6e34edff980366bc9cb3019ca3dfec064ac9fd72f96c0e",
+      "event": "run_progress",
+      "index": 2,
+      "status": "running",
+      "step": 73,
+      "timestamp": "2026-03-10T21:06:16.654496+00:00"
+    },
+    {
+      "cid": "urn:sha256:bcf667d8d20aff403ae1f3e57872fe383121b3895867a509bd42ace8ce7455d0",
+      "event": "run_progress",
+      "index": 3,
+      "status": "running",
+      "step": 146,
+      "timestamp": "2026-03-10T21:06:21.665714+00:00"
+    },
+    {
+      "cid": "urn:sha256:09979000f0bc3c0358038db08bc047459a89249d9e1d2f135ec58563850aea98",
+      "event": "run_eval",
+      "index": 4,
+      "status": "running",
+      "step": 163,
+      "timestamp": "2026-03-10T21:06:23.051399+00:00"
+    },
+    {
+      "cid": "urn:sha256:d1223576ff5cfce5cd15d3d8612d1df2357b854ebb3544e0ff899e91dceac313",
+      "event": "run_finish",
+      "index": 5,
+      "status": "finished",
+      "step": 163,
+      "timestamp": "2026-03-10T21:06:23.051740+00:00"
+    }
+  ],
+  "schema": "plgenesis/dashboard-state@v1"
+}

@@ -1,0 +1,90 @@
+{
+  "activeDirection": {
+    "branchStrategy": "diverge-from-parent",
+    "branchTarget": "autoresearch/bootstrap-compact-gpt/challenger-short-window",
+    "directionKind": "challenger",
+    "id": 3,
+    "lineage": [
+      {
+        "id": 1,
+        "slug": "bootstrap-compact-gpt",
+        "stage": "bootstrap"
+      },
+      {
+        "id": 3,
+        "slug": "tune-extend-short-window",
+        "stage": "tuning"
+      }
+    ],
+    "mode": "explore",
+    "slug": "tune-extend-short-window",
+    "stage": "tuning"
+  },
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "autoresearch": {
+    "command": "cd workspace/experiments/autoresearch \\\nAUTORESEARCH_TIME_BUDGET=300 \\\nAUTORESEARCH_DEPTH=10 \\\nAUTORESEARCH_ASPECT_RATIO=64 \\\nAUTORESEARCH_HEAD_DIM=128 \\\nAUTORESEARCH_WINDOW_PATTERN=SSLL \\\nAUTORESEARCH_DEVICE_BATCH_SIZE=8 \\\nAUTORESEARCH_EMBEDDING_LR=0.2 \\\nAUTORESEARCH_MATRIX_LR=0.018 \\\nAUTORESEARCH_UNEMBEDDING_LR=0.004 \\\nAUTORESEARCH_SCALAR_LR=0.5 \\\nuv run train.py > run.log 2>&1 \\\nuv run python parse_run_log.py run.log",
+    "controlledFiles": [
+      "program.md",
+      "train.py"
+    ],
+    "env": {
+      "AUTORESEARCH_ASPECT_RATIO": 64,
+      "AUTORESEARCH_DEPTH": 10,
+      "AUTORESEARCH_DEVICE_BATCH_SIZE": 8,
+      "AUTORESEARCH_EMBEDDING_LR": 0.2,
+      "AUTORESEARCH_HEAD_DIM": 128,
+      "AUTORESEARCH_MATRIX_LR": 0.018,
+      "AUTORESEARCH_SCALAR_LR": 0.5,
+      "AUTORESEARCH_TIME_BUDGET": 300,
+      "AUTORESEARCH_UNEMBEDDING_LR": 0.004,
+      "AUTORESEARCH_WINDOW_PATTERN": "SSLL"
+    },
+    "eventLogPath": "workspace/experiments/autoresearch/run-events.jsonl",
+    "finalRecordPath": "workspace/experiments/autoresearch/run-final.json",
+    "logPath": "workspace/experiments/autoresearch/run.log",
+    "objective": {
+      "direction": "minimize",
+      "metric": "val_bpb",
+      "timeBudgetSeconds": 300
+    },
+    "objectiveMetadata": {
+      "goalLabel": "context-pattern-challenger",
+      "targetMetric": "val_bpb"
+    },
+    "parserPath": "workspace/experiments/autoresearch/parse_run_log.py",
+    "programDirectives": [
+      "Preserve the five-minute training budget.",
+      "Optimize for lower val_bpb without increasing complexity unless the gain is clear.",
+      "Keep the compact model shape from the winning baseline.",
+      "Test a divergent attention schedule before widening the model."
+    ],
+    "repoPath": "workspace/experiments/autoresearch",
+    "runtimeKnobs": {
+      "batchSize": 8,
+      "timeBudgetSeconds": 300
+    }
+  },
+  "compatibility": {
+    "issues": [],
+    "status": "ready",
+    "supportedControls": [
+      "AUTORESEARCH_DEPTH",
+      "AUTORESEARCH_ASPECT_RATIO",
+      "AUTORESEARCH_HEAD_DIM",
+      "AUTORESEARCH_WINDOW_PATTERN",
+      "AUTORESEARCH_EMBEDDING_LR",
+      "AUTORESEARCH_MATRIX_LR",
+      "AUTORESEARCH_UNEMBEDDING_LR",
+      "AUTORESEARCH_SCALAR_LR",
+      "AUTORESEARCH_TIME_BUDGET"
+    ],
+    "unsupportedControls": [
+      "arbitrary train.py code patches",
+      "n_kv_head different from n_head",
+      "architectures that cannot be represented by integer aspect ratio and head dimension"
+    ]
+  },
+  "runId": "run_demo_001",
+  "schema": "plgenesis/integration-execution-plan@v1",
+  "status": "ready"
+}

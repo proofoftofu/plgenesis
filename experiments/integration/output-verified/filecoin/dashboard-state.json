@@ -1,0 +1,132 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "artifactPanel": {
+    "activeDirectionCid": "urn:sha256:240e90461844026e5255feaced6075fa260f0c0746c8a97564bd381fae12d4eb",
+    "latestStateCid": "urn:sha256:5394398b0d532e94fe98deb7a818fde030bf6ac27c6cd011a68dd873acefd978",
+    "metadataCid": "urn:sha256:9dc5309f168aa58b75ec7b3cdd351e7775a06194a96c35b38107c0f679346ffd",
+    "runUpdateCids": [
+      "urn:sha256:7f57ea3d7fbfbde9e660b43df5f722129ceb6eb25fd91d86944cc389ff635819",
+      "urn:sha256:5cdae8fac8960a2007fe04d091fc7ce1468004d4c5fdb039c4943bce9727f57c",
+      "urn:sha256:3baefa11d4abdef73942658266068ae3514e4764043267b5f188505895d19175",
+      "urn:sha256:0724b8153ffd9f79c1d4e13a8b28ad3ff336fecd10944e4bff75893f2c58e76c",
+      "urn:sha256:417ea2fcaa531211c5cc57f0681f782e2ceb079f00b57d6094d7611d7b5c59c8",
+      "urn:sha256:91186fedfc0e9487ef451982122d45a38960b365e4efe45e0ab00a3ce70526eb"
+    ]
+  },
+  "directionFeed": {
+    "proposals": [
+      {
+        "cid": "urn:sha256:4ae6f578a15b1dc504c93b55cbb5766e410ab0e21c2569abe53ea57cc5c5b5eb",
+        "directionKind": "baseline",
+        "executionCompatibility": "current-autoresearch",
+        "id": 1,
+        "mode": "exploit",
+        "parentDirectionId": 0,
+        "slug": "bootstrap-demo-baseline",
+        "stage": "bootstrap"
+      },
+      {
+        "cid": "urn:sha256:0c53fcd728b505354dece8a5285a13a0bf07f036b29930fbc29c811cb017062c",
+        "directionKind": "challenger",
+        "executionCompatibility": "current-autoresearch",
+        "id": 2,
+        "mode": "explore",
+        "parentDirectionId": 1,
+        "slug": "tune-demo-window",
+        "stage": "tuning"
+      }
+    ],
+    "winners": {
+      "active": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 1,
+        "proposalId": 2,
+        "slug": "tune-demo-window",
+        "stage": "tuning",
+        "voteWeight": 3
+      },
+      "bootstrap": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 0,
+        "proposalId": 1,
+        "slug": "bootstrap-demo-baseline",
+        "stage": "bootstrap",
+        "voteWeight": 3
+      },
+      "tuning": {
+        "executionCompatibility": "current-autoresearch",
+        "parentId": 1,
+        "proposalId": 2,
+        "slug": "tune-demo-window",
+        "stage": "tuning",
+        "voteWeight": 3
+      }
+    }
+  },
+  "liveRunPanel": {
+    "activeDirectionId": 2,
+    "activeDirectionSlug": "tune-demo-window",
+    "branchSelected": "autoresearch/demo-baseline/challenger-window",
+    "latestMetrics": {
+      "num_steps": 169,
+      "peak_vram_mb": 0,
+      "training_seconds": 12,
+      "val_bpb": 2.245221
+    },
+    "modeSelected": "explore",
+    "runStatus": "finished"
+  },
+  "mode": "derived-convenience-view",
+  "runId": "run-local-integration-demo",
+  "runTimeline": [
+    {
+      "cid": "urn:sha256:7f57ea3d7fbfbde9e660b43df5f722129ceb6eb25fd91d86944cc389ff635819",
+      "event": "run_start",
+      "index": 0,
+      "status": "running",
+      "step": 0,
+      "timestamp": "2026-03-10T21:21:11.748925+00:00"
+    },
+    {
+      "cid": "urn:sha256:5cdae8fac8960a2007fe04d091fc7ce1468004d4c5fdb039c4943bce9727f57c",
+      "event": "run_progress",
+      "index": 1,
+      "status": "running",
+      "step": 0,
+      "timestamp": "2026-03-10T21:21:12.539188+00:00"
+    },
+    {
+      "cid": "urn:sha256:3baefa11d4abdef73942658266068ae3514e4764043267b5f188505895d19175",
+      "event": "run_progress",
+      "index": 2,
+      "status": "running",
+      "step": 74,
+      "timestamp": "2026-03-10T21:21:17.567827+00:00"
+    },
+    {
+      "cid": "urn:sha256:0724b8153ffd9f79c1d4e13a8b28ad3ff336fecd10944e4bff75893f2c58e76c",
+      "event": "run_progress",
+      "index": 3,
+      "status": "running",
+      "step": 150,
+      "timestamp": "2026-03-10T21:21:22.628149+00:00"
+    },
+    {
+      "cid": "urn:sha256:417ea2fcaa531211c5cc57f0681f782e2ceb079f00b57d6094d7611d7b5c59c8",
+      "event": "run_eval",
+      "index": 4,
+      "status": "running",
+      "step": 169,
+      "timestamp": "2026-03-10T21:21:23.990981+00:00"
+    },
+    {
+      "cid": "urn:sha256:91186fedfc0e9487ef451982122d45a38960b365e4efe45e0ab00a3ce70526eb",
+      "event": "run_finish",
+      "index": 5,
+      "status": "finished",
+      "step": 169,
+      "timestamp": "2026-03-10T21:21:23.991244+00:00"
+    }
+  ],
+  "schema": "plgenesis/dashboard-state@v1"
+}

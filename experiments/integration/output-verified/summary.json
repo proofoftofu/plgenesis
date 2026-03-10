@@ -1,0 +1,14 @@
+{
+  "runId": "run-local-integration-demo",
+  "activeDirectionSlug": "tune-demo-window",
+  "compatibilityStatus": "ready",
+  "blockingIssues": [],
+  "readyToRun": true,
+  "logIngested": true,
+  "objectiveMetric": "val_bpb",
+  "measuredMetric": 2.245221,
+  "filecoinAnchorReady": true,
+  "dashboardStateCid": "urn:sha256:271c853f96380596f299013ef264ffbb719582fe8e951ac0bcc2d06427fa8f33",
+  "runtimeArtifactsIngested": true,
+  "uploadStatus": "pending_filecoin_upload"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "plgenesis-integration-experiment",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "experiment": "node src/cli.js fixtures/workflow-input.json fixtures/sample-run.log",
+    "experiment:runtime": "node src/cli.js ../filecoin/fixtures/research-input.json --events ../autoresearch/example-run-events.jsonl --final ../autoresearch/example-run-final.json",
+    "experiment:execute": "node src/cli.js fixtures/runtime-input.json --execute --output output-execute",
+    "test": "node --test"
+  }
+}
