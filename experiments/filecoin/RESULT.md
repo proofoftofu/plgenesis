@@ -7,10 +7,10 @@ This experiment validates whether the PL_Genesis plan can use Filecoin as the pe
 The target outcome is:
 
 - the community can propose the initial autoresearch architecture
-- the community can vote on later hyperparameter or architecture changes
+- the community can vote on later bounded tuning changes
 - the winning direction can be anchored onchain
-- the full proposal, tally, and run state can be stored as Filecoin-backed artifacts
-- autoresearch can consume the selected direction as input for the next run
+- the full proposal, tally, live run updates, dashboard state, and final run state can be stored as Filecoin-backed artifacts
+- autoresearch can consume the selected direction as input while remaining the execution engine
 
 ## What was tested
 
@@ -39,8 +39,20 @@ The generated artifacts include:
 - proposal set
 - governance tally
 - active direction
-- latest research state
+- run update set
+- dashboard state
+- latest final run state
 - EVM calldata for all governance and state-anchor actions
+
+The proposal schema now focuses on bounded governance inputs:
+
+- objective metadata
+- runtime knobs
+- architecture family
+- hyperparameters
+- branch strategy
+- `explore` vs `exploit`
+- lineage to parent proposals
 
 ### 3. Governance behavior
 
@@ -97,11 +109,16 @@ The canonical sample input is:
 It contains:
 
 - autoresearch constraints
+- steerable surface definition
+- run lifecycle
+- snapshot policy
 - voter weights
 - bootstrap proposals
 - tuning proposals
+- exploration budget
 - votes
 - execution target stage
+- simulated live run snapshots
 
 ### Generated experiment artifacts
 
@@ -111,6 +128,8 @@ Generated in:
 - [`output/proposals.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/proposals.json)
 - [`output/governance-tally.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/governance-tally.json)
 - [`output/active-direction.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/active-direction.json)
+- [`output/run-updates.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/run-updates.json)
+- [`output/dashboard-state.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/dashboard-state.json)
 - [`output/state.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/state.json)
 - [`output/summary.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/summary.json)
 - [`output/filecoin-upload-manifest.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/filecoin-upload-manifest.json)
@@ -133,8 +152,10 @@ This experiment currently provides:
 
 - FEVM-compatible governance contract design
 - offchain generation of Filecoin-backed governance and research artifacts
+- bounded community steering inputs that match the autoresearch MVP more closely
 - deterministic EVM calldata generation for contract interaction
 - a tested governance state machine
+- live run update and dashboard-state artifact generation
 - a real Filecoin upload entrypoint using the official CLI
 - persistent recording of live upload status
 
@@ -159,17 +180,19 @@ The plan is achievable with this design.
 Why:
 
 - research direction can be community-defined from the first run, not only tuned later
-- autoresearch can consume a concrete active direction with proposal lineage
-- Filecoin stores the full direction and run artifacts, which suits large research state better than storing all of it onchain
+- governance acts on bounded inputs that are realistic to schedule and compare
+- autoresearch can consume a concrete active direction with proposal lineage, branch strategy, and mode
+- Filecoin stores the full direction, live update, dashboard, and final run artifacts, which suits large research state better than storing all of it onchain
 - FEVM stores the compact authoritative pointers and vote outcomes
 
 This is the right architecture for the hackathon idea:
 
 - community decides direction
+- orchestrator schedules and launches runs
 - autoresearch executes direction
-- Filecoin stores full artifacts
+- Filecoin stores full artifacts and live snapshots
 - FEVM anchors the current truth
-- the dashboard can show provenance, lineage, and the latest state
+- the dashboard can show provenance, lineage, live progress, and the latest state
 
 ## Next required step
 

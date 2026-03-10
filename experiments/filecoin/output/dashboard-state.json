@@ -1,0 +1,114 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "artifactPanel": {
+    "activeDirectionCid": "urn:sha256:c75738cc1b3867386a03c9f9bdfe1c8312e7ff9b6f464304e129dd08f0a00d6b",
+    "latestStateCid": "urn:sha256:486032ddef4be119df01b74cdb147e6db12cd57ab4e24937161ba099d335aaed",
+    "metadataCid": "urn:sha256:b13e7ee29795c40f28db8b4cce7f4d05fe2fd08c1eb86535516dc3cb42b4e7f3",
+    "runUpdateCids": [
+      "urn:sha256:e1983fba8d1096d18c70d186caae591daca6dfa083286339b344223bd3e0e717",
+      "urn:sha256:a99715a0becde76c5f85e01caf7bc0a8802ee7f4a94d2820b2299501977e9e61",
+      "urn:sha256:21ebb977a6b07287e6f312b437c96a8a08847a437361f5a48b5d0381d08247da",
+      "urn:sha256:578c84a4700c92c068f63158c41b2a1401b675d6d37efe14259fbe6be377c467"
+    ]
+  },
+  "directionFeed": {
+    "proposals": [
+      {
+        "cid": "urn:sha256:1fafe508d5c651934eadf125b5974d3a1717af5309dd19b5a50e140aa557a8da",
+        "directionKind": "baseline",
+        "id": 1,
+        "mode": "exploit",
+        "parentDirectionId": 0,
+        "slug": "bootstrap-compact-gpt",
+        "stage": "bootstrap"
+      },
+      {
+        "cid": "urn:sha256:b1a83d2e0dfcffd46f379f2a3b8a415faeb60d7b9b06b896ac3a845ac5c9796b",
+        "directionKind": "baseline",
+        "id": 2,
+        "mode": "explore",
+        "parentDirectionId": 0,
+        "slug": "bootstrap-wider-context",
+        "stage": "bootstrap"
+      },
+      {
+        "cid": "urn:sha256:77a51bc4fc7101d1121684ab0c27ff11e5f08d2b3431dd3897d92c0c41cf6108",
+        "directionKind": "challenger",
+        "id": 3,
+        "mode": "explore",
+        "parentDirectionId": 1,
+        "slug": "tune-extend-short-window",
+        "stage": "tuning"
+      },
+      {
+        "cid": "urn:sha256:533d069fb6ed9b07381a0e91b65a00204baec3c63b4379cfe2301f60d86c2080",
+        "directionKind": "continuation",
+        "id": 4,
+        "mode": "exploit",
+        "parentDirectionId": 1,
+        "slug": "tune-lower-matrix-lr",
+        "stage": "tuning"
+      }
+    ],
+    "winners": {
+      "active": {
+        "parentId": 1,
+        "proposalId": 3,
+        "slug": "tune-extend-short-window",
+        "stage": "tuning",
+        "voteWeight": 8
+      },
+      "bootstrap": {
+        "parentId": 0,
+        "proposalId": 1,
+        "slug": "bootstrap-compact-gpt",
+        "stage": "bootstrap",
+        "voteWeight": 7
+      },
+      "tuning": {
+        "parentId": 1,
+        "proposalId": 3,
+        "slug": "tune-extend-short-window",
+        "stage": "tuning",
+        "voteWeight": 8
+      }
+    }
+  },
+  "liveRunPanel": {
+    "activeDirectionId": 3,
+    "activeDirectionSlug": "tune-extend-short-window",
+    "branchSelected": "autoresearch/bootstrap-compact-gpt/challenger-short-window",
+    "latestMetrics": {
+      "num_steps": 948,
+      "peak_vram_mb": 21580,
+      "training_seconds": 300,
+      "val_bpb": 0.9924
+    },
+    "modeSelected": "explore",
+    "runStatus": "completed"
+  },
+  "runId": "run-2026-03-11-filecoin",
+  "runTimeline": [
+    {
+      "cid": "urn:sha256:e1983fba8d1096d18c70d186caae591daca6dfa083286339b344223bd3e0e717",
+      "event": "run-start",
+      "index": 0
+    },
+    {
+      "cid": "urn:sha256:a99715a0becde76c5f85e01caf7bc0a8802ee7f4a94d2820b2299501977e9e61",
+      "event": "progress",
+      "index": 1
+    },
+    {
+      "cid": "urn:sha256:21ebb977a6b07287e6f312b437c96a8a08847a437361f5a48b5d0381d08247da",
+      "event": "progress",
+      "index": 2
+    },
+    {
+      "cid": "urn:sha256:578c84a4700c92c068f63158c41b2a1401b675d6d37efe14259fbe6be377c467",
+      "event": "final",
+      "index": 3
+    }
+  ],
+  "schema": "plgenesis/dashboard-state@v1"
+}

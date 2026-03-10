@@ -31,6 +31,8 @@ test("buildUploadTargets returns expected artifact upload order", () => {
       "proposals.json",
       "governance-tally.json",
       "active-direction.json",
+      "run-updates.json",
+      "dashboard-state.json",
       "state.json"
     ]
   );

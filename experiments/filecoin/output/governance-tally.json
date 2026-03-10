@@ -4,10 +4,10 @@
   "schema": "plgenesis/governance-tally@v1",
   "tallies": [
     {
-      "proposalCid": "urn:sha256:dac95ab05b7cc133bc0b0f94dbac335b7f5ed367b7cbe58f8d9554f8da3796dd",
+      "proposalCid": "urn:sha256:1fafe508d5c651934eadf125b5974d3a1717af5309dd19b5a50e140aa557a8da",
       "proposalId": 1,
       "reasons": [
-        "Most reliable starting point for reproducible five-minute experiments.",
+        "Best baseline for reproducible public runs.",
         "Safer for the first public benchmark."
       ],
       "slug": "bootstrap-compact-gpt",
@@ -20,10 +20,10 @@
       "weight": 7
     },
     {
-      "proposalCid": "urn:sha256:8650f362907fa58261907e66ac877a7a1f8165915a680c828b3dbb0a582e83fe",
+      "proposalCid": "urn:sha256:b1a83d2e0dfcffd46f379f2a3b8a415faeb60d7b9b06b896ac3a845ac5c9796b",
       "proposalId": 2,
       "reasons": [
-        "Potentially stronger model quality is worth testing."
+        "Worth spending one exploration slot on a larger baseline."
       ],
       "slug": "bootstrap-wider-context",
       "stage": "bootstrap",
@@ -34,11 +34,11 @@
       "weight": 3
     },
     {
-      "proposalCid": "urn:sha256:409422bf497b07f7eefddb321c5e4c95b117ff7f0de78dd3da4f0c3ad73ae550",
+      "proposalCid": "urn:sha256:77a51bc4fc7101d1121684ab0c27ff11e5f08d2b3431dd3897d92c0c41cf6108",
       "proposalId": 3,
       "reasons": [
-        "Best next step after the compact baseline.",
-        "Improves context pattern without widening the model."
+        "Strong challenger for the next explore run.",
+        "Fits the exploration budget and preserves comparability."
       ],
       "slug": "tune-extend-short-window",
       "stage": "tuning",
@@ -50,10 +50,10 @@
       "weight": 8
     },
     {
-      "proposalCid": "urn:sha256:6c4f4f2228357c6094c68f96cec0fcdd0b2969546c13508f0144a439fc0ae787",
+      "proposalCid": "urn:sha256:533d069fb6ed9b07381a0e91b65a00204baec3c63b4379cfe2301f60d86c2080",
       "proposalId": 4,
       "reasons": [
-        "Optimizer-only changes are easier to attribute."
+        "Good exploit candidate for the mainline branch."
       ],
       "slug": "tune-lower-matrix-lr",
       "stage": "tuning",

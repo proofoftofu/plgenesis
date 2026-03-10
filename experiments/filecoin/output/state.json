@@ -15,37 +15,152 @@
       "direction": "minimize",
       "metric": "val_bpb",
       "timeBudgetSeconds": 300
+    },
+    "role": "execution-engine",
+    "runLifecycle": [
+      "scheduled",
+      "started",
+      "progress",
+      "eval",
+      "completed",
+      "failed"
+    ],
+    "snapshotPolicy": {
+      "emitJsonSnapshots": true,
+      "eventsPerRun": [
+        "run-start",
+        "progress",
+        "progress",
+        "final"
+      ],
+      "snapshotIntervalSeconds": 30
+    },
+    "steerableSurface": {
+      "arbitraryTrainPyMutation": false,
+      "architectureFamily": [
+        "compact-gpt",
+        "wider-gpt"
+      ],
+      "branchChoice": true,
+      "hyperparameters": [
+        "embedding_lr",
+        "matrix_lr",
+        "unembedding_lr",
+        "scalar_lr",
+        "window_pattern"
+      ],
+      "mode": [
+        "explore",
+        "exploit"
+      ],
+      "objectiveMetadata": true,
+      "programDirectiveEdits": true,
+      "runtimeKnobs": [
+        "timeBudgetSeconds",
+        "batchSize",
+        "maxLearningRate"
+      ]
     }
   },
   "execution": {
     "activeDirectionId": 3,
     "activeDirectionSlug": "tune-extend-short-window",
+    "branchSelected": "autoresearch/bootstrap-compact-gpt/challenger-short-window",
     "controlledFiles": [
       "program.md",
       "train.py"
     ],
     "expectedNextEditTargets": [
+      "program.md",
       "train.py"
-    ]
+    ],
+    "modeSelected": "explore",
+    "scheduledRunId": "sched-2026-03-11-01",
+    "steerableSurface": {
+      "arbitraryTrainPyMutation": false,
+      "architectureFamily": [
+        "compact-gpt",
+        "wider-gpt"
+      ],
+      "branchChoice": true,
+      "hyperparameters": [
+        "embedding_lr",
+        "matrix_lr",
+        "unembedding_lr",
+        "scalar_lr",
+        "window_pattern"
+      ],
+      "mode": [
+        "explore",
+        "exploit"
+      ],
+      "objectiveMetadata": true,
+      "programDirectiveEdits": true,
+      "runtimeKnobs": [
+        "timeBudgetSeconds",
+        "batchSize",
+        "maxLearningRate"
+      ]
+    }
   },
   "findings": [
     {
-      "detail": "The first autoresearch branch should inherit a voted baseline so the autonomous loop starts from a publicly legible design rather than a hidden default.",
-      "title": "Initial architecture should be community-approved"
+      "detail": "The MVP should steer objective metadata, runtime knobs, architecture family within the fork limits, hyperparameters, branch priority, and explore-vs-exploit mode instead of arbitrary code mutation.",
+      "title": "Governance should steer bounded inputs first"
     },
     {
-      "detail": "Every tuning proposal should point back to the active architecture direction so later runs can explain which configuration family they belong to.",
-      "title": "Hyperparameter tuning needs explicit parent lineage"
+      "detail": "The orchestrator should emit run-start, periodic progress, and final records so the dashboard can feel like a live research stream rather than a static archive.",
+      "title": "A live research room needs periodic snapshots"
     },
     {
-      "detail": "The run record needs a concrete direction identifier so the dashboard can connect votes, code changes, and model outcomes.",
-      "title": "Autoresearch runs should reference the winning proposal"
+      "detail": "Community proposals need parent references and branch strategy so the system can distinguish exploitation of the current winner from exploration of challenger directions.",
+      "title": "Proposal lineage must encode branch continuation versus divergence"
     }
   ],
   "generatedAt": "2026-03-11T08:00:00Z",
-  "goal": "Let the community define the baseline autoresearch architecture and later steer tuning changes while every decision and run state is persisted with Filecoin-backed storage.",
+  "goal": "Use FEVM and Filecoin as the steering, provenance, and storage layer for autoresearch while keeping autoresearch as the experiment execution engine.",
+  "latestMetrics": {
+    "num_steps": 948,
+    "peak_vram_mb": 21580,
+    "training_seconds": 300,
+    "val_bpb": 0.9924
+  },
+  "lifecycle": [
+    "scheduled",
+    "started",
+    "progress",
+    "eval",
+    "completed",
+    "failed"
+  ],
   "runId": "run-2026-03-11-filecoin",
-  "schema": "plgenesis/research-state@v2",
+  "runUpdates": [
+    {
+      "cid": "urn:sha256:e1983fba8d1096d18c70d186caae591daca6dfa083286339b344223bd3e0e717",
+      "digest": "0xe1983fba8d1096d18c70d186caae591daca6dfa083286339b344223bd3e0e717",
+      "event": "run-start",
+      "index": 0
+    },
+    {
+      "cid": "urn:sha256:a99715a0becde76c5f85e01caf7bc0a8802ee7f4a94d2820b2299501977e9e61",
+      "digest": "0xa99715a0becde76c5f85e01caf7bc0a8802ee7f4a94d2820b2299501977e9e61",
+      "event": "progress",
+      "index": 1
+    },
+    {
+      "cid": "urn:sha256:21ebb977a6b07287e6f312b437c96a8a08847a437361f5a48b5d0381d08247da",
+      "digest": "0x21ebb977a6b07287e6f312b437c96a8a08847a437361f5a48b5d0381d08247da",
+      "event": "progress",
+      "index": 2
+    },
+    {
+      "cid": "urn:sha256:578c84a4700c92c068f63158c41b2a1401b675d6d37efe14259fbe6be377c467",
+      "digest": "0x578c84a4700c92c068f63158c41b2a1401b675d6d37efe14259fbe6be377c467",
+      "event": "final",
+      "index": 3
+    }
+  ],
+  "schema": "plgenesis/run-final@v1",
   "sources": [
     "docs/plan.md",
     "docs/experiment.md",
@@ -53,8 +168,12 @@
     "forks/autoresearch-macos/train.py"
   ],
   "steering": {
+    "explorationBudget": {
+      "challengerRunsPerCycle": 1,
+      "exploitRunsPerCycle": 3
+    },
     "governance": {
-      "description": "Registered contributors propose Filecoin-backed research directions and vote on what autoresearch should run next.",
+      "description": "Registered contributors steer autoresearch through bounded direction proposals, voting, and branch lineage.",
       "mode": "weighted-approval",
       "quorum": 5
     },
@@ -99,5 +218,5 @@
       }
     }
   },
-  "summary": "The community selected a compact baseline architecture, then approved a sliding-window tuning proposal for the next autoresearch run."
+  "summary": "The community selected a compact baseline, approved a short-window tuning challenger, and the orchestrator produced live run snapshots plus final artifacts for dashboard consumption."
 }

@@ -1,19 +1,20 @@
 {
-  "activeDirectionCid": "urn:sha256:aeb9090798d16291fb1d1f7e0c614333497492de9990bb162d9e93a5fc7095b2",
-  "activeDirectionDigest": "0xaeb9090798d16291fb1d1f7e0c614333497492de9990bb162d9e93a5fc7095b2",
+  "activeDirectionCid": "urn:sha256:c75738cc1b3867386a03c9f9bdfe1c8312e7ff9b6f464304e129dd08f0a00d6b",
+  "activeDirectionDigest": "0xc75738cc1b3867386a03c9f9bdfe1c8312e7ff9b6f464304e129dd08f0a00d6b",
   "activeDirectionId": 3,
   "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
   "agentName": "Genesis Research Agent",
   "agentSlug": "genesis-research-agent",
   "latestRunId": "run-2026-03-11-filecoin",
-  "latestStateCid": "urn:sha256:a869248409d9f2284a6f035188077e4791c3dd0eb53eaddd37ec530bd1ad08f1",
-  "latestStateDigest": "0xa869248409d9f2284a6f035188077e4791c3dd0eb53eaddd37ec530bd1ad08f1",
+  "latestScheduledRunId": "sched-2026-03-11-01",
+  "latestStateCid": "urn:sha256:486032ddef4be119df01b74cdb147e6db12cd57ab4e24937161ba099d335aaed",
+  "latestStateDigest": "0x486032ddef4be119df01b74cdb147e6db12cd57ab4e24937161ba099d335aaed",
   "network": {
     "chainId": 314159,
     "contractPurpose": "community-driven-autoresearch-registry",
     "name": "filecoin-calibration"
   },
-  "schema": "plgenesis/agent-metadata@v2",
+  "schema": "plgenesis/agent-metadata@v3",
   "storagePolicy": {
     "coldCopies": 2,
     "hotCopies": 1,

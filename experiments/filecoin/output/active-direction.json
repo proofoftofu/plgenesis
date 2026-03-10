@@ -14,15 +14,23 @@
     "stage": "bootstrap",
     "voteWeight": 7
   },
+  "explorationBudget": {
+    "challengerRunsPerCycle": 1,
+    "exploitRunsPerCycle": 3
+  },
   "governance": {
-    "description": "Registered contributors propose Filecoin-backed research directions and vote on what autoresearch should run next.",
+    "description": "Registered contributors steer autoresearch through bounded direction proposals, voting, and branch lineage.",
     "mode": "weighted-approval",
     "quorum": 5
   },
   "proposal": {
-    "cid": "urn:sha256:409422bf497b07f7eefddb321c5e4c95b117ff7f0de78dd3da4f0c3ad73ae550",
-    "digest": "0x409422bf497b07f7eefddb321c5e4c95b117ff7f0de78dd3da4f0c3ad73ae550",
+    "branchStrategy": "diverge-from-parent",
+    "branchTarget": "autoresearch/bootstrap-compact-gpt/challenger-short-window",
+    "cid": "urn:sha256:77a51bc4fc7101d1121684ab0c27ff11e5f08d2b3431dd3897d92c0c41cf6108",
+    "digest": "0x77a51bc4fc7101d1121684ab0c27ff11e5f08d2b3431dd3897d92c0c41cf6108",
+    "directionKind": "challenger",
     "id": 3,
+    "mode": "explore",
     "parentDirectionId": 1,
     "slug": "tune-extend-short-window",
     "stage": "tuning"

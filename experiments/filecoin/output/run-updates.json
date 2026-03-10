@@ -1,0 +1,32 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "runId": "run-2026-03-11-filecoin",
+  "scheduledRunId": "sched-2026-03-11-01",
+  "schema": "plgenesis/run-update-set@v1",
+  "updates": [
+    {
+      "cid": "urn:sha256:e1983fba8d1096d18c70d186caae591daca6dfa083286339b344223bd3e0e717",
+      "digest": "0xe1983fba8d1096d18c70d186caae591daca6dfa083286339b344223bd3e0e717",
+      "event": "run-start",
+      "index": 0
+    },
+    {
+      "cid": "urn:sha256:a99715a0becde76c5f85e01caf7bc0a8802ee7f4a94d2820b2299501977e9e61",
+      "digest": "0xa99715a0becde76c5f85e01caf7bc0a8802ee7f4a94d2820b2299501977e9e61",
+      "event": "progress",
+      "index": 1
+    },
+    {
+      "cid": "urn:sha256:21ebb977a6b07287e6f312b437c96a8a08847a437361f5a48b5d0381d08247da",
+      "digest": "0x21ebb977a6b07287e6f312b437c96a8a08847a437361f5a48b5d0381d08247da",
+      "event": "progress",
+      "index": 2
+    },
+    {
+      "cid": "urn:sha256:578c84a4700c92c068f63158c41b2a1401b675d6d37efe14259fbe6be377c467",
+      "digest": "0x578c84a4700c92c068f63158c41b2a1401b675d6d37efe14259fbe6be377c467",
+      "event": "final",
+      "index": 3
+    }
+  ]
+}

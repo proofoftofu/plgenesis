@@ -14,6 +14,9 @@ test("prepareExperiment builds deterministic governance-ready Filecoin payloads"
   assert.equal(result.summary.activeDirectionSlug, "tune-extend-short-window");
   assert.equal(result.summary.winners.bootstrap.slug, "bootstrap-compact-gpt");
   assert.equal(result.summary.winners.tuning.slug, "tune-extend-short-window");
+  assert.equal(result.summary.explorationBudget.challengerRunsPerCycle, 1);
+  assert.match(result.summary.dashboardStateCid, /^urn:sha256:[a-f0-9]{64}$/);
+  assert.match(result.summary.runUpdateSetCid, /^urn:sha256:[a-f0-9]{64}$/);
   assert.match(result.summary.metadataCid, /^urn:sha256:[a-f0-9]{64}$/);
   assert.match(result.summary.activeDirectionCid, /^urn:sha256:[a-f0-9]{64}$/);
   assert.match(result.summary.latestStateDigest, /^0x[a-f0-9]{64}$/);
@@ -21,6 +24,8 @@ test("prepareExperiment builds deterministic governance-ready Filecoin payloads"
   assert.equal(result.governancePlan.tallies.length, 4);
   assert.equal(result.governancePlan.proposals[0].stageCode, STAGE.bootstrap);
   assert.equal(result.governancePlan.proposals[2].stageCode, STAGE.tuning);
+  assert.equal(result.governancePlan.proposals[2].branchStrategy, "diverge-from-parent");
+  assert.equal(result.governancePlan.proposals[3].mode, "exploit");
   assert.equal(result.summary.calldata.configureVoterWeights.length, 3);
   assert.equal(result.summary.calldata.proposeDirection.length, 4);
   assert.equal(result.summary.calldata.voteOnDirection.length, 6);
@@ -30,6 +35,8 @@ test("prepareExperiment builds deterministic governance-ready Filecoin payloads"
   assert.equal(result.summary.calldata.voteOnDirection[0].calldata.slice(0, 10), "0x466186b1");
   assert.equal(result.summary.calldata.finalizeDirection.slice(0, 10), "0xbaef95cf");
   assert.equal(result.summary.calldata.submitResearchRun.slice(0, 10), "0xc80f1c67");
+  assert.ok("run-updates.json" in result.files);
+  assert.ok("dashboard-state.json" in result.files);
 });
 
 test("contract model supports propose, vote, finalize, and run submission", async () => {
