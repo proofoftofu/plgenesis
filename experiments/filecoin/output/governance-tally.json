@@ -1,0 +1,90 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "runId": "run-2026-03-11-filecoin",
+  "schema": "plgenesis/governance-tally@v1",
+  "tallies": [
+    {
+      "proposalCid": "urn:sha256:dac95ab05b7cc133bc0b0f94dbac335b7f5ed367b7cbe58f8d9554f8da3796dd",
+      "proposalId": 1,
+      "reasons": [
+        "Most reliable starting point for reproducible five-minute experiments.",
+        "Safer for the first public benchmark."
+      ],
+      "slug": "bootstrap-compact-gpt",
+      "stage": "bootstrap",
+      "voteCount": 2,
+      "voters": [
+        "0x1000000000000000000000000000000000000001",
+        "0x3000000000000000000000000000000000000003"
+      ],
+      "weight": 7
+    },
+    {
+      "proposalCid": "urn:sha256:8650f362907fa58261907e66ac877a7a1f8165915a680c828b3dbb0a582e83fe",
+      "proposalId": 2,
+      "reasons": [
+        "Potentially stronger model quality is worth testing."
+      ],
+      "slug": "bootstrap-wider-context",
+      "stage": "bootstrap",
+      "voteCount": 1,
+      "voters": [
+        "0x2000000000000000000000000000000000000002"
+      ],
+      "weight": 3
+    },
+    {
+      "proposalCid": "urn:sha256:409422bf497b07f7eefddb321c5e4c95b117ff7f0de78dd3da4f0c3ad73ae550",
+      "proposalId": 3,
+      "reasons": [
+        "Best next step after the compact baseline.",
+        "Improves context pattern without widening the model."
+      ],
+      "slug": "tune-extend-short-window",
+      "stage": "tuning",
+      "voteCount": 2,
+      "voters": [
+        "0x1000000000000000000000000000000000000001",
+        "0x2000000000000000000000000000000000000002"
+      ],
+      "weight": 8
+    },
+    {
+      "proposalCid": "urn:sha256:6c4f4f2228357c6094c68f96cec0fcdd0b2969546c13508f0144a439fc0ae787",
+      "proposalId": 4,
+      "reasons": [
+        "Optimizer-only changes are easier to attribute."
+      ],
+      "slug": "tune-lower-matrix-lr",
+      "stage": "tuning",
+      "voteCount": 1,
+      "voters": [
+        "0x3000000000000000000000000000000000000003"
+      ],
+      "weight": 2
+    }
+  ],
+  "winners": {
+    "active": {
+      "parentId": 1,
+      "proposalId": 3,
+      "slug": "tune-extend-short-window",
+      "stage": "tuning",
+      "voteWeight": 8
+    },
+    "bootstrap": {
+      "parentId": 0,
+      "proposalId": 1,
+      "slug": "bootstrap-compact-gpt",
+      "stage": "bootstrap",
+      "voteWeight": 7
+    },
+    "tuning": {
+      "parentId": 1,
+      "proposalId": 3,
+      "slug": "tune-extend-short-window",
+      "stage": "tuning",
+      "voteWeight": 8
+    }
+  }
+}

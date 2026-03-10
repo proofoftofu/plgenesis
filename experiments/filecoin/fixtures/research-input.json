@@ -1,0 +1,186 @@
+{
+  "agentName": "Genesis Research Agent",
+  "runId": "run-2026-03-11-filecoin",
+  "generatedAt": "2026-03-11T08:00:00Z",
+  "goal": "Let the community define the baseline autoresearch architecture and later steer tuning changes while every decision and run state is persisted with Filecoin-backed storage.",
+  "summary": "The community selected a compact baseline architecture, then approved a sliding-window tuning proposal for the next autoresearch run.",
+  "findings": [
+    {
+      "title": "Initial architecture should be community-approved",
+      "detail": "The first autoresearch branch should inherit a voted baseline so the autonomous loop starts from a publicly legible design rather than a hidden default."
+    },
+    {
+      "title": "Hyperparameter tuning needs explicit parent lineage",
+      "detail": "Every tuning proposal should point back to the active architecture direction so later runs can explain which configuration family they belong to."
+    },
+    {
+      "title": "Autoresearch runs should reference the winning proposal",
+      "detail": "The run record needs a concrete direction identifier so the dashboard can connect votes, code changes, and model outcomes."
+    }
+  ],
+  "sources": [
+    "docs/plan.md",
+    "docs/experiment.md",
+    "forks/autoresearch-macos/program.md",
+    "forks/autoresearch-macos/train.py"
+  ],
+  "autoresearch": {
+    "controlledFiles": [
+      "program.md",
+      "train.py"
+    ],
+    "objective": {
+      "metric": "val_bpb",
+      "direction": "minimize",
+      "timeBudgetSeconds": 300
+    },
+    "baselineConstraints": {
+      "platform": "macOS + MPS",
+      "maxSequenceLength": 2048,
+      "evaluationSource": "prepare.py:evaluate_bpb"
+    }
+  },
+  "steering": {
+    "governance": {
+      "mode": "weighted-approval",
+      "quorum": 5,
+      "description": "Registered contributors propose Filecoin-backed research directions and vote on what autoresearch should run next."
+    },
+    "voterWeights": [
+      {
+        "voter": "0x1000000000000000000000000000000000000001",
+        "weight": 5,
+        "role": "core researcher"
+      },
+      {
+        "voter": "0x2000000000000000000000000000000000000002",
+        "weight": 3,
+        "role": "community reviewer"
+      },
+      {
+        "voter": "0x3000000000000000000000000000000000000003",
+        "weight": 2,
+        "role": "benchmark reviewer"
+      }
+    ],
+    "proposals": [
+      {
+        "slug": "bootstrap-compact-gpt",
+        "stage": "bootstrap",
+        "title": "Compact GPT baseline for first public run",
+        "author": "community:alice",
+        "rationale": "Start from a smaller baseline that can complete five-minute runs reliably on macOS before widening the search space.",
+        "architecture": {
+          "n_layer": 10,
+          "n_head": 6,
+          "n_kv_head": 6,
+          "n_embd": 640,
+          "window_pattern": "SSSL"
+        },
+        "hyperparameters": {
+          "embedding_lr": 0.2,
+          "matrix_lr": 0.02,
+          "unembedding_lr": 0.004,
+          "scalar_lr": 0.5
+        },
+        "programDirectives": [
+          "Preserve the five-minute training budget.",
+          "Optimize for lower val_bpb without increasing complexity unless the gain is clear."
+        ]
+      },
+      {
+        "slug": "bootstrap-wider-context",
+        "stage": "bootstrap",
+        "title": "Wider baseline with more capacity",
+        "author": "community:bob",
+        "rationale": "Use a larger embedding width from the start and accept higher memory use for potentially lower validation loss.",
+        "architecture": {
+          "n_layer": 12,
+          "n_head": 6,
+          "n_kv_head": 6,
+          "n_embd": 768,
+          "window_pattern": "SLSL"
+        },
+        "hyperparameters": {
+          "embedding_lr": 0.2,
+          "matrix_lr": 0.025,
+          "unembedding_lr": 0.004,
+          "scalar_lr": 0.5
+        },
+        "programDirectives": [
+          "Accept moderate VRAM growth if the improvement is measurable.",
+          "Favor direct architecture edits over prompt-only changes."
+        ]
+      },
+      {
+        "slug": "tune-extend-short-window",
+        "stage": "tuning",
+        "parentSlug": "bootstrap-compact-gpt",
+        "title": "Extend the short-window pattern after the baseline lands",
+        "author": "community:carol",
+        "rationale": "Keep the compact architecture but use a broader short-window attention schedule for the next run family.",
+        "architectureDelta": {
+          "window_pattern": "SSLL"
+        },
+        "hyperparameterDelta": {
+          "matrix_lr": 0.018
+        },
+        "programDirectives": [
+          "Keep the compact model shape from the selected bootstrap architecture.",
+          "Change the attention window pattern first before altering width or depth."
+        ]
+      },
+      {
+        "slug": "tune-lower-matrix-lr",
+        "stage": "tuning",
+        "parentSlug": "bootstrap-compact-gpt",
+        "title": "Lower the matrix learning rate only",
+        "author": "community:dave",
+        "rationale": "Reduce optimizer aggressiveness while preserving the baseline attention schedule.",
+        "architectureDelta": {},
+        "hyperparameterDelta": {
+          "matrix_lr": 0.015
+        },
+        "programDirectives": [
+          "Avoid structural changes and isolate the optimizer effect.",
+          "Use the same window pattern as the compact bootstrap baseline."
+        ]
+      }
+    ],
+    "votes": [
+      {
+        "proposalSlug": "bootstrap-compact-gpt",
+        "voter": "0x1000000000000000000000000000000000000001",
+        "reason": "Most reliable starting point for reproducible five-minute experiments."
+      },
+      {
+        "proposalSlug": "bootstrap-wider-context",
+        "voter": "0x2000000000000000000000000000000000000002",
+        "reason": "Potentially stronger model quality is worth testing."
+      },
+      {
+        "proposalSlug": "bootstrap-compact-gpt",
+        "voter": "0x3000000000000000000000000000000000000003",
+        "reason": "Safer for the first public benchmark."
+      },
+      {
+        "proposalSlug": "tune-extend-short-window",
+        "voter": "0x1000000000000000000000000000000000000001",
+        "reason": "Best next step after the compact baseline."
+      },
+      {
+        "proposalSlug": "tune-extend-short-window",
+        "voter": "0x2000000000000000000000000000000000000002",
+        "reason": "Improves context pattern without widening the model."
+      },
+      {
+        "proposalSlug": "tune-lower-matrix-lr",
+        "voter": "0x3000000000000000000000000000000000000003",
+        "reason": "Optimizer-only changes are easier to attribute."
+      }
+    ],
+    "execution": {
+      "targetStage": "tuning"
+    }
+  }
+}

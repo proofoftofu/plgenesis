@@ -1,0 +1,13 @@
+{
+  "network": "calibration",
+  "walletAddress": "0x0Bc298a4a0a205875F5Ae3B19506669c55B38d01",
+  "status": "blocked_no_fil",
+  "attempts": [],
+  "errors": [
+    {
+      "message": "filecoin-pin exited with code 1",
+      "stdout": "Filecoin Onchain Cloud Payment Status\n\n━━━ Current Status ━━━\n\nAddress: 0x0Bc298a4a0a205875F5Ae3B19506669c55B38d01\nNetwork: Filecoin - Calibration testnet\n\n✗ Account has no FIL balance\n\nGet test FIL from: https://faucet.calibnet.chainsafe-fil.io/\n✗ Status check failed\n\n\nError: Account has no FIL balance",
+      "stderr": "Account not funded\nStatus check failed"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "activeDirectionCid": "urn:sha256:aeb9090798d16291fb1d1f7e0c614333497492de9990bb162d9e93a5fc7095b2",
+  "activeDirectionDigest": "0xaeb9090798d16291fb1d1f7e0c614333497492de9990bb162d9e93a5fc7095b2",
+  "activeDirectionId": 3,
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "agentName": "Genesis Research Agent",
+  "agentSlug": "genesis-research-agent",
+  "latestRunId": "run-2026-03-11-filecoin",
+  "latestStateCid": "urn:sha256:a869248409d9f2284a6f035188077e4791c3dd0eb53eaddd37ec530bd1ad08f1",
+  "latestStateDigest": "0xa869248409d9f2284a6f035188077e4791c3dd0eb53eaddd37ec530bd1ad08f1",
+  "network": {
+    "chainId": 314159,
+    "contractPurpose": "community-driven-autoresearch-registry",
+    "name": "filecoin-calibration"
+  },
+  "schema": "plgenesis/agent-metadata@v2",
+  "storagePolicy": {
+    "coldCopies": 2,
+    "hotCopies": 1,
+    "ttlDays": 30
+  }
+}

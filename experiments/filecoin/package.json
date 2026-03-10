@@ -1,0 +1,14 @@
+{
+  "name": "plgenesis-filecoin-experiment",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "experiment": "node src/cli.js fixtures/research-input.json",
+    "test": "node --test",
+    "upload:filecoin": "node src/upload.js"
+  },
+  "devDependencies": {
+    "filecoin-pin": "^0.18.0"
+  }
+}

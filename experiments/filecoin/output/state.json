@@ -1,0 +1,103 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "agentName": "Genesis Research Agent",
+  "autoresearch": {
+    "baselineConstraints": {
+      "evaluationSource": "prepare.py:evaluate_bpb",
+      "maxSequenceLength": 2048,
+      "platform": "macOS + MPS"
+    },
+    "controlledFiles": [
+      "program.md",
+      "train.py"
+    ],
+    "objective": {
+      "direction": "minimize",
+      "metric": "val_bpb",
+      "timeBudgetSeconds": 300
+    }
+  },
+  "execution": {
+    "activeDirectionId": 3,
+    "activeDirectionSlug": "tune-extend-short-window",
+    "controlledFiles": [
+      "program.md",
+      "train.py"
+    ],
+    "expectedNextEditTargets": [
+      "train.py"
+    ]
+  },
+  "findings": [
+    {
+      "detail": "The first autoresearch branch should inherit a voted baseline so the autonomous loop starts from a publicly legible design rather than a hidden default.",
+      "title": "Initial architecture should be community-approved"
+    },
+    {
+      "detail": "Every tuning proposal should point back to the active architecture direction so later runs can explain which configuration family they belong to.",
+      "title": "Hyperparameter tuning needs explicit parent lineage"
+    },
+    {
+      "detail": "The run record needs a concrete direction identifier so the dashboard can connect votes, code changes, and model outcomes.",
+      "title": "Autoresearch runs should reference the winning proposal"
+    }
+  ],
+  "generatedAt": "2026-03-11T08:00:00Z",
+  "goal": "Let the community define the baseline autoresearch architecture and later steer tuning changes while every decision and run state is persisted with Filecoin-backed storage.",
+  "runId": "run-2026-03-11-filecoin",
+  "schema": "plgenesis/research-state@v2",
+  "sources": [
+    "docs/plan.md",
+    "docs/experiment.md",
+    "forks/autoresearch-macos/program.md",
+    "forks/autoresearch-macos/train.py"
+  ],
+  "steering": {
+    "governance": {
+      "description": "Registered contributors propose Filecoin-backed research directions and vote on what autoresearch should run next.",
+      "mode": "weighted-approval",
+      "quorum": 5
+    },
+    "voterWeights": [
+      {
+        "role": "core researcher",
+        "voter": "0x1000000000000000000000000000000000000001",
+        "weight": 5
+      },
+      {
+        "role": "community reviewer",
+        "voter": "0x2000000000000000000000000000000000000002",
+        "weight": 3
+      },
+      {
+        "role": "benchmark reviewer",
+        "voter": "0x3000000000000000000000000000000000000003",
+        "weight": 2
+      }
+    ],
+    "winners": {
+      "active": {
+        "parentId": 1,
+        "proposalId": 3,
+        "slug": "tune-extend-short-window",
+        "stage": "tuning",
+        "voteWeight": 8
+      },
+      "bootstrap": {
+        "parentId": 0,
+        "proposalId": 1,
+        "slug": "bootstrap-compact-gpt",
+        "stage": "bootstrap",
+        "voteWeight": 7
+      },
+      "tuning": {
+        "parentId": 1,
+        "proposalId": 3,
+        "slug": "tune-extend-short-window",
+        "stage": "tuning",
+        "voteWeight": 8
+      }
+    }
+  },
+  "summary": "The community selected a compact baseline architecture, then approved a sliding-window tuning proposal for the next autoresearch run."
+}

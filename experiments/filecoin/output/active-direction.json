@@ -1,0 +1,39 @@
+{
+  "activeWinner": {
+    "parentId": 1,
+    "proposalId": 3,
+    "slug": "tune-extend-short-window",
+    "stage": "tuning",
+    "voteWeight": 8
+  },
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "bootstrapWinner": {
+    "parentId": 0,
+    "proposalId": 1,
+    "slug": "bootstrap-compact-gpt",
+    "stage": "bootstrap",
+    "voteWeight": 7
+  },
+  "governance": {
+    "description": "Registered contributors propose Filecoin-backed research directions and vote on what autoresearch should run next.",
+    "mode": "weighted-approval",
+    "quorum": 5
+  },
+  "proposal": {
+    "cid": "urn:sha256:409422bf497b07f7eefddb321c5e4c95b117ff7f0de78dd3da4f0c3ad73ae550",
+    "digest": "0x409422bf497b07f7eefddb321c5e4c95b117ff7f0de78dd3da4f0c3ad73ae550",
+    "id": 3,
+    "parentDirectionId": 1,
+    "slug": "tune-extend-short-window",
+    "stage": "tuning"
+  },
+  "runId": "run-2026-03-11-filecoin",
+  "schema": "plgenesis/active-direction@v1",
+  "tuningWinner": {
+    "parentId": 1,
+    "proposalId": 3,
+    "slug": "tune-extend-short-window",
+    "stage": "tuning",
+    "voteWeight": 8
+  }
+}

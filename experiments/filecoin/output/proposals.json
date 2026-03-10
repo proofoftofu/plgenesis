@@ -1,0 +1,43 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "proposals": [
+    {
+      "cid": "urn:sha256:dac95ab05b7cc133bc0b0f94dbac335b7f5ed367b7cbe58f8d9554f8da3796dd",
+      "digest": "0xdac95ab05b7cc133bc0b0f94dbac335b7f5ed367b7cbe58f8d9554f8da3796dd",
+      "id": 1,
+      "parentDirectionId": 0,
+      "slug": "bootstrap-compact-gpt",
+      "stage": "bootstrap",
+      "title": "Compact GPT baseline for first public run"
+    },
+    {
+      "cid": "urn:sha256:8650f362907fa58261907e66ac877a7a1f8165915a680c828b3dbb0a582e83fe",
+      "digest": "0x8650f362907fa58261907e66ac877a7a1f8165915a680c828b3dbb0a582e83fe",
+      "id": 2,
+      "parentDirectionId": 0,
+      "slug": "bootstrap-wider-context",
+      "stage": "bootstrap",
+      "title": "Wider baseline with more capacity"
+    },
+    {
+      "cid": "urn:sha256:409422bf497b07f7eefddb321c5e4c95b117ff7f0de78dd3da4f0c3ad73ae550",
+      "digest": "0x409422bf497b07f7eefddb321c5e4c95b117ff7f0de78dd3da4f0c3ad73ae550",
+      "id": 3,
+      "parentDirectionId": 1,
+      "slug": "tune-extend-short-window",
+      "stage": "tuning",
+      "title": "Extend the short-window pattern after the baseline lands"
+    },
+    {
+      "cid": "urn:sha256:6c4f4f2228357c6094c68f96cec0fcdd0b2969546c13508f0144a439fc0ae787",
+      "digest": "0x6c4f4f2228357c6094c68f96cec0fcdd0b2969546c13508f0144a439fc0ae787",
+      "id": 4,
+      "parentDirectionId": 1,
+      "slug": "tune-lower-matrix-lr",
+      "stage": "tuning",
+      "title": "Lower the matrix learning rate only"
+    }
+  ],
+  "runId": "run-2026-03-11-filecoin",
+  "schema": "plgenesis/research-direction-set@v1"
+}
