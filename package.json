@@ -1,0 +1,13 @@
+{
+  "name": "plgenesis-demo-workspace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "demo:tx": "node demo-tx.mjs",
+    "deploy:registry": "node deploy-registry.mjs"
+  },
+  "dependencies": {
+    "solc": "^0.8.30",
+    "viem": "^2.47.1"
+  }
+}
