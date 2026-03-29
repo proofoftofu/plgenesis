@@ -67,11 +67,6 @@ contract ResearchRegistry {
         bytes32 stateDigest
     );
 
-    modifier onlyOwner(bytes32 agentId) {
-        require(agents[agentId].owner == msg.sender, "owner only");
-        _;
-    }
-
     function registerAgent(bytes32 agentId, string calldata metadataCid) external {
         require(agentId != bytes32(0), "agentId required");
         require(bytes(metadataCid).length > 0, "metadataCid required");
@@ -79,8 +74,6 @@ contract ResearchRegistry {
         AgentRecord storage record = agents[agentId];
         if (record.owner == address(0)) {
             record.owner = msg.sender;
-        } else {
-            require(record.owner == msg.sender, "owner only");
         }
 
         record.metadataCid = metadataCid;
@@ -93,9 +86,10 @@ contract ResearchRegistry {
         bytes32 agentId,
         address voter,
         uint256 weight
-    ) external onlyOwner(agentId) {
+    ) external {
         require(voter != address(0), "voter required");
         require(weight > 0, "weight required");
+        require(voter == msg.sender, "self only");
 
         voterWeights[agentId][voter] = weight;
         emit VoterWeightConfigured(agentId, voter, weight);
@@ -108,7 +102,7 @@ contract ResearchRegistry {
         string calldata proposalCid,
         bytes32 proposalDigest
     ) external returns (uint256 proposalId) {
-        require(agents[agentId].owner != address(0), "agent missing");
+        require(agents[agentId].updatedAt != 0, "agent missing");
         require(bytes(proposalCid).length > 0, "proposalCid required");
         require(proposalDigest != bytes32(0), "proposalDigest required");
         if (stage == Stage.ResearchTuning) {
@@ -143,14 +137,16 @@ contract ResearchRegistry {
     }
 
     function voteOnDirection(bytes32 agentId, uint256 proposalId) external {
-        uint256 weight = voterWeights[agentId][msg.sender];
-        require(weight > 0, "voter not configured");
         require(!hasVoted[agentId][proposalId][msg.sender], "already voted");
 
         DirectionProposal storage proposal = proposals[agentId][proposalId];
         require(proposal.id != 0, "proposal missing");
         require(!proposal.finalized, "proposal finalized");
 
+        uint256 weight = voterWeights[agentId][msg.sender];
+        if (weight == 0) {
+            weight = 1;
+        }
         hasVoted[agentId][proposalId][msg.sender] = true;
         proposal.voteWeight += weight;
 
@@ -162,7 +158,7 @@ contract ResearchRegistry {
         uint256 proposalId,
         string calldata directionCid,
         bytes32 directionDigest
-    ) external onlyOwner(agentId) {
+    ) external {
         require(bytes(directionCid).length > 0, "directionCid required");
         require(directionDigest != bytes32(0), "directionDigest required");
 
@@ -187,7 +183,7 @@ contract ResearchRegistry {
         uint256 directionId,
         string calldata stateCid,
         bytes32 stateDigest
-    ) external onlyOwner(agentId) {
+    ) external {
         require(directionId == agents[agentId].activeDirectionId, "inactive direction");
         require(bytes(stateCid).length > 0, "stateCid required");
         require(stateDigest != bytes32(0), "stateDigest required");
