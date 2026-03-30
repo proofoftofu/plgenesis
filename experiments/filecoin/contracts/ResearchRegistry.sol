@@ -31,10 +31,19 @@ contract ResearchRegistry {
         uint256 createdAt;
     }
 
+    struct ResearchProgressRecord {
+        uint256 directionId;
+        uint256 step;
+        string progressCid;
+        bytes32 progressDigest;
+        uint256 updatedAt;
+    }
+
     mapping(bytes32 => AgentRecord) public agents;
     mapping(bytes32 => mapping(uint256 => DirectionProposal)) public proposals;
     mapping(bytes32 => mapping(address => uint256)) public voterWeights;
     mapping(bytes32 => mapping(uint256 => mapping(address => bool))) public hasVoted;
+    mapping(bytes32 => mapping(uint256 => ResearchProgressRecord)) public progressRecords;
 
     event AgentRegistered(bytes32 indexed agentId, address indexed owner, string metadataCid);
     event VoterWeightConfigured(bytes32 indexed agentId, address indexed voter, uint256 weight);
@@ -65,6 +74,13 @@ contract ResearchRegistry {
         uint256 indexed directionId,
         string stateCid,
         bytes32 stateDigest
+    );
+    event ResearchProgressSubmitted(
+        bytes32 indexed agentId,
+        uint256 indexed directionId,
+        uint256 step,
+        string progressCid,
+        bytes32 progressDigest
     );
 
     function registerAgent(bytes32 agentId, string calldata metadataCid) external {
@@ -194,5 +210,27 @@ contract ResearchRegistry {
         agent.updatedAt = block.timestamp;
 
         emit ResearchRunSubmitted(agentId, directionId, stateCid, stateDigest);
+    }
+
+    function submitResearchProgress(
+        bytes32 agentId,
+        uint256 directionId,
+        uint256 step,
+        string calldata progressCid,
+        bytes32 progressDigest
+    ) external {
+        require(directionId == agents[agentId].activeDirectionId, "inactive direction");
+        require(bytes(progressCid).length > 0, "progressCid required");
+        require(progressDigest != bytes32(0), "progressDigest required");
+
+        progressRecords[agentId][directionId] = ResearchProgressRecord({
+            directionId: directionId,
+            step: step,
+            progressCid: progressCid,
+            progressDigest: progressDigest,
+            updatedAt: block.timestamp
+        });
+
+        emit ResearchProgressSubmitted(agentId, directionId, step, progressCid, progressDigest);
     }
 }

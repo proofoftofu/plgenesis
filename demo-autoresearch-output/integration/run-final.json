@@ -1,0 +1,53 @@
+{
+  "artifact_paths": {
+    "run_events_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/demo-autoresearch-output/runtime/run-events.jsonl",
+    "run_final_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/demo-autoresearch-output/runtime/run-final.json"
+  },
+  "branch_target": "autoresearch/demo-baseline/challenger-window",
+  "controls": {
+    "adam_betas": [
+      0.8,
+      0.95
+    ],
+    "aspect_ratio": 32,
+    "depth": 2,
+    "device_batch_size": 1,
+    "embedding_lr": 0.6,
+    "eval_tokens": 2048,
+    "final_lr_frac": 0,
+    "head_dim": 64,
+    "matrix_lr": 0.03,
+    "progress_interval_seconds": 5,
+    "scalar_lr": 0.5,
+    "time_budget": 12,
+    "total_batch_size": 65536,
+    "unembedding_lr": 0.004,
+    "warmdown_ratio": 0.5,
+    "warmup_ratio": 0,
+    "warmup_steps": 10,
+    "weight_decay": 0.2,
+    "window_pattern": "S"
+  },
+  "direction_id": "2",
+  "direction_slug": "tune-demo-window",
+  "last_step": 19,
+  "metrics": {
+    "depth": 2,
+    "mfu_percent": 0.03,
+    "num_params_M": 1.7,
+    "num_steps": 19,
+    "peak_vram_mb": 0,
+    "total_seconds": 29.9,
+    "total_tokens_M": 1.2,
+    "training_seconds": 12.8,
+    "val_bpb": 2.44157
+  },
+  "mode": "explore",
+  "run_id": "run-local-integration-demo",
+  "scheduled_run_id": "run-local-integration-demo-scheduled",
+  "status": "finished",
+  "timestamps": {
+    "finished_at": "2026-03-30T00:35:26.118683+00:00",
+    "started_at": "2026-03-30T00:34:56.764314+00:00"
+  }
+}

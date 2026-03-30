@@ -1,0 +1,65 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "runId": "run-local-integration-demo",
+  "schema": "plgenesis/governance-tally@v1",
+  "tallies": [
+    {
+      "proposalCid": "urn:sha256:4ae6f578a15b1dc504c93b55cbb5766e410ab0e21c2569abe53ea57cc5c5b5eb",
+      "proposalId": 1,
+      "reasons": [
+        "Best baseline for a fast local demo.",
+        "Reliable starting point."
+      ],
+      "slug": "bootstrap-demo-baseline",
+      "stage": "bootstrap",
+      "voteCount": 2,
+      "voters": [
+        "0x1000000000000000000000000000000000000001",
+        "0x2000000000000000000000000000000000000002"
+      ],
+      "weight": 3
+    },
+    {
+      "proposalCid": "urn:sha256:0c53fcd728b505354dece8a5285a13a0bf07f036b29930fbc29c811cb017062c",
+      "proposalId": 2,
+      "reasons": [
+        "Useful challenger to prove lineage and runtime metadata.",
+        "Should still be runnable in the local demo."
+      ],
+      "slug": "tune-demo-window",
+      "stage": "tuning",
+      "voteCount": 2,
+      "voters": [
+        "0x1000000000000000000000000000000000000001",
+        "0x2000000000000000000000000000000000000002"
+      ],
+      "weight": 3
+    }
+  ],
+  "winners": {
+    "active": {
+      "executionCompatibility": "current-autoresearch",
+      "parentId": 1,
+      "proposalId": 2,
+      "slug": "tune-demo-window",
+      "stage": "tuning",
+      "voteWeight": 3
+    },
+    "bootstrap": {
+      "executionCompatibility": "current-autoresearch",
+      "parentId": 0,
+      "proposalId": 1,
+      "slug": "bootstrap-demo-baseline",
+      "stage": "bootstrap",
+      "voteWeight": 3
+    },
+    "tuning": {
+      "executionCompatibility": "current-autoresearch",
+      "parentId": 1,
+      "proposalId": 2,
+      "slug": "tune-demo-window",
+      "stage": "tuning",
+      "voteWeight": 3
+    }
+  }
+}

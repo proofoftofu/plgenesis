@@ -1,0 +1,5 @@
+set -a
+source experiments/filecoin/.env
+export CONTRACT_ADDRESS=0x2a2d50c45c8449129c47a2570019c6232e78cee8
+set +a
+node demo-tx.mjs

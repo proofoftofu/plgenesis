@@ -365,7 +365,7 @@ def evaluate_bpb(model, tokenizer, batch_size):
     device = next(model.parameters()).device
     token_bytes = get_token_bytes(device=device)
     val_loader = make_dataloader(tokenizer, batch_size, MAX_SEQ_LEN, "val")
-    steps = EVAL_TOKENS // (batch_size * MAX_SEQ_LEN)
+    steps = max(1, EVAL_TOKENS // (batch_size * MAX_SEQ_LEN))
     total_nats = 0.0
     total_bytes = 0
     for _ in range(steps):
@@ -376,6 +376,8 @@ def evaluate_bpb(model, tokenizer, batch_size):
         mask = nbytes > 0
         total_nats += (loss_flat * mask).sum().item()
         total_bytes += nbytes.sum().item()
+    if total_bytes == 0:
+        raise RuntimeError("evaluate_bpb produced zero total bytes; increase AUTORESEARCH_EVAL_TOKENS or use a larger validation batch.")
     return total_nats / (math.log(2) * total_bytes)
 
 # ---------------------------------------------------------------------------

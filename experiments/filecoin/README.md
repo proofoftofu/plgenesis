@@ -2,6 +2,28 @@
 
 This experiment treats autoresearch as the execution engine and FEVM/Filecoin as the community steering, provenance, and storage layer.
 
+## General Description
+
+The product is a community-driven research system.
+
+- Community members propose research directions.
+- The contract stores the compact public truth about those directions.
+- Autoresearch reads the selected direction and runs the actual experiment.
+- Filecoin stores the larger research artifacts, logs, and run snapshots.
+- The frontend can show the research as a live stream, similar to a research-focused live broadcast.
+
+In this model, a "direction" is not just a topic title. It is a structured research instruction bundle that can include:
+
+- objective metadata
+- runtime knobs such as time budget and batch size
+- architecture family and model shape
+- hyperparameters
+- branch strategy
+- mode: `explore` or `exploit`
+- lineage to a parent proposal
+
+Autoresearch consumes those fields as its working input, then emits machine-readable progress and final-state artifacts.
+
 ## What this experiment does
 
 - Models community proposals for two research stages:
@@ -24,6 +46,104 @@ This experiment treats autoresearch as the execution engine and FEVM/Filecoin as
   - `finalizeDirection`
   - `submitResearchRun`
 - Includes local tests for deterministic payload generation and the governance state machine.
+
+## What is stored on-chain
+
+The contract stores compact pointers and governance state, not the full research payload.
+
+Stored on-chain:
+
+- agent registration
+- proposal records
+- vote weights
+- vote status
+- active direction selection
+- progress anchors
+- final run anchors
+
+Exact on-chain entries:
+
+- `registerAgent(agentId, metadataCid)`
+  - registers the agent identity and its metadata pointer
+- `configureVoterWeight(agentId, voter, weight)`
+  - records a voter weight for that agent
+- `proposeDirection(agentId, stage, parentDirectionId, proposalCid, proposalDigest)`
+  - stores a research direction proposal pointer and digest
+- `voteOnDirection(agentId, proposalId)`
+  - records that a voter supported a proposal
+- `finalizeDirection(agentId, proposalId, directionCid, directionDigest)`
+  - marks the winning direction as active
+- `submitResearchProgress(agentId, directionId, step, progressCid, progressDigest)`
+  - anchors a live progress snapshot
+- `submitResearchRun(agentId, directionId, stateCid, stateDigest)`
+  - anchors the final research state
+
+The contract does not store:
+
+- every optimizer step
+- raw training tensors
+- the full dashboard view
+- the full proposal text
+
+Those larger objects live in Filecoin-backed artifacts.
+
+## How autoresearch uses on-chain data
+
+Autoresearch is the execution engine. It does not invent the direction on its own.
+
+The workflow is:
+
+1. Community proposals are written to Filecoin-ready payloads and anchored through the contract.
+2. The contract resolves the active direction after voting and finalization.
+3. The demo runner or orchestrator reads the active direction ID, slug, branch target, mode, and budget.
+4. Autoresearch receives those values as environment variables and runtime inputs.
+5. Autoresearch runs the selected direction and emits:
+   - `run_start`
+   - `run_progress`
+   - `run_eval`
+   - `run_finish`
+6. The integration layer converts those emitted events into Filecoin-ready progress artifacts.
+7. Selected progress snapshots are committed back on-chain with `submitResearchProgress`.
+8. The final run state is committed on-chain with `submitResearchRun`.
+
+In short:
+
+- on-chain proposal = what research should be done
+- on-chain progress = evidence that the selected research is actually moving forward
+- on-chain final result = the completed research state
+
+## What information is registered on-chain
+
+Each proposal can register the following kinds of information:
+
+- proposal identity
+- stage: bootstrap or tuning
+- parent direction ID
+- proposal CID and digest
+- direction kind: baseline or challenger
+- mode: explore or exploit
+- branch strategy
+- branch target
+- objective metadata
+- runtime knobs
+- architecture family and shape
+- hyperparameters
+- program directives
+
+Each progress snapshot can register:
+
+- direction ID
+- training step
+- progress CID
+- progress digest
+- timestamp
+
+Each final run record can register:
+
+- direction ID
+- final state CID
+- final state digest
+- timestamp
 
 ## Files
 

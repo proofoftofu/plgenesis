@@ -108,6 +108,7 @@ async function executeAutoresearchRun({ input, executionPlan, outputDir }) {
   const autoresearchDir = path.resolve("..", "autoresearch");
   const runtimeDir = path.join(outputDir, "runtime");
   await mkdir(runtimeDir, { recursive: true });
+  const uvPath = process.env.UV_PATH ?? "/opt/homebrew/bin/uv";
 
   const env = {
     ...process.env,
@@ -127,7 +128,7 @@ async function executeAutoresearchRun({ input, executionPlan, outputDir }) {
   const logPath = path.join(runtimeDir, "run.log");
 
   await runCommand({
-    cmd: "uv",
+    cmd: uvPath,
     args: ["run", "train.py"],
     cwd: autoresearchDir,
     env,
@@ -162,10 +163,14 @@ function runCommand({ cmd, args, cwd, env, stdoutPath }) {
     let stderr = "";
 
     child.stdout.on("data", (chunk) => {
-      stdout += chunk.toString();
+      const text = chunk.toString();
+      stdout += text;
+      process.stdout.write(text);
     });
     child.stderr.on("data", (chunk) => {
-      stderr += chunk.toString();
+      const text = chunk.toString();
+      stderr += text;
+      process.stderr.write(text);
     });
     child.on("error", reject);
     child.on("close", async (code) => {

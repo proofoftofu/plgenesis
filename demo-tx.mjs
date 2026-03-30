@@ -10,6 +10,7 @@ import {
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import crypto from "node:crypto";
+import { spawn } from "node:child_process";
 
 const ABI = parseAbi([
   "function configureVoterWeight(bytes32 agentId, address voter, uint256 weight)",
@@ -17,6 +18,7 @@ const ABI = parseAbi([
   "function proposeDirection(bytes32 agentId, uint8 stage, uint256 parentDirectionId, string proposalCid, bytes32 proposalDigest) returns (uint256)",
   "function voteOnDirection(bytes32 agentId, uint256 proposalId)",
   "function finalizeDirection(bytes32 agentId, uint256 proposalId, string directionCid, bytes32 directionDigest)",
+  "function submitResearchProgress(bytes32 agentId, uint256 directionId, uint256 step, string progressCid, bytes32 progressDigest)",
   "function submitResearchRun(bytes32 agentId, uint256 directionId, string stateCid, bytes32 stateDigest)",
   "function hasVoted(bytes32 agentId, uint256 proposalId, address voter) view returns (bool)",
   "function voterWeights(bytes32 agentId, address voter) view returns (uint256)",
@@ -62,6 +64,15 @@ async function main() {
   const publicClient = createPublicClient({ chain, transport: http(rpcUrl) });
   const walletClient = createWalletClient({ chain, transport: http(rpcUrl), account });
 
+  console.log("🚀 Hackathon demo started");
+  console.log(`🧬 fresh agent: ${agentId}`);
+  console.log(`📦 contract: ${contractAddress}`);
+  console.log(`👤 wallet: ${account.address}`);
+  console.log("");
+  console.log("🗳️ Community direction: proposal -> vote -> finalize");
+  console.log("🤖 Autoresearch: execute selected direction and commit progress");
+  console.log("");
+
   const proposal = activeDirection.proposal;
   const runState = {
     stateCid: metadata.latestStateCid,
@@ -73,6 +84,7 @@ async function main() {
 
   const steps = [];
   if (!agent || agent[0] === "0x0000000000000000000000000000000000000000") {
+    console.log("📝 Registering the research agent");
     steps.push(["registerAgent", [agentId, manifest.artifacts.metadataCid]]);
   }
   const voterWeight = await publicClient.readContract({
@@ -82,6 +94,7 @@ async function main() {
     args: [agentId, account.address]
   }).catch(() => 0n);
   if (voterWeight === 0n) {
+    console.log("🗳️ Configuring the local voter weight");
     steps.push(["configureVoterWeight", [agentId, account.address, 1]]);
   }
   for (const item of proposalsSet.proposals) {
@@ -90,6 +103,7 @@ async function main() {
     }
     const existing = await findProposal(publicClient, contractAddress, agentId, item.cid);
     if (!existing) {
+      console.log(`📨 Proposing direction: ${item.slug}`);
       steps.push(["proposeDirection", [agentId, stageCode(item.stage), item.parentDirectionId, item.cid, item.digest]]);
     }
   }
@@ -100,33 +114,43 @@ async function main() {
     args: [agentId, proposal.id, account.address]
   });
   if (!alreadyVoted) {
+    console.log(`✅ Voting for active direction: ${proposal.slug}`);
     steps.push(["voteOnDirection", [agentId, proposal.id]]);
   }
   if (!activeProposal?.[7]) {
+    console.log(`🏁 Finalizing direction: ${proposal.slug}`);
     steps.push(["finalizeDirection", [agentId, proposal.id, activeDirection.proposal.cid, activeDirection.proposal.digest]]);
   }
   if (!agent || agent[5] !== runState.stateCid) {
+    console.log("📌 Committing latest research state onchain");
     steps.push(["submitResearchRun", [agentId, activeDirection.proposal.id, runState.stateCid, runState.stateDigest]]);
   }
 
   const sent = [];
+  const receipts = [];
   for (const [name, args] of steps) {
     try {
       const hash = await send(name, args, walletClient, contractAddress);
       sent.push({ name, hash, args, status: "sent" });
       printStep(name, hash, args);
+      const receipt = await waitForReceipt(publicClient, hash, waitSeconds);
+      receipts.push({ name, ...receipt });
+      console.log(`⛓️ Confirmed: ${name} (${receipt.status})`);
     } catch (error) {
       sent.push({ name, args, status: "failed", error: error.shortMessage ?? error.message });
       printFailedStep(name, error, args);
+      receipts.push({ name, status: "failed", blockNumber: null, error: error.shortMessage ?? error.message });
       continue;
     }
   }
 
-  const receipts = [];
-  for (const { name, hash } of sent) {
-    const receipt = await waitForReceipt(publicClient, hash, waitSeconds);
-    receipts.push({ name, ...receipt });
-  }
+  const autoresearch = await maybeRunAutoresearch({
+    walletClient,
+    publicClient,
+    contractAddress,
+    agentId,
+    directionId: proposal.id
+  });
 
   console.log("");
   console.log("=== Demo Summary ===");
@@ -137,10 +161,16 @@ async function main() {
   console.log(`proposal id: ${proposal.id}`);
   console.log(`run state cid: ${runState.stateCid}`);
   console.log(`run updates: ${runUpdates.updates.length}`);
+  if (autoresearch) {
+    console.log(`autoresearch run: ${autoresearch.runId}`);
+    console.log(`autoresearch output: ${autoresearch.outputDir}`);
+  }
+  console.log("🎯 Demo complete");
   console.log("");
   console.log(JSON.stringify({
     sent,
     receipts,
+    autoresearch,
     demo: {
       activeDirection: activeDirection.proposal.slug,
       proposalId: proposal.id,
@@ -224,6 +254,152 @@ async function readProposal(publicClient, contractAddress, agentId, proposalId) 
     functionName: "proposals",
     args: [agentId, proposalId]
   }).catch(() => null);
+}
+
+async function maybeRunAutoresearch({ walletClient, publicClient, contractAddress, agentId, directionId }) {
+  if (process.env.RUN_AUTORESEARCH === "false") {
+    return null;
+  }
+
+  const inputPath = path.join(WORKSPACE_DIR, "experiments/integration/fixtures/runtime-input.json");
+  const outputDir = path.join(WORKSPACE_DIR, "demo-autoresearch-output");
+  const integrationDir = path.join(WORKSPACE_DIR, "experiments/integration");
+
+  console.log("");
+  console.log("=== Autoresearch ===");
+  console.log("🚀 Launching the community-selected research run...");
+  console.log(`📄 Input: ${path.relative(WORKSPACE_DIR, inputPath)}`);
+  console.log(`📂 Output: ${path.relative(WORKSPACE_DIR, outputDir)}`);
+  console.log("🧠 The runner will resolve the active direction, execute autoresearch, and write run-final.json + run-events.json.");
+
+  await fs.rm(outputDir, { recursive: true, force: true });
+  await fs.mkdir(outputDir, { recursive: true });
+
+  const child = spawn("node", ["src/cli.js", inputPath, "--execute", "--output", outputDir], {
+    cwd: integrationDir,
+    env: {
+      ...process.env,
+      DEMO_WAIT_SECONDS: process.env.DEMO_WAIT_SECONDS ?? "3",
+      AUTORESEARCH_EVAL_TOKENS: process.env.AUTORESEARCH_EVAL_TOKENS ?? "2048",
+      AUTORESEARCH_PROGRESS_INTERVAL_SECONDS: process.env.AUTORESEARCH_PROGRESS_INTERVAL_SECONDS ?? "2"
+    },
+    stdio: ["ignore", "pipe", "pipe"]
+  });
+
+  let stdout = "";
+  let stderr = "";
+  child.stdout.on("data", (chunk) => {
+    const text = chunk.toString();
+    stdout += text;
+    process.stdout.write(text);
+  });
+  child.stderr.on("data", (chunk) => {
+    const text = chunk.toString();
+    stderr += text;
+    process.stderr.write(text);
+  });
+
+  const code = await new Promise((resolve, reject) => {
+    child.on("error", reject);
+    child.on("close", resolve);
+  });
+
+  if (code !== 0) {
+    throw new Error(`Autoresearch execution failed with code ${code}: ${stderr || stdout}`);
+  }
+
+  await commitAutoresearchProgress({
+    walletClient,
+    publicClient,
+    contractAddress,
+    agentId,
+    directionId,
+    eventsPath: path.join(outputDir, "runtime", "run-events.jsonl")
+  });
+
+  const logPath = path.join(outputDir, "runtime", "run.log");
+  const eventsPath = path.join(outputDir, "runtime", "run-events.jsonl");
+  const finalPath = path.join(outputDir, "runtime", "run-final.json");
+  const summary = JSON.parse(await fs.readFile(path.join(outputDir, "summary.json"), "utf8"));
+  const eventsText = await fs.readFile(eventsPath, "utf8").catch(() => "");
+  const finalText = await fs.readFile(finalPath, "utf8").catch(() => "");
+
+  console.log("📊 Autoresearch finished successfully");
+  console.log(`🧾 Log: ${logPath}`);
+  console.log(`🪵 Events: ${eventsPath}`);
+  console.log(`🏁 Final: ${finalPath}`);
+  console.log(`📈 Measured metric: ${summary.measuredMetric ?? "n/a"}`);
+  console.log(`🧩 Active direction: ${summary.activeDirectionSlug}`);
+  console.log(`📦 Event lines: ${eventsText.split(/\r?\n/).filter(Boolean).length}`);
+  console.log(`🧷 Final record bytes: ${finalText.length}`);
+
+  return {
+    runId: summary.runId,
+    outputDir,
+    activeDirectionSlug: summary.activeDirectionSlug,
+    measuredMetric: summary.measuredMetric ?? null
+  };
+}
+
+async function commitAutoresearchProgress({ walletClient, publicClient, contractAddress, agentId, directionId, eventsPath }) {
+  if (process.env.SUBMIT_PROGRESS_ONCHAIN === "false") {
+    console.log("⏭️  Progress commit disabled by SUBMIT_PROGRESS_ONCHAIN=false");
+    return;
+  }
+
+  const text = await fs.readFile(eventsPath, "utf8").catch(() => "");
+  const lines = text.split(/\r?\n/).filter(Boolean);
+  const seen = new Set();
+  for (const line of lines) {
+    let event;
+    try {
+      event = JSON.parse(line);
+    } catch {
+      continue;
+    }
+    if (event.event !== "run_progress" && event.event !== "run_eval") {
+      continue;
+    }
+    const key = `${event.event}:${event.step ?? "na"}`;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+
+    const payload = {
+      schema: "plgenesis/run-progress-anchor@v1",
+      agentId,
+      directionId,
+      event
+    };
+    const progressJson = stableJson(payload);
+    const progressDigest = `0x${crypto.createHash("sha256").update(progressJson).digest("hex")}`;
+    const progressCid = `urn:sha256:${progressDigest.slice(2)}`;
+
+    console.log(`📡 Committing progress on-chain: ${event.event} step ${event.step ?? "n/a"}`);
+    const hash = await send(
+      "submitResearchProgress",
+      [agentId, directionId, Number(event.step ?? 0), progressCid, progressDigest],
+      walletClient,
+      contractAddress
+    );
+    printStep("submitResearchProgress", hash, [agentId, directionId, Number(event.step ?? 0), progressCid, progressDigest]);
+    const receipt = await waitForReceipt(publicClient, hash, Number(process.env.DEMO_WAIT_SECONDS ?? 3));
+    console.log(`⛓️ Confirmed: submitResearchProgress (${receipt.status})`);
+  }
+}
+
+function stableJson(value) {
+  if (Array.isArray(value)) {
+    return `[${value.map(stableJson).join(",")}]`;
+  }
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`)
+      .join(",")}}`;
+  }
+  return JSON.stringify(value);
 }
 
 main().catch((error) => {

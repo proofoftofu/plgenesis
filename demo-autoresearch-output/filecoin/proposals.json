@@ -1,0 +1,27 @@
+{
+  "agentId": "0x33fe488c831546fd0385aa07dd5357b1c8057e65805c98afd4be4f3ab59f44cf",
+  "proposals": [
+    {
+      "cid": "urn:sha256:4ae6f578a15b1dc504c93b55cbb5766e410ab0e21c2569abe53ea57cc5c5b5eb",
+      "digest": "0x4ae6f578a15b1dc504c93b55cbb5766e410ab0e21c2569abe53ea57cc5c5b5eb",
+      "executionCompatibility": "current-autoresearch",
+      "id": 1,
+      "parentDirectionId": 0,
+      "slug": "bootstrap-demo-baseline",
+      "stage": "bootstrap",
+      "title": "Small baseline for integration demo"
+    },
+    {
+      "cid": "urn:sha256:0c53fcd728b505354dece8a5285a13a0bf07f036b29930fbc29c811cb017062c",
+      "digest": "0x0c53fcd728b505354dece8a5285a13a0bf07f036b29930fbc29c811cb017062c",
+      "executionCompatibility": "current-autoresearch",
+      "id": 2,
+      "parentDirectionId": 1,
+      "slug": "tune-demo-window",
+      "stage": "tuning",
+      "title": "Short-window tuning demo"
+    }
+  ],
+  "runId": "run-local-integration-demo",
+  "schema": "plgenesis/research-direction-set@v1"
+}
