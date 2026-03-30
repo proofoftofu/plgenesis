@@ -32,11 +32,19 @@ export default async function Home() {
   return (
     <main className="shell">
       <header className="hero">
-        <div>
+        <div className="heroCopy">
           <p className="eyebrow">Demo Dashboard</p>
           <h1>{state.name}</h1>
           <p className="lede">{state.purpose}</p>
-          {state.live ? <p className="livePill">Live contract view</p> : <p className="livePill fallback">Generated experiment view</p>}
+          <div className="heroNotes">
+            {state.live ? <p className="livePill">Live contract view</p> : <p className="livePill fallback">Generated experiment view</p>}
+            <p className="readonlyNotice">
+              Read-only dashboard. To interact with autoresearch and the contract, see{" "}
+              <a href="https://github.com/proofoftofu/plgenesis/blob/main/README.md" target="_blank" rel="noreferrer">
+                the README
+              </a>.
+            </p>
+          </div>
         </div>
         <div className="heroMeta">
           <Badge>On-chain</Badge>
@@ -119,6 +127,7 @@ export default async function Home() {
             <div><span>Contract</span><code>{contract?.contractAddress ?? process.env.CONTRACT ?? "n/a"}</code></div>
             <div><span>RPC</span><code>{contract?.rpcUrl ?? process.env.RPC ?? "n/a"}</code></div>
             <div><span>Agent</span><code>{contract?.agentId ?? process.env.AGENT_ID ?? "n/a"}</code></div>
+            <div><span>View mode</span><code>{state.live ? "Live contract" : "Generated fallback"}</code></div>
           </div>
         </Panel>
 

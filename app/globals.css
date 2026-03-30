@@ -34,6 +34,10 @@ html, body {
   margin-bottom: 28px;
 }
 
+.heroCopy {
+  max-width: 900px;
+}
+
 .eyebrow {
   margin: 0 0 8px;
   font-size: 13px;
@@ -61,6 +65,13 @@ h1 {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  padding-top: 10px;
+}
+
+.heroNotes {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 .livePill {
@@ -78,6 +89,24 @@ h1 {
 .livePill.fallback {
   background: rgba(79, 70, 229, 0.1);
   color: #312e81;
+}
+
+.readonlyNotice {
+  margin: 0;
+  max-width: 720px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.readonlyNotice a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.readonlyNotice a:hover {
+  text-decoration: underline;
 }
 
 .badge {
@@ -210,6 +239,9 @@ code {
   }
   .hero {
     flex-direction: column;
+  }
+  .heroCopy {
+    max-width: none;
   }
   .grid {
     grid-template-columns: 1fr;
