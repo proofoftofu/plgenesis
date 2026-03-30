@@ -1,6 +1,14 @@
 # plgenesis Demo
 
-This workspace contains the submission demo for a community-driven autoresearch system.
+Community-directed autoresearch on-chain
+
+## Live App
+
+https://plgenesis.vercel.app
+
+## Demo
+
+https://youtu.be/_desVt24GAg
 
 ## General Description
 
