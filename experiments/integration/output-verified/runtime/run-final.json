@@ -1,7 +1,7 @@
 {
   "artifact_paths": {
-    "run_events_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/integration/output-verified/runtime/run-events.jsonl",
-    "run_final_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/integration/output-verified/runtime/run-final.json"
+    "run_events_path": "workspace/experiments/integration/output-verified/runtime/run-events.jsonl",
+    "run_final_path": "workspace/experiments/integration/output-verified/runtime/run-final.json"
   },
   "branch_target": "autoresearch/demo-baseline/challenger-window",
   "controls": {

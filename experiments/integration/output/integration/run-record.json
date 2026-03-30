@@ -1,7 +1,7 @@
 {
   "artifacts": {
-    "runEventsPath": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/autoresearch/example-run-events.jsonl",
-    "runFinalPath": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/autoresearch/example-run-final.json"
+    "runEventsPath": "workspace/experiments/autoresearch/example-run-events.jsonl",
+    "runFinalPath": "workspace/experiments/autoresearch/example-run-final.json"
   },
   "branchSelected": "main",
   "controls": {

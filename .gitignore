@@ -124,6 +124,12 @@ web_modules/
 .next
 out
 
+# Demo/runtime outputs
+demo-autoresearch-output/
+demo-tx-output/
+experiments/*/output/runtime/
+experiments/*/output/*.json
+
 # Nuxt.js build / generate output
 .nuxt
 dist

@@ -214,7 +214,7 @@ The currently deployed demo registry used in the successful run is:
 
 The detailed implementation is documented in:
 
-- `workspace/experiments/filecoin/README.md`
-- `workspace/experiments/filecoin/RESULT.md`
-- `workspace/experiments/integration/src/cli.js`
-- `workspace/demo-tx.mjs`
+- `experiments/filecoin/README.md`
+- `experiments/filecoin/RESULT.md`
+- `experiments/integration/src/cli.js`
+- `demo-tx.mjs`

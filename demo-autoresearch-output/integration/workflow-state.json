@@ -149,8 +149,8 @@
     "events": [
       {
         "artifact_paths": {
-          "run_events_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/demo-autoresearch-output/runtime/run-events.jsonl",
-          "run_final_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/demo-autoresearch-output/runtime/run-final.json"
+          "run_events_path": "workspace/demo-autoresearch-output/runtime/run-events.jsonl",
+          "run_final_path": "workspace/demo-autoresearch-output/runtime/run-final.json"
         },
         "branch_target": "autoresearch/demo-baseline/challenger-window",
         "controls": {
@@ -334,12 +334,12 @@
         "timestamp": "2026-03-30T00:35:26.118683+00:00"
       }
     ],
-    "eventsPath": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/demo-autoresearch-output/runtime/run-events.jsonl",
-    "finalPath": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/demo-autoresearch-output/runtime/run-final.json",
+    "eventsPath": "workspace/demo-autoresearch-output/runtime/run-events.jsonl",
+    "finalPath": "workspace/demo-autoresearch-output/runtime/run-final.json",
     "finalRecord": {
       "artifact_paths": {
-        "run_events_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/demo-autoresearch-output/runtime/run-events.jsonl",
-        "run_final_path": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/demo-autoresearch-output/runtime/run-final.json"
+        "run_events_path": "workspace/demo-autoresearch-output/runtime/run-events.jsonl",
+        "run_final_path": "workspace/demo-autoresearch-output/runtime/run-final.json"
       },
       "branch_target": "autoresearch/demo-baseline/challenger-window",
       "controls": {
@@ -393,8 +393,8 @@
   "runId": "run-local-integration-demo",
   "runRecord": {
     "artifacts": {
-      "runEventsPath": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/demo-autoresearch-output/runtime/run-events.jsonl",
-      "runFinalPath": "/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/demo-autoresearch-output/runtime/run-final.json"
+      "runEventsPath": "workspace/demo-autoresearch-output/runtime/run-events.jsonl",
+      "runFinalPath": "workspace/demo-autoresearch-output/runtime/run-final.json"
     },
     "branchSelected": "autoresearch/demo-baseline/challenger-window",
     "controls": {

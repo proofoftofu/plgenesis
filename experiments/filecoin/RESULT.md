@@ -16,7 +16,7 @@ The target outcome is:
 
 ### 1. Governance-aware FEVM contract shape
 
-Tested a Solidity contract for Filecoin EVM / Calibration in [`contracts/ResearchRegistry.sol`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/contracts/ResearchRegistry.sol).
+Tested a Solidity contract for Filecoin EVM / Calibration in [`contracts/ResearchRegistry.sol`](workspace/experiments/filecoin/contracts/ResearchRegistry.sol).
 
 The contract shape supports:
 
@@ -31,7 +31,7 @@ This is the minimum onchain surface needed so research direction is community-dr
 
 ### 2. Filecoin-ready artifact generation
 
-Tested conversion of autoresearch + governance input into storage objects in [`src/lib/payload.js`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/src/lib/payload.js).
+Tested conversion of autoresearch + governance input into storage objects in [`src/lib/payload.js`](workspace/experiments/filecoin/src/lib/payload.js).
 
 The generated artifacts include:
 
@@ -63,7 +63,7 @@ Only proposals compatible with the current autoresearch fork are eligible to bec
 
 ### 3. Governance behavior
 
-Tested the intended contract behavior in a local state model in [`src/lib/governance.js`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/src/lib/governance.js).
+Tested the intended contract behavior in a local state model in [`src/lib/governance.js`](workspace/experiments/filecoin/src/lib/governance.js).
 
 Verified behaviors:
 
@@ -77,8 +77,8 @@ Verified behaviors:
 
 Tested integration with the official Filecoin Pin CLI via:
 
-- [`src/lib/filecoin-upload.js`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/src/lib/filecoin-upload.js)
-- [`src/upload.js`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/src/upload.js)
+- [`src/lib/filecoin-upload.js`](workspace/experiments/filecoin/src/lib/filecoin-upload.js)
+- [`src/upload.js`](workspace/experiments/filecoin/src/upload.js)
 
 This uses real `filecoin-pin` commands against Filecoin Calibration, not a mock path.
 
@@ -102,8 +102,8 @@ Covered by tests:
 
 Test files:
 
-- [`tests/payload.test.js`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/tests/payload.test.js)
-- [`tests/upload.test.js`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/tests/upload.test.js)
+- [`tests/payload.test.js`](workspace/experiments/filecoin/tests/payload.test.js)
+- [`tests/upload.test.js`](workspace/experiments/filecoin/tests/upload.test.js)
 
 ## Data available
 
@@ -111,7 +111,7 @@ Test files:
 
 The canonical sample input is:
 
-- [`fixtures/research-input.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/fixtures/research-input.json)
+- [`fixtures/research-input.json`](workspace/experiments/filecoin/fixtures/research-input.json)
 
 It contains:
 
@@ -131,16 +131,16 @@ It contains:
 
 Generated in:
 
-- [`output/metadata.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/metadata.json)
-- [`output/proposals.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/proposals.json)
-- [`output/governance-tally.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/governance-tally.json)
-- [`output/active-direction.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/active-direction.json)
-- [`output/run-updates.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/run-updates.json)
-- [`output/dashboard-state.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/dashboard-state.json)
-- [`output/artifact-manifest.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/artifact-manifest.json)
-- [`output/state.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/state.json)
-- [`output/summary.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/summary.json)
-- [`output/filecoin-upload-manifest.json`](/Users/redacted-user/Documents/Developments/proofoftofu/automate-hackathon/hackathons/plgenesis/workspace/experiments/filecoin/output/filecoin-upload-manifest.json)
+- [`output/metadata.json`](workspace/experiments/filecoin/output/metadata.json)
+- [`output/proposals.json`](workspace/experiments/filecoin/output/proposals.json)
+- [`output/governance-tally.json`](workspace/experiments/filecoin/output/governance-tally.json)
+- [`output/active-direction.json`](workspace/experiments/filecoin/output/active-direction.json)
+- [`output/run-updates.json`](workspace/experiments/filecoin/output/run-updates.json)
+- [`output/dashboard-state.json`](workspace/experiments/filecoin/output/dashboard-state.json)
+- [`output/artifact-manifest.json`](workspace/experiments/filecoin/output/artifact-manifest.json)
+- [`output/state.json`](workspace/experiments/filecoin/output/state.json)
+- [`output/summary.json`](workspace/experiments/filecoin/output/summary.json)
+- [`output/filecoin-upload-manifest.json`](workspace/experiments/filecoin/output/filecoin-upload-manifest.json)
 
 ### Live Filecoin status captured
 
