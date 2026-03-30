@@ -3,10 +3,16 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "demo:tx": "node demo-tx.mjs",
     "deploy:registry": "node deploy-registry.mjs"
   },
   "dependencies": {
+    "next": "^15.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "solc": "^0.8.30",
     "viem": "^2.47.1"
   }
