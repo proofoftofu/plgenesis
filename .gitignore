@@ -198,6 +198,8 @@ downloads/
 eggs/
 .eggs/
 lib/
+!lib/
+!lib/demo-state.js
 lib64/
 parts/
 sdist/
