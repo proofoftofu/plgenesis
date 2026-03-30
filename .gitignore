@@ -350,4 +350,5 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,node,macos
-demo-autoresearch-output
+
+demo-autoresearch-output/
