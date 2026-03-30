@@ -204,6 +204,45 @@ The submission demo runs as:
 8. commit the final research state on-chain
 9. print `🎯 Demo complete`
 
+## Setup and run
+
+Set up the autoresearch environment first with `uv`, then run the demo.
+
+- `uv` manages the autoresearch environment.
+- the top-level demo script is run with plain Node.js.
+- the integration runner calls `uv run train.py` when the autoresearch phase starts.
+
+Set the environment first:
+
+```bash
+cd experiments/autoresearch
+uv sync
+cd ../..
+set -a
+export PRIVATE_KEY=<own key>
+export RPC=https://rpc.ankr.com/filecoin_testnet
+export CONTRACT=0x2a2d50c45c8449129c47a2570019c6232e78cee8
+set +a
+node demo-tx.mjs
+```
+
+Useful demo flags:
+
+```bash
+export DEMO_WAIT_SECONDS=3
+export RUN_AUTORESEARCH=true
+export SUBMIT_PROGRESS_ONCHAIN=true
+export FILECOIN_UPLOAD=true
+```
+
+Notes:
+
+- any funded private key for the target testnet can be used
+- the wallet must be able to send contract transactions
+- the demo uses the RPC you export in the shell
+- the autoresearch phase streams live logs into the terminal
+- if the autoresearch environment changes, rerun `uv sync` in `experiments/autoresearch`
+
 ## Current demo contract
 
 The currently deployed demo registry used in the successful run is:

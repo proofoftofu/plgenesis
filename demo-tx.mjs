@@ -11,6 +11,7 @@ import {
 import { privateKeyToAccount } from "viem/accounts";
 import crypto from "node:crypto";
 import { spawn } from "node:child_process";
+import { runFilecoinPreflight, runFilecoinUpload, normalizePrivateKey } from "./experiments/filecoin/src/lib/filecoin-upload.js";
 
 const ABI = parseAbi([
   "function configureVoterWeight(bytes32 agentId, address voter, uint256 weight)",
@@ -32,7 +33,7 @@ const WORKSPACE_DIR = path.dirname(fileURLToPath(import.meta.url));
 async function main() {
   const rpcUrl = process.env.RPC_URL ?? process.env.RPC;
   const privateKey = process.env.PRIVATE_KEY;
-  const contractAddress = process.env.CONTRACT_ADDRESS;
+  const contractAddress = process.env.CONTRACT ?? process.env.CONTRACT_ADDRESS;
   const waitSeconds = Number(process.env.DEMO_WAIT_SECONDS ?? 20);
   const metadataPath = process.env.METADATA_PATH ?? path.join(WORKSPACE_DIR, "experiments/filecoin/output/metadata.json");
   const manifestPath = process.env.MANIFEST_PATH ?? path.join(WORKSPACE_DIR, "experiments/filecoin/output/artifact-manifest.json");
@@ -48,7 +49,7 @@ async function main() {
   const activeDirection = JSON.parse(await fs.readFile(activeDirectionPath, "utf8"));
 
   if (!rpcUrl || !privateKey || !contractAddress) {
-    throw new Error("Set RPC_URL or RPC, PRIVATE_KEY, and CONTRACT_ADDRESS to run the demo tx flow.");
+    throw new Error("Set RPC_URL or RPC, PRIVATE_KEY, and CONTRACT or CONTRACT_ADDRESS to run the demo tx flow.");
   }
 
   const account = privateKeyToAccount(privateKey.startsWith("0x") ? privateKey : `0x${privateKey}`);
@@ -72,6 +73,26 @@ async function main() {
   console.log("🗳️ Community direction: proposal -> vote -> finalize");
   console.log("🤖 Autoresearch: execute selected direction and commit progress");
   console.log("");
+  console.log(JSON.stringify({
+    rpc: rpcUrl,
+    contractAddress,
+    wallet: account.address,
+    demo: {
+      waitSeconds,
+      runAutoresearch: process.env.RUN_AUTORESEARCH !== "false",
+      submitProgressOnChain: process.env.SUBMIT_PROGRESS_ONCHAIN !== "false"
+    }
+  }, null, 2));
+  console.log("");
+
+  const filecoinUpload = await maybeUploadToFilecoin();
+  if (filecoinUpload) {
+    console.log("📡 Filecoin upload ready");
+    console.log(JSON.stringify({
+      filecoin: filecoinUpload
+    }, null, 2));
+    console.log("");
+  }
 
   const proposal = activeDirection.proposal;
   const runState = {
@@ -85,6 +106,11 @@ async function main() {
   const steps = [];
   if (!agent || agent[0] === "0x0000000000000000000000000000000000000000") {
     console.log("📝 Registering the research agent");
+    console.log(JSON.stringify({
+      action: "registerAgent",
+      agentId,
+      metadataCid: manifest.artifacts.metadataCid
+    }, null, 2));
     steps.push(["registerAgent", [agentId, manifest.artifacts.metadataCid]]);
   }
   const voterWeight = await publicClient.readContract({
@@ -95,6 +121,12 @@ async function main() {
   }).catch(() => 0n);
   if (voterWeight === 0n) {
     console.log("🗳️ Configuring the local voter weight");
+    console.log(JSON.stringify({
+      action: "configureVoterWeight",
+      agentId,
+      voter: account.address,
+      weight: 1
+    }, null, 2));
     steps.push(["configureVoterWeight", [agentId, account.address, 1]]);
   }
   for (const item of proposalsSet.proposals) {
@@ -104,6 +136,10 @@ async function main() {
     const existing = await findProposal(publicClient, contractAddress, agentId, item.cid);
     if (!existing) {
       console.log(`📨 Proposing direction: ${item.slug}`);
+      console.log(JSON.stringify({
+        action: "proposeDirection",
+        proposal: item
+      }, null, 2));
       steps.push(["proposeDirection", [agentId, stageCode(item.stage), item.parentDirectionId, item.cid, item.digest]]);
     }
   }
@@ -115,14 +151,35 @@ async function main() {
   });
   if (!alreadyVoted) {
     console.log(`✅ Voting for active direction: ${proposal.slug}`);
+    console.log(JSON.stringify({
+      action: "voteOnDirection",
+      agentId,
+      proposalId: proposal.id,
+      proposalCid: proposal.cid,
+      proposalDigest: proposal.digest
+    }, null, 2));
     steps.push(["voteOnDirection", [agentId, proposal.id]]);
   }
   if (!activeProposal?.[7]) {
     console.log(`🏁 Finalizing direction: ${proposal.slug}`);
+    console.log(JSON.stringify({
+      action: "finalizeDirection",
+      agentId,
+      proposalId: proposal.id,
+      directionCid: activeDirection.proposal.cid,
+      directionDigest: activeDirection.proposal.digest
+    }, null, 2));
     steps.push(["finalizeDirection", [agentId, proposal.id, activeDirection.proposal.cid, activeDirection.proposal.digest]]);
   }
   if (!agent || agent[5] !== runState.stateCid) {
     console.log("📌 Committing latest research state onchain");
+    console.log(JSON.stringify({
+      action: "submitResearchRun",
+      agentId,
+      directionId: activeDirection.proposal.id,
+      stateCid: runState.stateCid,
+      stateDigest: runState.stateDigest
+    }, null, 2));
     steps.push(["submitResearchRun", [agentId, activeDirection.proposal.id, runState.stateCid, runState.stateDigest]]);
   }
 
@@ -135,7 +192,11 @@ async function main() {
       printStep(name, hash, args);
       const receipt = await waitForReceipt(publicClient, hash, waitSeconds);
       receipts.push({ name, ...receipt });
-      console.log(`⛓️ Confirmed: ${name} (${receipt.status})`);
+      if (receipt.status === "pending") {
+        console.log(`⏳ Receipt pending: ${name}`);
+      } else {
+        console.log(`✅ Confirmed: ${name} (${receipt.status})`);
+      }
     } catch (error) {
       sent.push({ name, args, status: "failed", error: error.shortMessage ?? error.message });
       printFailedStep(name, error, args);
@@ -270,6 +331,14 @@ async function maybeRunAutoresearch({ walletClient, publicClient, contractAddres
   console.log("🚀 Launching the community-selected research run...");
   console.log(`📄 Input: ${path.relative(WORKSPACE_DIR, inputPath)}`);
   console.log(`📂 Output: ${path.relative(WORKSPACE_DIR, outputDir)}`);
+  console.log(JSON.stringify({
+    runtimeInput: {
+      path: path.relative(WORKSPACE_DIR, inputPath)
+    },
+    runtimeOutput: {
+      path: path.relative(WORKSPACE_DIR, outputDir)
+    }
+  }, null, 2));
   console.log("🧠 The runner will resolve the active direction, execute autoresearch, and write run-final.json + run-events.json.");
 
   await fs.rm(outputDir, { recursive: true, force: true });
@@ -325,10 +394,14 @@ async function maybeRunAutoresearch({ walletClient, publicClient, contractAddres
   const finalText = await fs.readFile(finalPath, "utf8").catch(() => "");
 
   console.log("📊 Autoresearch finished successfully");
-  console.log(`🧾 Log: ${logPath}`);
-  console.log(`🪵 Events: ${eventsPath}`);
-  console.log(`🏁 Final: ${finalPath}`);
-  console.log(`📈 Measured metric: ${summary.measuredMetric ?? "n/a"}`);
+  console.log(JSON.stringify({
+    logs: {
+      runtimeLog: path.relative(WORKSPACE_DIR, logPath),
+      events: path.relative(WORKSPACE_DIR, eventsPath),
+      final: path.relative(WORKSPACE_DIR, finalPath)
+    }
+  }, null, 2));
+    console.log(`📈 Measured metric: ${summary.measuredMetric ?? "n/a"}`);
   console.log(`🧩 Active direction: ${summary.activeDirectionSlug}`);
   console.log(`📦 Event lines: ${eventsText.split(/\r?\n/).filter(Boolean).length}`);
   console.log(`🧷 Final record bytes: ${finalText.length}`);
@@ -339,6 +412,72 @@ async function maybeRunAutoresearch({ walletClient, publicClient, contractAddres
     activeDirectionSlug: summary.activeDirectionSlug,
     measuredMetric: summary.measuredMetric ?? null
   };
+}
+
+async function maybeUploadToFilecoin() {
+  if (process.env.FILECOIN_UPLOAD === "false") {
+    return null;
+  }
+
+  const filecoinDir = path.join(WORKSPACE_DIR, "experiments/filecoin");
+  const envPath = path.join(filecoinDir, ".env");
+  const privateKey = process.env.PRIVATE_KEY;
+  const outputDir = path.join(filecoinDir, "output");
+  if (!privateKey) {
+    return null;
+  }
+
+  console.log("");
+  console.log("=== Filecoin Upload ===");
+  console.log("📤 Uploading demo artifacts to Filecoin/IPFS...");
+  console.log(JSON.stringify({
+    filecoin: {
+      network: process.env.NETWORK ?? "calibration",
+      outputDir: path.relative(WORKSPACE_DIR, outputDir)
+    }
+  }, null, 2));
+
+  const minLockup = Number(process.env.FILECOIN_MIN_LOCKUP_USDFC ?? 0.16);
+  const preflight = await runFilecoinPreflight({
+    cwd: filecoinDir,
+    privateKey: normalizePrivateKey(privateKey),
+    network: process.env.NETWORK ?? "calibration"
+  });
+
+  console.log(JSON.stringify({
+    filecoinPreflight: {
+      walletAddress: preflight.walletAddress,
+      usdfcAvailable: preflight.usdfcAvailable,
+      minLockup
+    }
+  }, null, 2));
+
+  return runFilecoinUpload({
+    cwd: filecoinDir,
+    envPath,
+    outputDir,
+    envOverride: {
+      PRIVATE_KEY: normalizePrivateKey(privateKey)
+    }
+  }).catch((error) => {
+    const failureText = `${error.stdout ?? ""}\n${error.stderr ?? ""}\n${error.message ?? ""}`;
+    const lockupMatch = failureText.match(/InsufficientLockupFunds\(address payer, uint256 minimumRequired, uint256 available\)\s*\(([^,]+),\s*([0-9]+),\s*([0-9]+)\)/i);
+    const hint = lockupMatch
+      ? `Need more lockup funds: minimum=${lockupMatch[2]}, available=${lockupMatch[3]}`
+      : /USDFC/i.test(failureText)
+      ? "Calibration wallet needs test USDFC to use filecoin-pin upload"
+      : /FIL balance|gas fees/i.test(failureText)
+        ? "Calibration wallet needs FIL balance for filecoin-pin upload"
+        : "Check the Calibration wallet balance and payment status";
+    console.log("⚠️ Filecoin upload skipped");
+    console.log(JSON.stringify({
+      error: error.message,
+      stdout: error.stdout ?? "",
+      stderr: error.stderr ?? "",
+      hint
+    }, null, 2));
+    return null;
+  });
 }
 
 async function commitAutoresearchProgress({ walletClient, publicClient, contractAddress, agentId, directionId, eventsPath }) {

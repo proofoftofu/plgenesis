@@ -1,13 +1,25 @@
 {
   "network": "calibration",
-  "walletAddress": "0x0Bc298a4a0a205875F5Ae3B19506669c55B38d01",
-  "status": "blocked_no_fil",
-  "attempts": [],
+  "walletAddress": null,
+  "status": "blocked_insufficient_lockup",
+  "attempts": [
+    {
+      "file": "metadata.json",
+      "artifact": "agent-metadata",
+      "status": "failed",
+      "rootCid": "bafybeieks35q4xevedpydtiovx6ea3ub6eoqdmxiqljipegwn5blptenzq",
+      "error": {
+        "message": "filecoin-pin exited with code 1",
+        "stdout": "Filecoin Pin Add\n\n✓ File validated (950.0 B)\n\n✓ Connected to Filecoin - Calibration testnet\n\n✓ File packed with root CID: bafybeieks35q4xevedpydtiovx6ea3ub6eoqdmxiqljipegwn5blptenzq\n\n✓ IPFS content loaded (1.1 KiB)\n\n✓ Funding requirements met\n\n✓ [Primary] Stored on provider 4\n\n✗ Add failed: Failed to commit on primary provider 4 (https://caliberation-pdp.infrafolio.com) - data is stored but not on-chain\n\nDetails: StorageContext commit failed: Failed to commit pieces on-chain - Failed to create data set.\n\nDetails: Warm Storage\nInsufficientLockupFunds(address payer, uint256 minimumRequired, uint256 available)\n                       (0x0Bc298a4a0a205875F5Ae3B19506669c55B38d01, 160000000000000000, 126083333333252640)",
+        "stderr": "Add failed"
+      }
+    }
+  ],
   "errors": [
     {
       "message": "filecoin-pin exited with code 1",
-      "stdout": "Filecoin Onchain Cloud Payment Status\n\n━━━ Current Status ━━━\n\nAddress: 0x0Bc298a4a0a205875F5Ae3B19506669c55B38d01\nNetwork: Filecoin - Calibration testnet\n\n✗ Account has no FIL balance\n\nGet test FIL from: https://faucet.calibnet.chainsafe-fil.io/\n✗ Status check failed\n\n\nError: Account has no FIL balance",
-      "stderr": "Account not funded\nStatus check failed"
+      "stdout": "Filecoin Pin Add\n\n✓ File validated (950.0 B)\n\n✓ Connected to Filecoin - Calibration testnet\n\n✓ File packed with root CID: bafybeieks35q4xevedpydtiovx6ea3ub6eoqdmxiqljipegwn5blptenzq\n\n✓ IPFS content loaded (1.1 KiB)\n\n✓ Funding requirements met\n\n✓ [Primary] Stored on provider 4\n\n✗ Add failed: Failed to commit on primary provider 4 (https://caliberation-pdp.infrafolio.com) - data is stored but not on-chain\n\nDetails: StorageContext commit failed: Failed to commit pieces on-chain - Failed to create data set.\n\nDetails: Warm Storage\nInsufficientLockupFunds(address payer, uint256 minimumRequired, uint256 available)\n                       (0x0Bc298a4a0a205875F5Ae3B19506669c55B38d01, 160000000000000000, 126083333333252640)",
+      "stderr": "Add failed"
     }
   ]
 }

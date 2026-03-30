@@ -55,6 +55,11 @@ It does not yet encode arbitrary source-code patches as governance payloads.
 
 ```bash
 cd workspace/experiments/integration
+npm install
+npm test
+cd ../autoresearch
+uv sync
+cd ../integration
 npm test
 node src/cli.js fixtures/workflow-input.json fixtures/sample-run.log
 ```
